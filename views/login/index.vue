@@ -338,7 +338,7 @@ $light_gray: #eee;
       width: 50px;
       height: 50px;
 
-      ::v-deep .svg-icon {
+      ::v-deep(.svg-icon) {
         width: 2.5em;
         height: 2.5em;
       }

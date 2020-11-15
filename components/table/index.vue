@@ -299,7 +299,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .filter-form {
-  ::v-deep .el-form-item__label {
+  ::v-deep(.el-form-item__label) {
     /*text-align-last: justify;*/
   }
 }
