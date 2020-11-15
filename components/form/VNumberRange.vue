@@ -130,7 +130,7 @@ export default {
   }
 }
 
-::v-deep(.range) {
+::v-deep .range {
   &-split,
   &-start,
   &-end {

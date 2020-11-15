@@ -16,9 +16,7 @@
     "path-to-regexp": "^6.2.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
-  },
-  "devDependencies": {
+    "vuex": "^4.0.0-0",
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
     "@vue/cli-plugin-babel": "~4.5.8",
     "@vue/cli-plugin-eslint": "~4.5.8",
