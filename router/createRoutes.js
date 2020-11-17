@@ -1,8 +1,7 @@
-import Layout from "../views/layout/index";
-// import Form from "../views/scaffold/form";
-// import Container from "@/core/views/scaffold/container";
-// import Table from "@/core/views/scaffold/table";
-import { listToTree } from "../utils";
+import Layout from "../views/layout";
+import Form from "../views/scaffold/form";
+import Container from "../views/scaffold/container";
+import Table from "../views/scaffold/table";
 
 const base = {
   path: "/",
@@ -17,14 +16,12 @@ const getComponent = item => {
   const tokens = item.path.split("/");
   const pathType = tokens[tokens.length - 1];
   if (pathType === ":id" || pathType === "form") {
-    // return Form;
-    return Layout;
+    return Form;
   }
   if (pathType === "list") {
-    // return Table;
-    return Layout;
+    return Table;
   }
-  return item.type === 0 ? Layout : Layout;
+  return Container;
 };
 
 function getPath(item) {
@@ -40,42 +37,28 @@ function getPath(item) {
     : path;
 }
 
+const transRoute = item => {
+  return {
+    path: getPath(item),
+    name: item.name,
+    component: getComponent(item),
+    meta: { title: item.name, icon: item.icon },
+    hidden: item.is_show !== undefined ? !item.is_show : false,
+  }
+}
+
 const createRoutes = routesConfig => {
-  routesConfig = routesConfig.map(function(item) {
-    return {
-      id: item.id,
-      pid: item.pid,
-      path: getPath(item),
-      name: item.title,
-      component: getComponent(item),
-      meta: { title: item.title, icon: item.icon },
-      hidden: !item.is_show
-    };
-  });
-  let tree = listToTree(routesConfig);
-  tree = fixDeep(tree);
-  base.children = [...base.children, ...tree];
+  routesConfig = routesConfig.map(item => {
+    const route = transRoute(item)
+    if (item.children) {
+      route.children = item.children.map(each => transRoute(each))
+    } else {
+      route.children = []
+    }
+    return route
+  })
+  base.children = [...base.children, ...routesConfig];
   return base;
 };
-
-function fixDeep(tree) {
-  return tree.map(function(item) {
-    if (!item.children) {
-      item.children = [];
-    }
-    if (item.children.length > 0 && item.path.indexOf("/DIR_") !== 0) {
-      const tmp = Object.assign({}, item, { hidden: true });
-      delete tmp.children;
-      item.children.push(tmp);
-      item.redirect = item.path;
-      // item.component = Container;
-      item.component = Layout;
-      item.path = "/" + item.path.split("/")[1] + "_page";
-      return item;
-    }
-    item.children = fixDeep(item.children);
-    return item;
-  });
-}
 
 export default createRoutes;

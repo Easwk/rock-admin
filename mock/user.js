@@ -99,17 +99,14 @@ export default [
           {
             name: "表单",
             path: "/form",
-            type: 0
           },
           {
             name: "列表",
             path: "/list",
-            type: 0,
             children: [
               {
                 path: "example",
                 name: "基础样例",
-                type: 0
               },
               {
                 path: "tab",

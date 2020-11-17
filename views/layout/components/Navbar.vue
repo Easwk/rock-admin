@@ -54,8 +54,7 @@
       </el-dropdown>
     </div>
     <el-drawer
-      v-if="showPageJsonSchemaIcon"
-      v-model:visible="showJsonSchema"
+      v-if="showJsonSchema"
       :with-header="false"
       size="50%"
     />

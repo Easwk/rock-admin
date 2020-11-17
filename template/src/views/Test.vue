@@ -1,8 +1,9 @@
 <template>
-    <div>Form</div>
+    3333
 </template>
+
 <script>
 export default {
-  name: "Form"
+  name: "Test"
 }
 </script>

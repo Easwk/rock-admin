@@ -7,7 +7,7 @@ import ElementPlus from "element-plus";
 import Icon from "./components/Icon";
 import request from "./utils/request";
 import "./permission";
-import locale from "element-plus/lib/locale/lang/zh-CN";
+import locale from "element-plus/lib/locale/lang/zh-cn";
 import App from "./App.vue";
 
 // style
