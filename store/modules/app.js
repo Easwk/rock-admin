@@ -8,7 +8,8 @@ const state = {
     withoutAnimation: false
   },
   device: "desktop",
-  pages: {}
+  pages: {},
+  config: {}
 };
 
 const mutations = {
@@ -31,6 +32,9 @@ const mutations = {
   },
   SET_PAGE_JSON_SCHEMA: (state, { page, json }) => {
     state.pages[page] = json;
+  },
+  SET_CONFIG: (state, data) => {
+    state.config = data;
   }
 };
 
@@ -46,6 +50,9 @@ const actions = {
   },
   setPageJsonSchema({ commit }, data) {
     commit("SET_PAGE_JSON_SCHEMA", data);
+  },
+  setConfig({commit }, data) {
+    commit("SET_CONFIG", data);
   }
 };
 

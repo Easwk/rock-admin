@@ -25,8 +25,11 @@ const defaultUi = {
 export default (options = {}) => {
   const app = createApp(App);
 
-  const { ElementOptions, config, routes, globalComps, mockApis } = options;
+  const { ElementOptions, config, routes, globalComps, mockApis, nav } = options;
 
+  store.dispatch('app/setConfig', {
+    nav: nav || []
+  })
   store.dispatch('settings/loadLocalAdmin', config || {})
 
   GlobalComps.concat(globalComps || []).forEach(item => {

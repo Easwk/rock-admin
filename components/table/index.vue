@@ -24,7 +24,7 @@
         </el-col>
       </el-row>
     </slot>
-    <el-divider></el-divider>
+    <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0"></el-divider>
     <!--  列表  -->
     <!--   v-loading 启用是 表格边框的bug   -->
     <slot name="table">

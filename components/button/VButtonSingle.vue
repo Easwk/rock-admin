@@ -1,8 +1,15 @@
 <template>
-  <el-button v-if="text" v-bind="btnProps" @click="onclick">
-    {{ text }}
-  </el-button>
-  <el-button v-else v-bind="btnProps" @click="onclick" />
+    <template v-if="shape === 'icon' && btnProps && btnProps.icon">
+        <div class="el-btn-icon" @click="onclick">
+            <i :class="(btnProps.icon || 'el-icon-warning-outline')"></i>
+        </div>
+    </template>
+    <template v-else>
+        <el-button v-if="text" v-bind="btnProps" @click="onclick">
+            {{ text }}
+        </el-button>
+        <el-button v-else v-bind="btnProps" @click="onclick" />
+    </template>
   <template v-if="showContainer">
     <component
       :is="'el-' + container"
@@ -64,3 +71,19 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+   .el-btn-icon {
+       height: 100%;
+       line-height: 100%;
+       display: flex;
+       padding: 0 12px;
+       transition: all 0.3s;
+       cursor: pointer;
+       align-items: center;
+
+       &:hover {
+           background: rgba(0, 0, 0, 0.025);
+       }
+   }
+</style>

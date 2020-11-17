@@ -38,19 +38,23 @@
       >
         <icon name="code" />
       </div>
+        <div class="right-item">
+            <i class="el-icon-edit"></i>
+        </div>
+        <div class="right-item-button" style="padding: 0">
+            <v-button :buttons="config.nav"></v-button>
+        </div>
       <el-dropdown class="right-item" trigger="click">
         <div class="user-info">
           <img :src="avatar" class="user-avatar" alt="头像" />
           <span class="user-name">{{ name }}</span>
         </div>
-        <el-dropdown-menu class="user-dropdown">
-          <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')"
-            >首页</el-dropdown-item
-          >
-          <el-dropdown-item divided icon="el-icon-switch-button" @click="logout"
-            >退出登录</el-dropdown-item
-          >
-        </el-dropdown-menu>
+          <template #dropdown>
+              <el-dropdown-menu class="user-dropdown">
+                  <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')">首页</el-dropdown-item>
+                  <el-dropdown-item divided icon="el-icon-switch-button" @click="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+          </template>
       </el-dropdown>
     </div>
     <el-drawer
@@ -67,11 +71,13 @@ import Breadcrumb from "./Breadcrumb";
 import Hamburger from "./Hamburger";
 import { showEleByClassName } from "../../../utils";
 import Cache from "../../../utils/cache";
+import VButton from "rock-admin/components/button/VButton";
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    VButton
   },
   data() {
     return {
@@ -83,7 +89,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name"]),
+    ...mapGetters(["sidebar", "avatar", "name", "config"]),
     hasNewMessage() {
       return this.$store.state.settings.hasNewMessage;
     },
@@ -154,7 +160,7 @@ export default {
 
 .navbar {
   height: 50px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
@@ -201,7 +207,6 @@ export default {
 
   .right-item {
     padding: 0 12px;
-    // margin: 0 12px;
     height: 100%;
     transition: all 0.3s;
     cursor: pointer;
@@ -211,6 +216,27 @@ export default {
     &:hover {
       background: rgba(0, 0, 0, 0.025);
     }
+  }
+
+  .right-item {
+    padding: 0 12px;
+    height: 100%;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
+
+  .right-item-button {
+    height: 100%;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 
   .user-info {

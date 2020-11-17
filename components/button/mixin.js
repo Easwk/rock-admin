@@ -8,6 +8,10 @@ export default {
     VTable: defineAsyncComponent(() => import("../table"))
   },
   props: {
+    shape: {
+      type: String,
+      default: 'button' // 展现形式 button, icon, link
+    },
     btnProps: {
       type: Object,
       default: () => {}
