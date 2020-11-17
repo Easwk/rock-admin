@@ -44,10 +44,11 @@ export default (options = {}) => {
   (routes || []).forEach(item => {
     router.addRoute(item);
   });
-
-  return app
-    .use(store)
-    .use(router)
-    .use(ElementPlus, ElementOptions || defaultUi)
-    .mount("#app");
+  if (router.isReady()) {
+    return app
+      .use(store)
+      .use(router)
+      .use(ElementPlus, ElementOptions || defaultUi)
+      .mount("#app");
+  }
 };

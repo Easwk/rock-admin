@@ -96,7 +96,7 @@
     }
 
     .submenu-title-noDropdown {
-      padding: 0 !important;
+      //padding: 0 !important;
       position: relative;
 
       .el-tooltip {
@@ -106,13 +106,16 @@
           margin-left: 20px;
         }
       }
+      .menu-content{
+        display: none;
+      }
     }
 
     .el-submenu {
       overflow: hidden;
 
       & > .el-submenu__title {
-        padding: 0 !important;
+        //padding: 0 !important;
 
         .svg-icon {
           margin-left: 20px;
@@ -125,6 +128,7 @@
     }
 
     .el-menu--collapse {
+      left: -5px;
       .el-submenu {
         & > .el-submenu__title {
           & > span {

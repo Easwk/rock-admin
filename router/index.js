@@ -14,7 +14,7 @@ const routes = [
         path: "dashboard",
         name: "Dashboard",
         component: Dashboard,
-        meta: { title: "Dashboard", icon: "dashboard" }
+        meta: { title: "Dashboard", icon: "el-icon-help" }
       }
     ]
   },

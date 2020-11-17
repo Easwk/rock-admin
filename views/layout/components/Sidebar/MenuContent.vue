@@ -1,11 +1,11 @@
 <template>
-  <span>
-    <icon v-if="meta.icon" :name="meta.icon" />
-    <span>{{ meta.title }}</span>
-  </span>
+    <icon :name="meta.icon || 'el-icon-menu'" />
+    <span class="menu-content">{{ meta.title }}</span>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "MenuContent",
   props: {
@@ -18,6 +18,9 @@ export default {
         };
       }
     }
+  },
+  computed: {
+    ...mapGetters(["sidebar"]),
   }
 };
 </script>

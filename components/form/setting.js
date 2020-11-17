@@ -45,7 +45,5 @@ export function makeFormOptions(options) {
     options.cancelButton = { show: options.cancelButton };
   }
 
-  console.log(2222, options.cancelButton);
-
   return _.merge({}, formOptions, options);
 }

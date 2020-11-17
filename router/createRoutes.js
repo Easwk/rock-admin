@@ -10,6 +10,13 @@ const base = {
 };
 
 const getComponent = item => {
+  if (item.view) {
+    return () => {
+      return new Promise((resolve) => {
+        resolve(require('@/views/' + item.view))
+      })
+    }
+  }
   if (item.path === "#") {
     return Container;
   }

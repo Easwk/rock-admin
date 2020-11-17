@@ -1,5 +1,5 @@
 <template>
-    3333
+    <div>Test</div>
 </template>
 
 <script>

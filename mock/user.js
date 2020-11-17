@@ -98,20 +98,23 @@ export default [
         payload: [
           {
             name: "表单",
-            path: "/form",
+            path: "/example/form",
           },
           {
             name: "列表",
-            path: "/list",
+            path: "#",
+            icon: "el-icon-help",
             children: [
               {
-                path: "example",
+                path: "/list/example",
                 name: "基础样例",
+                view: 'Test',
+                icon: "el-icon-help"
               },
               {
-                path: "tab",
+                path: "/list/list",
                 name: "页签样例",
-                type: 0
+                icon: "el-icon-help"
               }
             ]
           }
