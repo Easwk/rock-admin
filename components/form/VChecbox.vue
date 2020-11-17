@@ -3,19 +3,19 @@
     v-for="(item, index) in options"
     :key="index + '-checkbox'"
     :label="item.value"
-    >{{ item.label }}
+  >{{ item.label }}
   </el-checkbox>
 </template>
 <script>
 export default {
-  name: "VCheckbox",
+  name: 'VCheckbox',
   props: {
     options: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     }
   }
-};
+}
 </script>

@@ -10,18 +10,18 @@
 </template>
 <script>
 export default {
-  name: "CellImage",
+  name: 'CellImage',
   props: {
     data: {
       type: String,
-      default: ""
+      default: ''
     },
     column: {
       type: Object,
       default: () => {}
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .image-item {

@@ -2,13 +2,13 @@
   <el-tag :type="type">{{ getLabel }}</el-tag>
 </template>
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 export default {
-  name: "CellEnum",
+  name: 'CellEnum',
   props: {
     data: {
       type: [String, Number],
-      default: ""
+      default: ''
     },
     column: {
       type: Object,
@@ -17,20 +17,20 @@ export default {
   },
   computed: {
     type() {
-      const { column, data } = this.$props;
+      const { column, data } = this.$props
       if (column.state !== undefined) {
-        return column.state[data] ?? "";
+        return column.state[data] ?? ''
       }
-      return "";
+      return ''
     },
     getLabel() {
-      const { column, data } = this.$props;
+      const { column, data } = this.$props
       const index = _.findIndex(column.options, {
         value: data
-      });
-      const obj = column.options[index];
-      return obj ? obj.label : data;
+      })
+      const obj = column.options[index]
+      return obj ? obj.label : data
     }
   }
-};
+}
 </script>

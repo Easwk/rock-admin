@@ -1,26 +1,26 @@
 <template>
-    <icon :name="meta.icon || 'el-icon-menu'" />
-    <span class="menu-content">{{ meta.title }}</span>
+  <icon :name="meta.icon || 'el-icon-menu'" />
+  <span class="menu-content">{{ meta.title }}</span>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "MenuContent",
+  name: 'MenuContent',
   props: {
     meta: {
       type: Object,
       default: () => {
         return {
-          icon: "",
-          title: ""
-        };
+          icon: '',
+          title: ''
+        }
       }
     }
   },
   computed: {
-    ...mapGetters(["sidebar"]),
+    ...mapGetters(['sidebar'])
   }
-};
+}
 </script>

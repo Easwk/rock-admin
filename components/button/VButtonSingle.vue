@@ -1,21 +1,21 @@
 <template>
-    <template v-if="shape === 'icon' && btnProps && btnProps.icon">
-        <div class="el-btn-icon" @click="onclick">
-            <i :class="(btnProps.icon || 'el-icon-warning-outline')"></i>
-        </div>
-    </template>
-    <template v-else>
-        <el-button v-if="text" v-bind="btnProps" @click="onclick">
-            {{ text }}
-        </el-button>
-        <el-button v-else v-bind="btnProps" @click="onclick" />
-    </template>
+  <template v-if="shape === 'icon' && btnProps && btnProps.icon">
+    <div class="el-btn-icon" @click="onclick">
+      <i :class="btnProps.icon || 'el-icon-warning-outline'" />
+    </div>
+  </template>
+  <template v-else>
+    <el-button v-if="text" v-bind="btnProps" @click="onclick">
+      {{ text }}
+    </el-button>
+    <el-button v-else v-bind="btnProps" @click="onclick" />
+  </template>
   <template v-if="showContainer">
     <component
       :is="'el-' + container"
       v-model="showContainer"
       append-to-body
-      :beforeClose="closeContainer"
+      :before-close="closeContainer"
       :title="text"
       :destroy-on-close="true"
     >
@@ -23,28 +23,28 @@
         :is="getSubComp()"
         v-bind="getSubProps()"
         v-on="getSubEvent()"
-      ></component>
+      />
     </component>
   </template>
 </template>
 <script>
-import { strVarReplace } from "../../utils";
-import Base from "./mixin";
+import { strVarReplace } from '../../utils'
+import Base from './mixin'
 export default {
-  name: "VButtonSingle",
+  name: 'VButtonSingle',
   mixins: [Base],
   props: {
     text: {
       type: String,
-      default: ""
+      default: ''
     },
     type: {
       type: String,
-      default: ""
+      default: ''
     },
     target: {
       type: String,
-      default: ""
+      default: ''
     },
     api: {
       type: Object,
@@ -55,35 +55,36 @@ export default {
       default: () => {}
     }
   },
+  emits: ['click'],
   methods: {
     onclick() {
       if (this.$props.preCheck(this.$props) !== true) {
-        return;
+        return
       }
-      const btn = this.getBtnProps();
-      this.realTarget = strVarReplace(btn.target || "", this.$props.metaData);
-      this.clickHandler[btn.type]();
-      this.$emit("click");
+      const btn = this.getBtnProps()
+      this.realTarget = strVarReplace(btn.target || '', this.$props.metaData)
+      this.clickHandler[btn.type]()
+      this.$emit('click')
     },
     getBtnProps() {
-      return this.$props;
+      return this.$props
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
-   .el-btn-icon {
-       height: 100%;
-       line-height: 100%;
-       display: flex;
-       padding: 0 12px;
-       transition: all 0.3s;
-       cursor: pointer;
-       align-items: center;
+.el-btn-icon {
+  height: 100%;
+  line-height: 100%;
+  display: flex;
+  padding: 0 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  align-items: center;
 
-       &:hover {
-           background: rgba(0, 0, 0, 0.025);
-       }
-   }
+  &:hover {
+    background: rgba(0, 0, 0, 0.025);
+  }
+}
 </style>

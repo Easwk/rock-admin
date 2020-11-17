@@ -3,13 +3,13 @@
   <el-card shadow="never" class="table-filter">
     <slot name="filter">
       <v-form
-        class="filter-form"
-        v-model="filterForm"
         v-if="tableFilter.length > 0"
+        v-model="filterForm"
+        class="filter-form"
         :options="filterFormOptions"
         :form-items="tableFilter"
         @submit="searchAction"
-      ></v-form>
+      />
     </slot>
   </el-card>
   <el-card shadow="never">
@@ -17,14 +17,16 @@
     <slot name="action">
       <el-row :gutter="20">
         <el-col :span="12">
-          <v-button :buttons="makeBatchButton(tableBatchButton)"></v-button>
+          <v-button :buttons="makeBatchButton(tableBatchButton)" />
         </el-col>
         <el-col :span="12" class="normal-button">
-          <v-button :buttons="makeNormalButton(tableNormalButton)"></v-button>
+          <v-button :buttons="makeNormalButton(tableNormalButton)" />
         </el-col>
       </el-row>
     </slot>
-    <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0"></el-divider>
+    <el-divider
+      v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0"
+    />
     <!--  列表  -->
     <!--   v-loading 启用是 表格边框的bug   -->
     <slot name="table">
@@ -35,13 +37,10 @@
         :stripe="true"
         size="mini"
         header-cell-class-name="table-header-cell"
-        @selection-change="handleSelectionChange"
         style="width: 100%"
+        @selection-change="handleSelectionChange"
       >
-        <el-table-column
-          v-if="tableBatchButton.length > 0"
-          type="selection"
-        ></el-table-column>
+        <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
         <el-table-column
           v-for="(item, index) in tableHeaders"
           :key="index + '-table-column'"
@@ -52,31 +51,27 @@
           <template #header>
             <span>{{ item.label }}</span>
             <el-tooltip v-if="item.info" effect="dark">
-              <i class="el-icon-warning-outline"></i>
+              <i class="el-icon-warning-outline" />
               <template #content> <span v-html="item.info" /> </template>
             </el-tooltip>
           </template>
           <!--    单元格    -->
-          <template v-slot="scope">
+          <template #default="scope">
             <component
               :is="cellType(item)"
               v-bind="{
                 data: scope.row[scope.column.property],
-                column: item
+                column: item,
               }"
-            ></component>
+            />
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template v-slot="scope">
-            <v-button
-              :buttons="makeRowButton(tableRowButton, scope.row)"
-            ></v-button>
+          <template #default="scope">
+            <v-button :buttons="makeRowButton(tableRowButton, scope.row)" />
           </template>
         </el-table-column>
-        <template v-slot:empty>
-          没有数据
-        </template>
+        <template #empty> 没有数据 </template>
       </el-table>
     </slot>
     <slot name="page">
@@ -90,26 +85,25 @@
           layout="total, sizes, prev, pager, next"
           :total="page.total"
           @size-change="pageSizesChange"
-          @current-change="page => this.currentPageChange(page)"
-        >
-        </el-pagination>
+          @current-change="(page) => currentPageChange(page)"
+        />
       </div>
     </slot>
   </el-card>
 </template>
 
 <script>
-import Cells from "./cell/index";
-import VForm from "../form";
-import VButton from "../button/VButton";
-import { firstUpperCase, isArray } from "../../utils";
+import Cells from './cell/index'
+import VForm from '../form'
+import VButton from '../button/VButton'
+import { firstUpperCase, isArray } from '../../utils'
 
 export default {
-  name: "VTable",
+  name: 'VTable',
   components: Object.assign(
     {
       VForm,
-      VButton,
+      VButton
     },
     Cells
   ),
@@ -124,11 +118,11 @@ export default {
     },
     listApi: {
       type: String,
-      default: ""
+      default: ''
     },
     infoApi: {
       type: String,
-      default: ""
+      default: ''
     },
     filter: {
       type: Array,
@@ -151,11 +145,11 @@ export default {
     return {
       filterFormOptions: {
         inline: true,
-        labelPosition: "right",
-        labelWidth: "auto",
+        labelPosition: 'right',
+        labelWidth: 'auto',
         submitButton: true,
         cancelButton: {
-          text: "重置1"
+          text: '重置1'
         }
       },
       tableNormalButton: this.$props.normalButton,
@@ -174,128 +168,128 @@ export default {
       paginationKey: 0,
       filterForm: {},
       loading: false
-    };
+    }
   },
   beforeCreate() {
     if (this.$props.infoApi) {
       this.$http
-        .request({ method: "GET", url: this.$props.infoApi })
+        .request({ method: 'GET', url: this.$props.infoApi })
         .then(({ payload }) => {
           Object.keys(payload).forEach(
-            key => (this["table" + firstUpperCase(key)] = payload[key])
-          );
-        });
+            (key) => (this['table' + firstUpperCase(key)] = payload[key])
+          )
+        })
     }
   },
   methods: {
     cellType(column) {
-      return "cell-" + (column.type || "span");
+      return 'cell-' + (column.type || 'span')
     },
     getAvailableFilter() {
-      const available = {};
-      Object.keys(this.filterForm).map(key => {
-        if (this.filterForm[key] !== "" && this.filterForm[key] !== undefined) {
-          available[key] = this.filterForm[key];
+      const available = {}
+      Object.keys(this.filterForm).map((key) => {
+        if (this.filterForm[key] !== '' && this.filterForm[key] !== undefined) {
+          available[key] = this.filterForm[key]
         }
-      });
+      })
 
-      return available;
+      return available
     },
     searchAction() {
-      const available = this.getAvailableFilter();
+      const available = this.getAvailableFilter()
       if (Object.keys(available).length === 0) {
-        this.$message({ message: "请填写删选条件", type: "warning" });
-        return;
+        this.$message({ message: '请填写删选条件', type: 'warning' })
+        return
       }
-      this.load();
+      this.load()
     },
     load(args = {}) {
-      this.loading = true;
+      this.loading = true
       if (args.resetPage !== false) {
-        this.page.currentPage = 1;
+        this.page.currentPage = 1
       }
       const params = Object.assign({}, this.getAvailableFilter(), {
         _page: this.page.currentPage,
         _size: this.page.pageSize
-      });
+      })
       // if (this.activeTab) {
       //   params[this.activeTab.field] = this.activeTab.value
       // }
       this.$http
         .request({
-          type: "GET",
+          type: 'GET',
           url: this.listApi,
           params: params
         })
         .then(({ payload }) => {
-          this.tableList = payload.list;
-          this.page = Object.assign(this.page, payload.page || {});
-          this.loading = false;
-        });
+          this.tableList = payload.list
+          this.page = Object.assign(this.page, payload.page || {})
+          this.loading = false
+        })
     },
     handleSelectionChange(rows) {
-      this.selectionRows = rows;
+      this.selectionRows = rows
     },
     batchButtonPreCheck() {
       if (this.selectionRows.length === 0) {
-        this.$message({ message: "请勾选相应记录", type: "warning" });
-        return false;
+        this.$message({ message: '请勾选相应记录', type: 'warning' })
+        return false
       }
-      return true;
+      return true
     },
     pageSizesChange(pageSize) {
-      this.page.pageSize = pageSize;
-      this.paginationKey += 1;
-      this.load();
+      this.page.pageSize = pageSize
+      this.paginationKey += 1
+      this.load()
     },
     currentPageChange(currentPage) {
       if (currentPage - this.page.currentPage > 100) {
         this.$message({
-          message: "禁止大跨度翻页",
-          type: "error"
-        });
-        this.paginationKey += 1;
-        return;
+          message: '禁止大跨度翻页',
+          type: 'error'
+        })
+        this.paginationKey += 1
+        return
       }
-      this.page.currentPage = currentPage;
-      this.load({ resetPage: false });
+      this.page.currentPage = currentPage
+      this.load({ resetPage: false })
     },
     isArray(tmp) {
-      return isArray(tmp);
+      return isArray(tmp)
     },
     makeBatchButton(arr) {
-      return arr.map(item => {
+      return arr.map((item) => {
         if (isArray(item)) {
-          item = this.makeBatchButton(item);
+          item = this.makeBatchButton(item)
         } else {
-          item["pre-check"] = this.batchButtonPreCheck;
+          item['pre-check'] = this.batchButtonPreCheck
         }
-        return item;
-      });
+        return item
+      })
     },
     makeNormalButton(arr) {
-      return arr.map(item => {
+      return arr.map((item) => {
         if (isArray(item)) {
-          item = this.makeNormalButton(item);
+          item = this.makeNormalButton(item)
         } else {
           // todo
         }
-        return item;
-      });
+        return item
+      })
     },
     makeRowButton(arr, row) {
-      return arr.map(item => {
+      return arr.map((item) => {
         if (isArray(item)) {
-          item = this.makeRowButton(item);
+          item = this.makeRowButton(item)
         } else {
-          item["inject-data"] = row;
-          item["meta-data"] = row;
+          item['inject-data'] = row
+          item['meta-data'] = row
         }
-        return item;
-      });
+        return item
+      })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .filter-form {

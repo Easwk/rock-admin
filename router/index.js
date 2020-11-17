@@ -1,38 +1,38 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import Index from "../views/login/index";
-import NotFoundPage from "../views/404";
-import Layout from "../views/layout/index";
-import Dashboard from "../views/dashboard/index";
+import { createRouter, createWebHashHistory } from 'vue-router'
+import Index from '../views/login/index'
+import NotFoundPage from '../views/404'
+import Layout from '../views/layout/index'
+import Dashboard from '../views/dashboard/index'
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     component: Layout,
-    redirect: "/dashboard",
+    redirect: '/dashboard',
     children: [
       {
-        path: "dashboard",
-        name: "Dashboard",
+        path: 'dashboard',
+        name: 'Dashboard',
         component: Dashboard,
-        meta: { title: "Dashboard", icon: "el-icon-help" }
+        meta: { title: 'Dashboard', icon: 'el-icon-help' }
       }
     ]
   },
   {
-    path: "/login",
+    path: '/login',
     component: Index,
     hidden: true
   },
   {
-    path: "/404",
+    path: '/404',
     component: NotFoundPage,
     hidden: true
   }
-];
+]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-});
+})
 
-export default router;
+export default router

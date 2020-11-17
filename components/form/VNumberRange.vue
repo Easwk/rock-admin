@@ -3,16 +3,16 @@
     ref="wrapper"
     class="v-input-range"
     :class="{ isFocus: isFocus }"
-    @clickoutside="isFocus = false"
     :style="{ width: width }"
+    @clickoutside="isFocus = false"
   >
     <el-input
       v-model="localValue[0]"
       class="range-start"
+      :disabled="disabled"
       @focus="active(true)"
       @change="onchange"
-      @input="v => input(v, 0)"
-      :disabled="disabled"
+      @input="(v) => input(v, 0)"
     />
     <el-input
       tabindex="1"
@@ -24,10 +24,10 @@
     <el-input
       v-model="localValue[1]"
       class="range-end"
+      :disabled="disabled"
       @focus="active(true)"
       @change="onchange"
-      @input="v => input(v, 1)"
-      :disabled="disabled"
+      @input="(v) => input(v, 1)"
     />
     <el-input
       v-if="unit"
@@ -35,20 +35,19 @@
       placeholder="~"
       readonly
       :disabled="true"
-    ></el-input>
+    />
   </div>
 </template>
 <script>
-import { isArray } from "../../utils";
-import useClickOutside from "../../utils/clickoutside";
+import { isArray } from '../../utils'
+import useClickOutside from '../../utils/clickoutside'
 
 export default {
-  name: "VRangeNumber",
-  emits: ["update:modelValue"],
+  name: 'VRangeNumber',
   props: {
     modelValue: {
       type: [Array, String],
-      default: ","
+      default: ','
     },
     disabled: {
       type: Boolean,
@@ -56,53 +55,54 @@ export default {
     },
     unit: {
       type: String,
-      default: ""
+      default: ''
     },
     width: {
       type: String,
-      default: "350px"
+      default: '350px'
     }
   },
+  emits: ['update:modelValue'],
   setup() {
-    const wrapper = useClickOutside();
+    const wrapper = useClickOutside()
     return {
       wrapper
-    };
+    }
   },
   data() {
-    let startValue, endValue;
+    let startValue, endValue
     if (isArray(this.$props.modelValue)) {
-      [startValue, endValue] = this.$props.modelValue.map(val => Number(val));
+      [startValue, endValue] = this.$props.modelValue.map((val) => Number(val))
     } else {
-      [startValue, endValue] = this.$props.modelValue.split(",");
+      [startValue, endValue] = this.$props.modelValue.split(',')
     }
     return {
       localValue: this.arrToNum([startValue, endValue]),
       isFocus: false
-    };
+    }
   },
   methods: {
     input(v, index) {
-      this.localValue[index] = this.varToNum(v);
+      this.localValue[index] = this.varToNum(v)
     },
     active(status) {
-      this.isFocus = !!status;
+      this.isFocus = !!status
     },
     varToNum(v) {
-      return (v + "").replace(/[^\d.]/g, "").replace(/\.+/, ".");
+      return (v + '').replace(/[^\d.]/g, '').replace(/\.+/, '.')
     },
     arrToNum(arr) {
-      return arr.map(item => {
-        let v = this.varToNum(item);
-        return Number(v);
-      });
+      return arr.map((item) => {
+        const v = this.varToNum(item)
+        return Number(v)
+      })
     },
     onchange() {
-      this.localValue = this.arrToNum(this.localValue);
-      this.$emit("update:modelValue", this.localValue);
+      this.localValue = this.arrToNum(this.localValue)
+      this.$emit('update:modelValue', this.localValue)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-input-range {

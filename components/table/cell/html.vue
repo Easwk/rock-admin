@@ -1,18 +1,18 @@
 <template>
-  <span v-html="data"></span>
+  <span v-html="data" />
 </template>
 <script>
 export default {
-  name: "CellSpan",
+  name: 'CellSpan',
   props: {
     data: {
       type: String,
-      default: ""
+      default: ''
     },
     column: {
       type: Object,
       default: () => {}
     }
   }
-};
+}
 </script>

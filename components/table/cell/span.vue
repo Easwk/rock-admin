@@ -3,16 +3,16 @@
 </template>
 <script>
 export default {
-  name: "CellSpan",
+  name: 'CellSpan',
   props: {
     data: {
       type: [String, Number, Array, Object],
-      default: ""
+      default: ''
     },
     column: {
       type: Object,
       default: () => {}
     }
   }
-};
+}
 </script>

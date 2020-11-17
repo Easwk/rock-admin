@@ -17,19 +17,20 @@
 
 <script>
 export default {
-  name: "Hamburger",
+  name: 'Hamburger',
   props: {
     isActive: {
       type: Boolean,
       default: false
     }
   },
+  emits: ['toggle-click'],
   methods: {
     toggleClick() {
-      this.$emit("toggle-click");
+      this.$emit('toggle-click')
     }
   }
-};
+}
 </script>
 
 <style scoped>

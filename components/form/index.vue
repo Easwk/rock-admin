@@ -1,8 +1,8 @@
 <template>
   <el-form
-    class="v-form"
     :key="uniqueId"
     ref="formData"
+    class="v-form"
     :model="formData"
     :rules="formRules"
     :label-width="formOptions.labelWidth"
@@ -11,25 +11,24 @@
   >
     <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
       <el-form-item v-if="canShow(item)" :label="item.label" :prop="item.field">
-        <template v-slot:label>
+        <template #label>
           {{ item.label }}
           <el-tooltip v-if="item.info && formOptions.inline" placement="top">
             <template #content>
-              <span v-html="item.info"></span>
+              <span v-html="item.info" />
             </template>
-            <i class="el-icon-warning-outline"></i>
+            <i class="el-icon-warning-outline" />
           </el-tooltip>
         </template>
         <component
           :is="getComponentName(item.type)"
           v-model="formData[item.field]"
           v-bind="item.props || {}"
-          @update:modelValue="val => onFiledChange(item.field, val)"
-        >
-        </component>
+          @update:modelValue="(val) => onFiledChange(item.field, val)"
+        />
         <div v-if="item.info && !formOptions.inline" class="form-item-info">
-          <i class="el-icon-warning-outline"></i>
-          <span v-html="item.info"></span>
+          <i class="el-icon-warning-outline" />
+          <span v-html="item.info" />
         </div>
       </el-form-item>
     </template>
@@ -40,56 +39,54 @@
         v-if="formOptions.submitButton.show"
         v-bind="formOptions.submitButton"
         @click="submitForm('formData')"
-        >{{ formOptions.submitButton.text }}
+      >{{ formOptions.submitButton.text }}
       </el-button>
       <el-button
         v-if="formOptions.cancelButton.show"
         v-bind="formOptions.cancelButton"
         @click="resetForm('formData')"
-        >{{ formOptions.cancelButton.text }}</el-button
-      >
+      >{{ formOptions.cancelButton.text }}</el-button>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
-import VSelect from "./VSelect";
-import VRadio from "./VRadio";
-import VCheckbox from "./VChecbox";
-import VNumberRange from "./VNumberRange";
-import { componentMap } from "./setting";
-import { camelToSnake, ruleCompute, isArray, uuidv4 } from "../../utils";
-import _ from "lodash";
-import { makeFormOptions } from "./setting";
+import VSelect from './VSelect'
+import VRadio from './VRadio'
+import VCheckbox from './VChecbox'
+import VNumberRange from './VNumberRange'
+import { componentMap } from './setting'
+import { camelToSnake, ruleCompute, isArray, uuidv4 } from '../../utils'
+import _ from 'lodash'
+import { makeFormOptions } from './setting'
 
 export default {
-  name: "VForm",
-  emits: ["submit", "reset", "field-change", "update:modelValue"],
+  name: 'VForm',
   components: { VSelect, VRadio, VCheckbox, VNumberRange },
   provide() {
     return {
       formData: this.formData
-    };
+    }
   },
   props: {
     formItems: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     infoApi: {
       type: String,
-      default: ""
+      default: ''
     },
     saveApi: {
       type: String,
-      default: ""
+      default: ''
     },
     options: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     removeLabelWidth: {
@@ -97,62 +94,63 @@ export default {
       default: false
     }
   },
+  emits: ['submit', 'reset', 'field-change', 'update:modelValue'],
   data() {
     return Object.assign(
       {
         uniqueId: uuidv4()
       },
       this.init(this.$props.formItems)
-    );
+    )
   },
   computed: {
     formOptions() {
-      return makeFormOptions(this.$props.options);
+      return makeFormOptions(this.$props.options)
     }
   },
   beforeCreate() {
     if (this.$props.infoApi) {
       this.$http
-        .request({ method: "GET", url: this.$props.infoApi })
+        .request({ method: 'GET', url: this.$props.infoApi })
         .then(({ payload }) => {
-          const initData = this.init(payload);
-          Object.keys(initData).forEach(key => {
-            this[key] = initData[key];
-          });
-        });
+          const initData = this.init(payload)
+          Object.keys(initData).forEach((key) => {
+            this[key] = initData[key]
+          })
+        })
     }
   },
   methods: {
     init(formItems) {
-      const formData = {};
-      const formRules = {};
-      const fieldMap = {};
-      const computeRules = {};
-      formItems.forEach(item => {
+      const formData = {}
+      const formRules = {}
+      const fieldMap = {}
+      const computeRules = {}
+      formItems.forEach((item) => {
         if (item.value !== undefined) {
-          formData[item.field] = item.value;
+          formData[item.field] = item.value
         }
         if (item.rules !== undefined) {
-          formRules[item.field] = item.rules;
+          formRules[item.field] = item.rules
         }
-        if (item.type === "template") {
-          item.type = "v-tpl" + item.field;
-          this.$options.components["VTpl" + item.field] = Object.assign(
+        if (item.type === 'template') {
+          item.type = 'v-tpl' + item.field
+          this.$options.components['VTpl' + item.field] = Object.assign(
             {},
             item.comp,
             {
               data: () => {
-                return item.comp.data;
+                return item.comp.data
               }
             }
-          );
+          )
         }
-        fieldMap[item.field] = item;
+        fieldMap[item.field] = item
         if (item.computed !== undefined) {
-          computeRules[item.field] = item.computed;
+          computeRules[item.field] = item.computed
         }
-        item.props = this.getComponentProps(item);
-      });
+        item.props = this.getComponentProps(item)
+      })
       return {
         formData,
         formRules,
@@ -160,87 +158,87 @@ export default {
         computeRules,
         formItemsSource: _.concat([], formItems),
         cacheItems: _.concat([], formItems)
-      };
+      }
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$props.saveApi &&
             this.$http
-              .request({ method: "POST", url: this.$props.saveApi })
+              .request({ method: 'POST', url: this.$props.saveApi })
               .then(({ payload }) => {
-                console.log("form save success", payload);
-              });
-          this.$emit("submit", this.formData);
+                console.log('form save success', payload)
+              })
+          this.$emit('submit', this.formData)
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-      this.$emit("reset");
+      this.$refs[formName].resetFields()
+      this.$emit('reset')
     },
     getComponentName(name) {
-      return componentMap[name] || name;
+      return componentMap[name] || name
     },
     getComponentProps(item) {
-      let props = item.props || {};
+      const props = item.props || {}
       if (item.options) {
-        props.options = item.options;
+        props.options = item.options
       }
-      Object.keys(props).forEach(item => {
-        const tmp = props[item];
-        delete props[item];
-        props[camelToSnake(item, "-")] = tmp;
-      });
-      return props;
+      Object.keys(props).forEach((item) => {
+        const tmp = props[item]
+        delete props[item]
+        props[camelToSnake(item, '-')] = tmp
+      })
+      return props
     },
     canShow(item) {
       if (item.depend) {
-        return item.depend.value === this.formData[item.depend.field];
+        return item.depend.value === this.formData[item.depend.field]
       }
       if (item.hide) {
         // todo
       }
-      return true;
+      return true
     },
     onFiledChange(field, value) {
-      this.formData[field] = value;
-      this.computedWhen(field, value);
-      this.$emit("field-change", { field, value });
-      this.$emit("update:modelValue", this.formData);
+      this.formData[field] = value
+      this.computedWhen(field, value)
+      this.$emit('field-change', { field, value })
+      this.$emit('update:modelValue', this.formData)
     },
     computedWhen(field, value) {
-      const rule = this.computeRules[field];
+      const rule = this.computeRules[field]
       if (rule === undefined) {
-        return;
+        return
       }
-      let when = rule.when;
+      let when = rule.when
       if (!isArray(when)) {
-        when = [field, "=", when];
+        when = [field, '=', when]
       } else if (when.length === 2) {
-        when.unshift(field);
+        when.unshift(field)
       }
-      const obj = {};
-      obj[field] = value;
-      Object.keys(rule.set || []).forEach(field => {
-        const index = _.findIndex(this.formItemsSource, { field: field });
+      const obj = {}
+      obj[field] = value
+      Object.keys(rule.set || []).forEach((field) => {
+        const index = _.findIndex(this.formItemsSource, { field: field })
         if (ruleCompute(obj, when)) {
           this.formItemsSource[index] = _.merge(
             this.formItemsSource[index],
             rule.set[field]
-          );
+          )
         } else {
           this.formItemsSource[index] = _.cloneDeep(
             this.cacheItems[_.findIndex(this.cacheItems, { field: field })]
-          );
+          )
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .form-item-info {

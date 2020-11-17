@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-  name: "CellJson",
+  name: 'CellJson',
   props: {
     data: {
       type: [Array, Object],
@@ -19,7 +19,7 @@ export default {
       default: () => {}
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .popover-ref {

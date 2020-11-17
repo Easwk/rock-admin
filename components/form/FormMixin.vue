@@ -1,11 +1,11 @@
 <script>
 export default {
-  name: "FormMixin",
-  inject: ["formData"],
+  name: 'FormMixin',
+  inject: ['formData'],
   props: {
     value: {
       type: [Number, String],
-      default: ""
+      default: ''
     },
     disable: {
       type: Boolean,
@@ -13,7 +13,7 @@ export default {
     },
     field: {
       type: String,
-      default: "",
+      default: '',
       required: true
     },
     props: {
@@ -25,23 +25,24 @@ export default {
       default: () => []
     }
   },
+  emits: ['change', 'input'],
   data() {
     return {
       localValue: this.$props.value
-    };
+    }
   },
   watch: {
     value(val) {
-      this.localValue = val;
+      this.localValue = val
     }
   },
   methods: {
     onInput(field, value) {
-      this.$emit("input", value, field);
+      this.$emit('input', value, field)
     },
     onChange(field, value) {
-      this.$emit("change", value, field);
+      this.$emit('change', value, field)
     }
   }
-};
+}
 </script>

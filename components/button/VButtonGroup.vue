@@ -1,7 +1,7 @@
 <template>
   <el-dropdown split-button @command="onclick" @click="() => onclick(0)">
     <span v-if="type === 'link'" class="el-dropdown-link">
-      {{ buttons[0].text }}<i class="el-icon-arrow-down el-icon--right"></i>
+      {{ buttons[0].text }}<i class="el-icon-arrow-down el-icon--right" />
     </span>
     <template v-else>
       {{ buttons[0].text }}
@@ -12,8 +12,7 @@
           v-for="(item, index) in buttons.slice(1)"
           :key="index + 'button-group'"
           :command="index + 1"
-          >{{ item.text }}</el-dropdown-item
-        >
+        >{{ item.text }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -22,7 +21,7 @@
       :is="'el-' + container"
       v-model="showContainer"
       append-to-body
-      :beforeClose="closeContainer"
+      :before-close="closeContainer"
       :title="text"
       :destroy-on-close="true"
     >
@@ -30,53 +29,54 @@
         :is="getSubComp()"
         v-bind="getSubProps()"
         v-on="getSubEvent()"
-      ></component>
+      />
     </component>
   </template>
 </template>
 <script>
-import Base from "./mixin";
-import { strVarReplace } from "../../utils";
+import Base from './mixin'
+import { strVarReplace } from '../../utils'
 export default {
-  name: "VButtonGroup",
+  name: 'VButtonGroup',
   mixins: [Base],
   props: {
     type: {
       type: String,
-      default: "button" // link
+      default: 'button' // link
     },
     buttons: {
       type: Array,
       default: () => []
     }
   },
+  emits: ['click'],
   data() {
     return {
       activeIndex: undefined
-    };
+    }
   },
   methods: {
     onclick(index) {
-      this.activeIndex = index;
-      const btn = this.getBtnProps();
+      this.activeIndex = index
+      const btn = this.getBtnProps()
       if (this.$props.preCheck(btn, index) !== true) {
-        return;
+        return
       }
-      if (btn["pre-check"] && btn["pre-check"](btn, index) !== true) {
-        return;
+      if (btn['pre-check'] && btn['pre-check'](btn, index) !== true) {
+        return
       }
-      this.realTarget = strVarReplace(btn.target || "");
-      this.clickHandler[btn.type]();
-      this.$emit("click");
+      this.realTarget = strVarReplace(btn.target || '')
+      this.clickHandler[btn.type]()
+      this.$emit('click')
     },
     closeContainer() {
-      this.showContainer = false;
+      this.showContainer = false
     },
     getBtnProps() {
-      return this.$props.buttons[this.activeIndex];
+      return this.$props.buttons[this.activeIndex]
     }
   }
-};
+}
 </script>
 <style scoped>
 .el-dropdown-link {

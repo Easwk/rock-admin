@@ -1,33 +1,33 @@
 <template>
   <div>
     <!--    <v-form v-bind="numRangeForm" />-->
-    <v-table v-bind="simpleTable" list-api="/student/list"></v-table>
+    <v-table v-bind="simpleTable" list-api="/student/list" />
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 // import VForm from "@/core/components/form";
-import VTable from "../../components/table";
-import { simpleForm, numRangeForm } from "../../components/form/test";
-import { simpleTable } from "../../components/table/data";
+import VTable from '../../components/table'
+import { simpleForm, numRangeForm } from '../../components/form/test'
+import { simpleTable } from '../../components/table/data'
 
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   components: { VTable },
   data() {
     return {
       simpleForm,
       numRangeForm,
       simpleTable
-    };
+    }
   },
   computed: {
-    ...mapGetters(["name"]),
+    ...mapGetters(['name']),
     admin() {
-      return this.$store.state.settings;
+      return this.$store.state.settings
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

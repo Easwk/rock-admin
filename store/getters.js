@@ -6,5 +6,5 @@ const getters = {
   avatar: state => state.user.avatar,
   name: state => state.user.name,
   remoteRouter: state => state.user.remoteRouter
-};
-export default getters;
+}
+export default getters

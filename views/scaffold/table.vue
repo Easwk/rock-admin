@@ -1,8 +1,8 @@
 <template>
-    <div>Table</div>
+  <div>Table</div>
 </template>
 <script>
-  export default {
-    name: "Table"
-  }
+export default {
+  name: 'Table'
+}
 </script>

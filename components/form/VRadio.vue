@@ -5,22 +5,22 @@
       :key="index + '-radio'"
       :label="item.value"
       :disabled="!!item.disabled"
-      >{{ item.label }}
+    >{{ item.label }}
     </el-radio>
   </el-radio-group>
 </template>
 <script>
 export default {
-  name: "VRadio",
-  emits: ["update:modelValue"],
+  name: 'VRadio',
   props: {
     modelValue: {
-      type: [Number, String]
+      type: [Number, String],
+      required: true
     },
     options: {
       type: Array,
       default: () => {
-        return [];
+        return []
       }
     },
     disabled: {
@@ -28,15 +28,16 @@ export default {
       default: false
     }
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       localValue: this.$props.modelValue
-    };
+    }
   },
   methods: {
     onchange() {
-      this.$emit("update:modelValue", this.localValue);
+      this.$emit('update:modelValue', this.localValue)
     }
   }
-};
+}
 </script>

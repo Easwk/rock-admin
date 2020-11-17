@@ -3,19 +3,19 @@
     <v-button-group
       v-if="isArray(item)"
       v-bind="{
-        buttons: item
+        buttons: item,
       }"
-    ></v-button-group>
-    <v-button-single v-else v-bind="item"></v-button-single>
+    />
+    <v-button-single v-else v-bind="item" />
   </template>
 </template>
 <script>
-import VButtonSingle from "./VButtonSingle";
-import VButtonGroup from "./VButtonGroup";
-import { isArray } from "../../utils";
+import VButtonSingle from './VButtonSingle'
+import VButtonGroup from './VButtonGroup'
+import { isArray } from '../../utils'
 
 export default {
-  name: "VButton",
+  name: 'VButton',
   components: { VButtonSingle, VButtonGroup },
   props: {
     buttons: {
@@ -25,8 +25,8 @@ export default {
   },
   methods: {
     isArray(tmp) {
-      return isArray(tmp);
+      return isArray(tmp)
     }
   }
-};
+}
 </script>

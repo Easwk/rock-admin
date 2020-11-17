@@ -38,23 +38,23 @@
       >
         <icon name="code" />
       </div>
-        <div class="right-item">
-            <i class="el-icon-edit"></i>
-        </div>
-        <div class="right-item-button" style="padding: 0">
-            <v-button :buttons="config.nav"></v-button>
-        </div>
+      <div class="right-item">
+        <i class="el-icon-edit" />
+      </div>
+      <div class="right-item-button" style="padding: 0">
+        <v-button :buttons="config.nav" />
+      </div>
       <el-dropdown class="right-item" trigger="click">
         <div class="user-info">
-          <img :src="avatar" class="user-avatar" alt="头像" />
+          <img :src="avatar" class="user-avatar" alt="头像">
           <span class="user-name">{{ name }}</span>
         </div>
-          <template #dropdown>
-              <el-dropdown-menu class="user-dropdown">
-                  <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')">首页</el-dropdown-item>
-                  <el-dropdown-item divided icon="el-icon-switch-button" @click="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-          </template>
+        <template #dropdown>
+          <el-dropdown-menu class="user-dropdown">
+            <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')">首页</el-dropdown-item>
+            <el-dropdown-item divided icon="el-icon-switch-button" @click="logout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
     <el-drawer
@@ -66,12 +66,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "./Breadcrumb";
-import Hamburger from "./Hamburger";
-import { showEleByClassName } from "../../../utils";
-import Cache from "../../../utils/cache";
-import VButton from "rock-admin/components/button/VButton";
+import { mapGetters } from 'vuex'
+import Breadcrumb from './Breadcrumb'
+import Hamburger from './Hamburger'
+import { showEleByClassName } from '../../../utils'
+import Cache from '../../../utils/cache'
+import VButton from 'rock-admin/components/button/VButton'
 
 export default {
   components: {
@@ -82,70 +82,70 @@ export default {
   data() {
     return {
       showExportPop: false,
-      modulesList: this.getSetting("system_module"),
+      modulesList: this.getSetting('system_module'),
       showJsonSchema: false,
-      json: "",
+      json: '',
       key: 0
-    };
+    }
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name", "config"]),
+    ...mapGetters(['sidebar', 'avatar', 'name', 'config']),
     hasNewMessage() {
-      return this.$store.state.settings.hasNewMessage;
+      return this.$store.state.settings.hasNewMessage
     },
     moduleName() {
-      return this.$store.state.app.moduleName;
+      return this.$store.state.app.moduleName
     },
     showPageJsonSchemaIcon() {
-      return this.$store.state.settings.showPageJsonSchema || false;
+      return this.$store.state.settings.showPageJsonSchema || false
     }
   },
   mounted() {
-    showEleByClassName("el-submenu is-active");
+    showEleByClassName('el-submenu is-active')
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      await this.$store.dispatch('user/logout')
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     getSetting(name) {
-      return this.$store.state.settings[name];
+      return this.$store.state.settings[name]
     },
     async closeNavBarNotice() {
-      await this.$store.dispatch("settings/changeSetting", {
-        key: "closeNavNotice",
+      await this.$store.dispatch('settings/changeSetting', {
+        key: 'closeNavNotice',
         value: true
-      });
-      this.closeNotice(this.getSetting("navBarNotice"));
+      })
+      this.closeNotice(this.getSetting('navBarNotice'))
     },
     showPopover() {
-      this.showExportPop = true;
+      this.showExportPop = true
     },
     goto(url) {
-      location.href = url;
+      location.href = url
     },
     showNotice(text) {
-      const key = "dismiss:navbar_notice";
+      const key = 'dismiss:navbar_notice'
       if (!Cache.exist(key)) {
-        return true;
+        return true
       }
-      return Cache.get(key) !== text;
+      return Cache.get(key) !== text
     },
     closeNotice(text) {
-      const key = "dismiss:navbar_notice";
-      Cache.set(key, text);
+      const key = 'dismiss:navbar_notice'
+      Cache.set(key, text)
     },
     showPageJsonSchema() {
-      this.showJsonSchema = true;
+      this.showJsonSchema = true
       this.json =
-        this.$store.state.app.pages[this.$route.path + "/page_info"] || "";
-      this.key++;
+        this.$store.state.app.pages[this.$route.path + '/page_info'] || ''
+      this.key++
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

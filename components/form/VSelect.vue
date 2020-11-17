@@ -11,17 +11,17 @@
 
 <script>
 export default {
-  name: "VSelect",
+  name: 'VSelect',
   data() {
     return {
       options: [
         {
-          value: "选项5",
-          label: "北京烤鸭"
+          value: '选项5',
+          label: '北京烤鸭'
         }
       ],
-      value: ""
-    };
+      value: ''
+    }
   }
-};
+}
 </script>

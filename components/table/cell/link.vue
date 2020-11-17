@@ -2,13 +2,13 @@
   <el-link v-bind="linkProps">{{ column.label }}</el-link>
 </template>
 <script>
-import _ from "lodash";
+import _ from 'lodash'
 export default {
-  name: "CellLink",
+  name: 'CellLink',
   props: {
     data: {
       type: String,
-      default: ""
+      default: ''
     },
     column: {
       type: Object,
@@ -19,13 +19,13 @@ export default {
     linkProps() {
       return _.merge(
         {
-          type: "primary",
+          type: 'primary',
           href: this.$props.data,
-          target: "_blank"
+          target: '_blank'
         },
         this.$props.column.props || {}
-      );
+      )
     }
   }
-};
+}
 </script>

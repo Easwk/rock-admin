@@ -4,23 +4,23 @@
  * @param { string } value 值
  */
 const set = (key, value) => {
-  if (typeof value === "object") value = JSON.stringify(value);
-  localStorage.setItem(key, value);
-};
+  if (typeof value === 'object') value = JSON.stringify(value)
+  localStorage.setItem(key, value)
+}
 
 /**
  * @param {String} key  属性
  */
 const get = key => {
-  return localStorage.getItem(key);
-};
+  return localStorage.getItem(key)
+}
 
 /**
  * @param {String} key  属性
  */
 const remove = key => {
-  localStorage.removeItem(key);
-};
+  localStorage.removeItem(key)
+}
 
 /**
  * @param {String} key  属性
@@ -28,16 +28,16 @@ const remove = key => {
  * @param { number } expire 过期时间,毫秒数
  */
 const setExpire = (key, value, expire) => {
-  if (typeof value === "object") value = JSON.stringify(value);
-  localStorage.setItem(key, value);
+  if (typeof value === 'object') value = JSON.stringify(value)
+  localStorage.setItem(key, value)
   setTimeout(() => {
-    localStorage.removeItem(key);
-  }, expire);
-};
+    localStorage.removeItem(key)
+  }, expire)
+}
 
 export default {
   set,
   get,
   remove,
   setExpire
-};
+}
