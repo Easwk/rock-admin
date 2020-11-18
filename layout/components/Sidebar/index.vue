@@ -32,11 +32,6 @@ import variables from '../../../styles/variables.scss'
 import SearchMenu from './SearchMenu'
 export default {
   components: { SidebarItem, Logo, SearchMenu },
-  data() {
-    return {
-      selected: ''
-    }
-  },
   computed: {
     ...mapGetters(['sidebar', 'remoteRouter']),
     routes() {
