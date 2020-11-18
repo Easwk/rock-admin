@@ -66,7 +66,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <!--     操作     -->
+        <el-table-column v-if="tableRowButton.length > 0" label="操作" fixed="right" :width="actionColumnWidth()">
           <template #default="scope">
             <v-button :buttons="makeRowButton(tableRowButton, scope.row)" />
           </template>
@@ -181,6 +182,9 @@ export default {
         })
     }
   },
+  mounted() {
+    setTimeout(() => this.load(), 200)
+  },
   methods: {
     cellType(column) {
       return 'cell-' + (column.type || 'span')
@@ -287,6 +291,13 @@ export default {
         }
         return item
       })
+    },
+    actionColumnWidth() {
+      let ratio = 0
+      this.tableRowButton.forEach((item) => {
+        ratio += item.text ? item.text.length : 3
+      })
+      return ratio * 10 * 2
     }
   }
 }

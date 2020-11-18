@@ -1,7 +1,10 @@
 <template>
   <div>
     <!--    <v-form v-bind="numRangeForm" />-->
-    <v-table v-bind="simpleTable" list-api="/student/list" />
+    <v-table
+      v-bind="simpleTable"
+      list-api="/student/list"
+    />
   </div>
 </template>
 <script>

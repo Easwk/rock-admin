@@ -10,7 +10,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
-  if (to.matched.length === 0) {
+  if (to.matched.length === 0 && store.state.user.loadRemoteRoute) {
     next('/404')
   }
   NProgress.start()

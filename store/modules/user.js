@@ -7,7 +7,8 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
-  remoteRouter: []
+  remoteRouter: [],
+  loadRemoteRoute: false
 }
 
 const mutations = {
@@ -22,6 +23,7 @@ const mutations = {
   },
   SET_ROUTER: (state, router) => {
     state.remoteRouter = router
+    state.loadRemoteRoute = true
   }
 }
 
