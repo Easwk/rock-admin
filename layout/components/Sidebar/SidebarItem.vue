@@ -47,7 +47,7 @@
 
 <script>
 import path from 'path'
-import { isExternal } from '../../../../utils/validate'
+import { isExternal } from '../../../utils/validate'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
 import MenuContent from './MenuContent'

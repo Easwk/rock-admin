@@ -1,6 +1,7 @@
 <template>
   <section class="app-main">
     <router-view :key="key" />
+    <el-backtop :bottom="50" />
   </section>
 </template>
 

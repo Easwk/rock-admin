@@ -257,6 +257,7 @@ export default {
       }
       this.page.currentPage = currentPage
       this.load({ resetPage: false })
+      // window.scrollTo({ top: 0, behavior: 'smooth' })
     },
     isArray(tmp) {
       return isArray(tmp)

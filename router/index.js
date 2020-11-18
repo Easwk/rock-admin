@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Index from '../views/login/index'
 import NotFoundPage from '../views/404'
-import Layout from '../views/layout/index'
+import Layout from '../layout/index'
 import Dashboard from '../views/dashboard/index'
 
 const routes = [

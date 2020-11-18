@@ -1,9 +1,64 @@
+import _ from 'lodash'
+
 function response(payload) {
   return {
     'code|0-0': 0,
     payload
   }
 }
+
+const buttons = [
+  {
+    type: 'jump',
+    text: '跳转',
+    target: 'http://github.com/daodao97'
+  },
+  {
+    type: 'api',
+    text: '请求接口',
+    api: {
+      method: 'POST',
+      url: '/test_api'
+    }
+  },
+  {
+    type: 'table',
+    text: '表格',
+    table: {
+      infoApi: '/student/list_info',
+      listApi: '/student/list'
+    },
+    btnProps: {
+      type: 'info'
+    }
+  },
+  [
+    {
+      type: 'jump',
+      text: '跳转',
+      target: 'http://github.com/daodao97'
+    },
+    {
+      type: 'api',
+      text: '请求接口',
+      api: {
+        method: 'POST',
+        url: '/test_api'
+      }
+    }
+  ],
+  {
+    type: 'form',
+    text: '表单',
+    form: {
+      infoApi: '/form',
+      saveApi: '/save'
+    },
+    btnProps: {
+      type: 'success'
+    }
+  }
+]
 
 export const simpleTable = {
   filter: [
@@ -63,40 +118,42 @@ export const simpleTable = {
       label: '信息'
     }
   ],
-  batchButton: [
+  batchButton: buttons,
+  rowButton: [
     {
-      type: 'jump',
-      text: '跳转',
-      target: 'http://github.com/daodao97'
-    },
-    {
-      type: 'api',
-      text: '请求接口',
-      api: {
-        method: 'POST',
-        url: '/test_api'
+      type: 'form',
+      form: {
+        infoApi: '/form/{id}',
+        saveApi: '/save'
+      },
+      btnProps: {
+        icon: 'el-icon-edit',
+        type: 'success'
       }
     },
     {
+      type: 'api',
+      api: {
+        method: 'POST',
+        url: '/student/{id}'
+      },
+      btnProps: {
+        icon: 'el-icon-delete',
+        type: 'danger'
+      }
+    }
+  ],
+  normalButton: [
+    ..._.cloneDeep(buttons),
+    {
       type: 'form',
-      text: '表单',
       form: {
         infoApi: '/form',
         saveApi: '/save'
       },
       btnProps: {
-        type: 'success'
-      }
-    },
-    {
-      type: 'table',
-      text: '表格',
-      table: {
-        infoApi: '/form',
-        listApi: '/save'
-      },
-      btnProps: {
-        type: 'info'
+        icon: 'el-icon-plus',
+        type: 'primary'
       }
     }
   ]
@@ -104,7 +161,7 @@ export const simpleTable = {
 
 export default [
   {
-    url: '/form',
+    url: '/user/form_schema',
     type: 'get',
     response: () => response([
       {
@@ -120,38 +177,19 @@ export default [
     ])
   },
   {
-    url: new RegExp(process.env.VUE_APP_BASE_API + '/form/.*'),
-    type: 'get',
-    response: () => response([
-      {
-        type: 'input',
-        field: 'name',
-        label: '名字',
-        value: '@cname'
-      },
-      {
-        type: 'number',
-        field: 'score',
-        label: '分数',
-        value: '@natural(60, 100)'
-      }
-    ])
-  },
-  {
-    url: '/save',
+    url: '/user/save',
     type: 'post',
     response: () => response({
-      success: true,
-      test: 1
+      success: true
     })
   },
   {
-    url: '/student/list_info',
+    url: '/user/list_schema',
     type: 'get',
     response: () => response(simpleTable)
   },
   {
-    url: '/student/list',
+    url: '/user/list',
     type: 'get',
     response: req => {
       const ret = {

@@ -97,8 +97,21 @@ export default [
         code: 0,
         payload: [
           {
-            name: '表单',
-            path: '/user/form'
+            name: '用户管理',
+            path: '#',
+            children: [
+              {
+                path: '/user/list',
+                name: '用户列表',
+                icon: 'el-icon-help'
+              },
+              {
+                path: '/user/',
+                name: '新建',
+                icon: 'el-icon-help',
+                is_show: false
+              },
+            ]
           },
           {
             name: '列表',

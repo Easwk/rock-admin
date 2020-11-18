@@ -6,7 +6,7 @@
   />
 </template>
 <script>
-import VForm from '../../components/form'
+import VForm from '../components/form/index'
 export default {
   name: 'Form',
   components: { VForm },

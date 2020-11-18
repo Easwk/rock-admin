@@ -3,7 +3,7 @@ import formatOptions from './formatOptions'
 
 export default function(url, method, resFunc) {
   if (arguments.length === 1) {
-    return this._mock(url)
+    return Mock.mock(url)
   }
   if (arguments.length === 2) {
     console.error(
@@ -44,6 +44,8 @@ export default function(url, method, resFunc) {
     } catch (err) {
       res = err
     }
+
+    const response = Mock.mock(res)
     // 将返回的测试数据打印到控制台
     console.groupCollapsed(
       `%c${options.type.toLowerCase()} | ${options.url}`,
@@ -52,9 +54,9 @@ export default function(url, method, resFunc) {
     console.log('%cparams: ', 'color: #38f')
     console.log(options.params)
     console.log('%cresponseData: ', 'color: #38f')
-    console.log(res)
+    console.log(response)
     console.groupEnd()
     console.log('---------------')
-    return Mock.mock(res)
+    return response
   })
 }

@@ -67,10 +67,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from './Breadcrumb'
-import Hamburger from './Hamburger'
-import { showEleByClassName } from '../../../utils'
-import Cache from '../../../utils/cache'
+import Breadcrumb from './Breadcrumb/index'
+import Hamburger from './Hamburger/index'
+import { showEleByClassName } from '../../utils'
+import Cache from '../../utils/cache'
 import VButton from 'rock-admin/components/button/VButton'
 
 export default {

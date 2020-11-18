@@ -6,7 +6,7 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import Icon from './components/Icon'
 import request from './utils/request'
-import './permission'
+import './router/routerGuards'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import App from './App.vue'
 

@@ -1,7 +1,7 @@
-import Layout from '../views/layout'
-import Form from '../views/scaffold/form'
-import Container from '../views/scaffold/container'
-import Table from '../views/scaffold/table'
+import Layout from '../layout'
+import Form from '../scaffold/form'
+import Container from '../scaffold/container'
+import Table from '../scaffold/table'
 
 const base = {
   path: '/',
