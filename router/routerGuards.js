@@ -11,7 +11,7 @@ const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   if (to.matched.length === 0 && store.state.user.loadRemoteRoute) {
-    next('/404')
+    // next('/404')
   }
   NProgress.start()
   document.title = to.meta.title ? to.meta.title + '-' + store.state.settings.title : store.state.settings.title

@@ -47,11 +47,8 @@ export default (options = {}) => {
   (routes || []).forEach(item => {
     router.addRoute(item)
   })
-  if (router.isReady()) {
-    return app
-      .use(store)
-      .use(router)
-      .use(ElementPlus, ElementOptions || defaultUi)
-      .mount('#app')
-  }
+  app.use(store)
+    .use(router)
+    .use(ElementPlus, ElementOptions || defaultUi)
+  router.isReady().then(() => app.mount('#app'))
 }

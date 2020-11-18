@@ -146,11 +146,8 @@ export const simpleTable = {
   normalButton: [
     ..._.cloneDeep(buttons),
     {
-      type: 'form',
-      form: {
-        infoApi: '/form',
-        saveApi: '/save'
-      },
+      type: 'jump',
+      target: '/user/form',
       btnProps: {
         icon: 'el-icon-plus',
         type: 'primary'

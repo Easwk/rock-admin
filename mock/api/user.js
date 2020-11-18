@@ -107,8 +107,8 @@ export default [
                 is_show: false
               },
               {
-                path: '/user/',
-                name: '新建',
+                path: '/user/form',
+                name: '用户新建',
                 icon: 'el-icon-help',
                 is_show: false
               }
@@ -136,13 +136,13 @@ export default [
                 children: [
                   {
                     path: '/student/list',
-                    name: '列表',
+                    name: '学生列表',
                     icon: 'el-icon-help',
                     is_show: false
                   },
                   {
                     path: '/student/form',
-                    name: '新建',
+                    name: '学生新建',
                     icon: 'el-icon-help',
                     is_show: false
                   }
