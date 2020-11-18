@@ -58,3 +58,17 @@ export default {
   }
 }
 </script>
+<style scoped>
+  ::v-deep(.el-menu-item) {
+    height: 40px;
+    line-height: 40px;
+  }
+  ::v-deep(.el-submenu__title) {
+    height: 40px;
+    line-height: 40px;
+  }
+  ::v-deep(.el-submenu .el-menu-item) {
+    height: 40px;
+    line-height: 40px;
+  }
+</style>
