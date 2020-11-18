@@ -38,31 +38,39 @@ function getPath(item) {
     path = path.replace(':id', ':id(\\d+)')
   }
   return path === '#'
-    ? '/DIR_' + item.title + '_' + item.id + '_key'
+    ? '/DIR_' + item.name
     : path[0] !== '/'
       ? '/' + path
       : path
 }
 
 const transRoute = item => {
-  return {
+  const route = {
     path: getPath(item),
     name: item.name,
     component: getComponent(item),
     meta: { title: item.name, icon: item.icon },
-    hidden: item.is_show !== undefined ? !item.is_show : false
+    hidden: item.is_show !== undefined ? !item.is_show : false,
+    children: item.children !== undefined ? item.children.map(each => transRoute(each)) : []
   }
+  if (route.children.length > 0) {
+    let allChildHidden = true
+    route.children.forEach(each => {
+      if (!each.hidden) {
+        allChildHidden = false
+      }
+    })
+    if (allChildHidden) {
+      route.redirect = route.children[0].path
+    }
+  }
+
+  return route
 }
 
 const createRoutes = routesConfig => {
   routesConfig = routesConfig.map(item => {
-    const route = transRoute(item)
-    if (item.children) {
-      route.children = item.children.map(each => transRoute(each))
-    } else {
-      route.children = []
-    }
-    return route
+    return transRoute(item)
   })
   base.children = [...base.children, ...routesConfig]
   return base

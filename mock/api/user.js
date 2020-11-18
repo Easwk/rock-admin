@@ -103,14 +103,15 @@ export default [
               {
                 path: '/user/list',
                 name: '用户列表',
-                icon: 'el-icon-help'
+                icon: 'el-icon-help',
+                is_show: false
               },
               {
                 path: '/user/',
                 name: '新建',
                 icon: 'el-icon-help',
                 is_show: false
-              },
+              }
             ]
           },
           {
@@ -128,6 +129,24 @@ export default [
                 path: '/list/list',
                 name: '页签样例',
                 icon: 'el-icon-help'
+              },
+              {
+                name: '学生管理',
+                path: '#',
+                children: [
+                  {
+                    path: '/student/list',
+                    name: '列表',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/student/form',
+                    name: '新建',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  }
+                ]
               }
             ]
           }

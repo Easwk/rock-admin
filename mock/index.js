@@ -1,8 +1,14 @@
 import mock from './mock'
-import user from './api/user'
-import apis from './api/apis'
 
-const defaultMocksApi = [...user, ...apis]
+let defaultMocksApi = []
+
+const requireAll = context => context.keys().map(context)
+
+const allApi = require.context('./api', false, /\.js$/)
+
+requireAll(allApi).forEach((item) => {
+  defaultMocksApi = defaultMocksApi.concat(item.default)
+})
 
 export function mockXHR(mockApis = []) {
   (defaultMocksApi.concat(mockApis)).forEach(item => {

@@ -4,7 +4,7 @@
   "description": "vue3 + element-plus fast admin scaffold",
   "main": "index.js",
   "scripts": {
-    "lint": "vue-cli-service lint components api router store utils views template"
+    "lint": "vue-cli-service lint components api router store utils views template mock scaffold"
   },
   "dependencies": {
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
