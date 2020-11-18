@@ -1,6 +1,7 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="isCollapse" />
+    <search-menu />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -28,9 +29,14 @@ import { mapGetters } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '../../../styles/variables.scss'
-
+import SearchMenu from './SearchMenu'
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem, Logo, SearchMenu },
+  data() {
+    return {
+      selected: ''
+    }
+  },
   computed: {
     ...mapGetters(['sidebar', 'remoteRouter']),
     routes() {
