@@ -35,7 +35,6 @@ function filterHidden(arr) {
     }
     if (each.children) {
       each.children = filterHidden(each.children)
-      console.log(each, each.children)
       if (each.children.length === 0) {
         delete each.children
       }
@@ -56,7 +55,6 @@ export default {
     },
     filterRoutes() {
       const routes = _.cloneDeep(this.remoteRouter)
-      console.log(filterHidden(routes))
       return filterHidden(routes)
     }
   },
