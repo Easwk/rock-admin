@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "codemirror": "^5.58.2",
+    "echarts": "^4.9.0",
     "file": "^0.2.2",
     "js-beautify": "^1.13.0",
     "jsonlint": "^1.6.3",
+    "resize-detector": "^0.2.2",
     "system": "^2.0.1"
   },
   "devDependencies": {

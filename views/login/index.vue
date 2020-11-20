@@ -55,7 +55,7 @@
             @click.prevent="handleLogin"
           >Login</el-button>
           <div class="tips">
-            <span>若无内部账号, 请使用企微/钉钉登录</span>
+            <span>{{ $store.state.settings.loginTips }}</span>
           </div>
         </el-form>
         <div v-show="['dingTalk', 'wechat'].indexOf(loginType) !== -1">

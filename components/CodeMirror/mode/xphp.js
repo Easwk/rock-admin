@@ -58,6 +58,7 @@ function phpString_(stream, state, closing, escapes) {
   let escaped = false
   // Normal string
   while (!stream.eol() &&
+  // eslint-disable-next-line no-unmodified-loop-condition
     (escaped || escapes === false ||
       (!stream.match('{$', false) &&
         !stream.match(/^(\$[a-zA-Z_][a-zA-Z0-9_]*|\$\{)/, false)))) {
@@ -70,8 +71,6 @@ function phpString_(stream, state, closing, escapes) {
   }
   return 'string'
 }
-
-var sqlKeywords = "alter and as asc between by count create delete desc distinct drop from group having in insert into is join like not on or order select set table union update values where limit ";
 
 const phpKeywords = 'abstract and array as break case catch class clone const continue declare default ' +
     'do else elseif enddeclare endfor endforeach endif endswitch endwhile extends final ' +
@@ -100,6 +99,7 @@ const phpConfig = {
     },
     '<': function(stream, state) {
       let before
+      // eslint-disable-next-line no-cond-assign
       if (before = stream.match(/<<\s*/)) {
         const quoted = stream.eat(/['"]/)
         stream.eatWhile(/[\w\.]/)

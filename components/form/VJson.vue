@@ -1,5 +1,5 @@
 <template>
-  <code-mirror v-model="localValue" :options="{mode: 'application/json'}" @update:modelValue="onchange" />
+  <code-mirror v-model="localValue" :options="{mode: 'application/json', readOnly: disabled}" @update:modelValue="onchange" />
 </template>
 <script>
 import CodeMirror from '../CodeMirror'
@@ -21,12 +21,13 @@ export default {
   emits: ['update:modelValue'],
   data() {
     return {
+      valueType: isObject(this.$props.modelValue) ? 'object' : 'string',
       localValue: isObject(this.$props.modelValue) ? JSON.stringify(this.$props.modelValue) : this.$props.modelValue
     }
   },
   methods: {
     onchange() {
-      this.$emit('update:modelValue', this.localValue)
+      this.$emit('update:modelValue', this.valueType === 'object' ? JSON.parse(this.localValue) : this.localValue)
     }
   }
 }

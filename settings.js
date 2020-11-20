@@ -7,6 +7,7 @@ export const defaultSetting = {
   navBarNotice: '顶部消息提示',
   hasNewMessage: true,
   showPageJsonSchema: true,
+  loginTips: '登录信息提示',
   sso: [
     {
       title: '钉钉',

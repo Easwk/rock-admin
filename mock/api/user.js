@@ -115,6 +115,11 @@ export default [
             ]
           },
           {
+            path: '/example/chart',
+            name: '图表',
+            view: 'Chart'
+          },
+          {
             name: '列表',
             path: '#',
             icon: 'el-icon-help',

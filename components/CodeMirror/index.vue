@@ -83,10 +83,11 @@ export default {
     this.cm = CodeMirror(el, this.cmOptions)
     this.editor = this.cm.edit
     // CodeMirror.commands['selectAll'](this.cm)
-    const events = ['change', 'contextmenu', 'focus', 'keyup']
+    const events = ['change', 'focus', 'keyup']
     events.forEach(event => {
       this.cm.on(event, _.debounce(this['on' + event], 100))
     })
+    this.cm.on('contextmenu', this.oncontextmenu)
   },
   beforeUnmount() {
     this.destroy()

@@ -22,6 +22,7 @@ import CodeMirror from 'codemirror'
     }
 
     const out = tool.html(text, opts)
+    console.log(out)
     // cm.replaceRange(out, form, to)
   })
 })()
