@@ -17,7 +17,9 @@
 
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
-// import ResizeMixin from "./mixin/ResizeHandler";
+import { addListener, removeListener } from 'resize-detector'
+const { body } = document
+const WIDTH = 992 // refer to Bootstrap's responsive design
 
 export default {
   name: 'Layout',
@@ -26,7 +28,6 @@ export default {
     Sidebar,
     AppMain
   },
-  // mixins: [ResizeMixin],
   computed: {
     sidebar() {
       return this.$store.state.app.sidebar
@@ -46,9 +47,29 @@ export default {
       }
     }
   },
+  beforeMount() {
+    addListener(body, this.resizeHandler)
+  },
+  beforeUnmount() {
+    removeListener(body, this.resizeHandler)
+  },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+    },
+    isMobile() {
+      const rect = body.getBoundingClientRect()
+      return rect.width - 1 < WIDTH
+    },
+    resizeHandler() {
+      if (!document.hidden) {
+        const isMobile = this.isMobile()
+        this.$store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
+
+        if (isMobile) {
+          this.$store.dispatch('app/closeSideBar', { withoutAnimation: true })
+        }
+      }
     }
   }
 }
