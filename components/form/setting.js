@@ -16,7 +16,8 @@ export const componentMap = {
   color: 'el-color-picker',
   rate: 'el-rate',
   select: 'v-select',
-  switch: 'el-switch'
+  switch: 'el-switch',
+  json: 'v-json'
 }
 
 export const formOptions = {

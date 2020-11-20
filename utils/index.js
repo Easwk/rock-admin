@@ -507,3 +507,13 @@ export function uuidv4() {
     return v.toString(16)
   })
 }
+
+export function objFuncNames(obj) {
+  const arr = []
+  for (const i in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, i) && typeof obj[i] === 'function') {
+      arr.push(i)
+    }
+  }
+  return arr
+}

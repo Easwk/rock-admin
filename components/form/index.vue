@@ -55,6 +55,7 @@ import VSelect from './VSelect'
 import VRadio from './VRadio'
 import VCheckbox from './VChecbox'
 import VNumberRange from './VNumberRange'
+import VJson from './VJson'
 import { componentMap } from './setting'
 import { camelToSnake, ruleCompute, isArray, uuidv4 } from '../../utils'
 import _ from 'lodash'
@@ -62,7 +63,7 @@ import { makeFormOptions } from './setting'
 
 export default {
   name: 'VForm',
-  components: { VSelect, VRadio, VCheckbox, VNumberRange },
+  components: { VSelect, VRadio, VCheckbox, VNumberRange, VJson },
   provide() {
     return {
       formData: this.formData
