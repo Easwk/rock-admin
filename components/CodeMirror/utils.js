@@ -1,5 +1,10 @@
 import CodeMirror from 'codemirror'
 
+export function addNewLine(cm, text) {
+  const line = cm.getCursor()
+  cm.replaceRange(text, line)
+}
+
 export function synonyms(cm, keywords) {
   return new Promise(function(accept) {
     setTimeout(function() {

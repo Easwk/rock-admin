@@ -27,9 +27,8 @@ import './json'
 import './php'
 import { isJson, showErrorGutter, clearErrorGutter } from './json'
 import './formatting'
-
 import './mode/xphp'
-import { synonyms } from './hint'
+import { synonyms } from './utils'
 export default {
   name: 'CodeMirror',
   props: {
@@ -68,7 +67,13 @@ export default {
             // Tab: 'autocomplete',
             'Cmd-/': 'toggleComment',
             'Ctrl-F': this.format,
-            'Shift-Tab': this.removeLineIdent
+            'Shift-Tab': this.removeLineIdent,
+            'Ctrl-G': (cm) => {
+              const line = cm.getCursor()
+              const cmWidget = document.createElement('span')
+              cmWidget.className = 'callout'
+              cm.replaceRange('\n', line)
+            }
           }
         },
         this.$props.options,
@@ -118,9 +123,6 @@ export default {
     },
     format() {
       // // fixme format 后点击任意行终端报错问题
-      // const formatValue = JSON.stringify(JSON.parse(this.cm.getValue()), null, 2)
-      // this.cm.setValue(formatValue)
-      // this.cm.refresh()
       const { from, to } = this.getSelectedRange()
       this.cm.autoFormatRange(from, to)
     },
@@ -130,9 +132,7 @@ export default {
     oncontextmenu(cm, e) {
       e.preventDefault()
       this.showMenu = true
-      // 获取我们自定义的右键菜单
       const menu = this.$refs.menu
-      // 根据事件对象中鼠标点击的位置，进行定位
       menu.style.left = (e.clientX - 200) + 'px'
       menu.style.top = (e.clientY - 50) + 'px'
     },
@@ -141,8 +141,9 @@ export default {
     },
     onkeyup(cm, e) {
       console.log(e)
-      if (e.keyCode >= 56 && e.keyCode <= 90) {
-        const isSql = cm.getTokenAt(cm.getCursor()).state.curMode.name === 'sql'
+      if (e.keyCode >= 56 && e.keyCode <= 90 && e.ctrlKey === false) {
+        const state = cm.getTokenAt(cm.getCursor()).state
+        const isSql = this.state ? state.curMode.name === 'sql' : false
         const sqlKeywords = Object.keys(CodeMirror.mimeModes['text/x-mysql'].keywords)
         CodeMirror.commands.autocomplete(cm, isSql ? cm => synonyms(cm, sqlKeywords) : null, { completeSingle: false })
       }

@@ -1,17 +1,17 @@
 <template>
   <div>Test</div>
   <!--  <code-mirror v-model="code" :options="{mode: 'text/x-sql'}" />-->
-  <!--  <v-json v-model="json" :disabled="true" />-->
-  <!--  <code-mirror v-model="js" :options="{mode: 'htmlmixed'}" />-->
+<!--    <v-json v-model="json" />-->
+<!--    <code-mirror v-model="js" :options="{mode: 'htmlmixed'}" />-->
   <code-mirror v-model="php" :options="{mode: 'application/x-xphp'}" />
 </template>
 
 <script>
 import CodeMirror from 'rock-admin/components/CodeMirror'
-// import VJson from 'rock-admin/components/form/VJson'
+import VJson from 'rock-admin/components/form/VJson'
 export default {
   name: 'Test',
-  components: { CodeMirror },
+  components: { CodeMirror, VJson },
   data() {
     return {
       code: `-- SQL Mode for CodeMirror
@@ -56,7 +56,7 @@ SELECT SQL_NO_CACHE DISTINCT
     "longitude": "73.98"
   }
 }`,
-      js: '<table><tr><td>test 1</td></tr><tr><td>test 2</td></tr></table>',
+      js: '<table><tr><td>test 1</td>\n</tr><tr>\n<td>test 2</td></tr></table>',
       php: `<?php
 declare(strict_types=1);
 

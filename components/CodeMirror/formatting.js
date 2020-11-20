@@ -1,28 +1,40 @@
 import CodeMirror from 'codemirror'
+import { addNewLine } from './utils';
 // https://codemirror.net/2/demo/formatting.html
 (function() {
   // Applies automatic formatting to the specified range
-  CodeMirror.defineExtension('autoFormatRange', function(from, to) {
-    var cm = this
+  CodeMirror.defineExtension('autoFormatRange', function(fromLine, to) {
+    const cm = this
 
-    var text = cm.getRange(from, to)
+    const text = cm.getRange(fromLine, to)
     const tool = require('js-beautify')
 
-    var opts = {
-      indent_size: '4', // 缩进1的时候表示tab，其它数字表示多少个空格
-      indent_char: ' ', // 缩进字符
-      preserve_newlines: false, // 是否替换新行
-      insert_newlines: false, // css中是否插入新行
-      brace_style: 'collapse',
-      indent_scripts: 'normal',
-      jslint_happy: true,
-      keep_array_indentation: false, // 保留数组格式
-      space_after_anon_function: true,
-      space_before_conditional: true
+    const mode = cm.getOption('mode')
+    console.log(mode)
+    let out = ''
+    if (mode === 'application/json') {
+      out = JSON.stringify(JSON.parse(text), null, 2)
+    } else if (mode === 'htmlmixed') {
+      const opts = {
+        indent_size: '4', // 缩进1的时候表示tab，其它数字表示多少个空格
+        indent_char: ' ', // 缩进字符
+        preserve_newlines: false, // 是否替换新行
+        insert_newlines: false, // css中是否插入新行
+        brace_style: 'collapse',
+        indent_scripts: 'normal',
+        jslint_happy: true,
+        keep_array_indentation: false, // 保留数组格式
+        space_after_anon_function: true,
+        space_before_conditional: true
+      }
+      out = tool.html(text, opts)
     }
 
-    const out = tool.html(text, opts)
-    console.log(out)
-    // cm.replaceRange(out, form, to)
+    if (out) {
+      cm.replaceRange('', fromLine, to)
+      out.split('\n').forEach(item => {
+        addNewLine(cm, item + '\n')
+      })
+    }
   })
 })()
