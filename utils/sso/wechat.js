@@ -1,25 +1,23 @@
 import { strVarReplace, createIFrame } from '../'
 
-export default class {
-  elId = '';
-  appid = '';
-  agentid = '';
-  redirect_uri = '';
-  qrCodeUrl =
-    'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid={appid}&agentid={agentid}&redirect_uri={redirect_uri}&state={state}&login_type=jssdk&style={style}&href={href}';
-  iframe = {};
-  style = '';
-  href = '';
+export default function(options) {
+  this.elId = ''
+  this.appid = ''
+  this.agentid = ''
+  this.redirect_uri = ''
+  this.qrCodeUrl =
+    'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid={appid}&agentid={agentid}&redirect_uri={redirect_uri}&state={state}&login_type=jssdk&style={style}&href={href}'
+  this.iframe = {}
+  this.style = ''
+  this.href = ''
 
-  constructor(options) {
-    Object.keys(options).forEach(key => {
-      if (Object.prototype.hasOwnProperty.call(this, key)) {
-        this[key] = options[key]
-      }
-    })
-  }
+  Object.keys(options).forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(this, key)) {
+      this[key] = options[key]
+    }
+  })
 
-  getQrCodeUrl() {
+  this.getQrCodeUrl = () => {
     const data = {
       appid: this.appid,
       agentid: this.agentid,
@@ -31,14 +29,14 @@ export default class {
     return strVarReplace(this.qrCodeUrl, data)
   }
 
-  onScanSuccess(event) {
+  this.onScanSuccess = (event) => {
     const { origin, data } = event
     if (origin.indexOf('work.weixin.qq.com') > -1) {
       window.location.href = data
     }
   }
 
-  run() {
+  this.run = () => {
     this.iframe.src = this.getQrCodeUrl()
     const d = createIFrame({ elId: this.elId, attrs: this.iframe })
     d.onload = () => {
