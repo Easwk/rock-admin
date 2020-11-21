@@ -60,6 +60,7 @@ import { componentMap } from './setting'
 import { camelToSnake, ruleCompute, isArray, uuidv4 } from '../../utils'
 import _ from 'lodash'
 import { makeFormOptions } from './setting'
+import { defineComponent } from 'vue'
 
 export default {
   name: 'VForm',
@@ -141,10 +142,13 @@ export default {
             item.comp,
             {
               data: () => {
-                return item.comp.data
+                return Object.assign({}, item.comp.data, {
+                  formData: this.formData
+                })
               }
             }
           )
+          console.log(111, this.$options.components['VTpl' + item.field])
         }
         fieldMap[item.field] = item
         if (item.computed !== undefined) {
@@ -153,7 +157,7 @@ export default {
         item.props = this.getComponentProps(item)
       })
       return {
-        formData,
+        formData: formData,
         formRules,
         fieldMap,
         computeRules,

@@ -38,13 +38,15 @@ export default {
       return this.$router.options.routes.concat(this.remoteRouter)
     },
     activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
-      // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
+      const matched = this.$route.matched
+
+      for (let i = matched.length - 1; i > 0; i--) {
+        if (!matched[i].meta.hidden) {
+          return matched[i].path
+        }
       }
-      return path
+
+      return this.$route.path
     },
     showLogo() {
       return this.$store.state.settings.sidebarLogo

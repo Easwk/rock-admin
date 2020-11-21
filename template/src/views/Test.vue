@@ -1,6 +1,6 @@
 <template>
   <div>Test</div>
-  <!--  <code-mirror v-model="code" :options="{mode: 'text/x-sql'}" />-->
+    <code-mirror v-model="code" :options="{mode: 'text/x-sql'}" />
 <!--    <v-json v-model="json" />-->
 <!--    <code-mirror v-model="js" :options="{mode: 'htmlmixed'}" />-->
   <code-mirror v-model="php" :options="{mode: 'application/x-xphp'}" />

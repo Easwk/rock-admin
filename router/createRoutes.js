@@ -49,7 +49,7 @@ const transRoute = item => {
     path: getPath(item),
     name: item.name,
     component: getComponent(item),
-    meta: { title: item.name, icon: item.icon },
+    meta: { title: item.name, icon: item.icon, hidden: item.is_show !== undefined ? !item.is_show : false },
     hidden: item.is_show !== undefined ? !item.is_show : false,
     children: item.children !== undefined ? item.children.map(each => transRoute(each)) : []
   }
