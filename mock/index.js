@@ -10,8 +10,12 @@ requireAll(allApi).forEach((item) => {
   defaultMocksApi = defaultMocksApi.concat(item.default)
 })
 
-export function mockXHR(mockApis = []) {
-  (defaultMocksApi.concat(mockApis)).forEach(item => {
+export function mockXHR(mockApis = [], disableDefaultMockApi = false) {
+  let apis = mockApis
+  if (disableDefaultMockApi === false) {
+    apis = apis.concat(defaultMocksApi)
+  }
+  apis.forEach(item => {
     mock(item.url, item.type, item.response)
   })
 }

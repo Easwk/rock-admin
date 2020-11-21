@@ -25,7 +25,16 @@ const defaultUi = {
 export default (options = {}) => {
   const app = createApp(App)
 
-  const { ElementOptions, config, routes, globalComps, mockApis, nav } = options
+  const {
+    ElementOptions,
+    config,
+    routes,
+    globalComps,
+    mockApis,
+    disableDefaultMockApi,
+    nav,
+    use
+  } = options
 
   store.dispatch('app/setConfig', {
     nav: nav || []
@@ -39,7 +48,7 @@ export default (options = {}) => {
   // mock api
   if (process.env.VUE_APP_ENABLE_MOCK === 'true') {
     const { mockXHR } = require('./mock')
-    mockXHR(mockApis || [])
+    mockXHR(mockApis || [], disableDefaultMockApi === undefined ? false : !!disableDefaultMockApi)
   }
 
   app.config.globalProperties.$http = request;
@@ -47,8 +56,18 @@ export default (options = {}) => {
   (routes || []).forEach(item => {
     router.addRoute(item)
   })
+
   app.use(store)
     .use(router)
-    .use(ElementPlus, ElementOptions || defaultUi)
+    .use(ElementPlus, ElementOptions || defaultUi);
+
+  (use || []).forEach(item => {
+    if (typeof item === 'object') {
+      app.use(item)
+    } else {
+      app.use(item[0], item[1])
+    }
+  })
+
   router.isReady().then(() => app.mount('#app'))
 }

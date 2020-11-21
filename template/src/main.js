@@ -24,5 +24,6 @@ const nav = [
 ]
 AppMain({
   config: { sidebarLogo: true, title: 'Local' },
-  nav: nav
+  nav: nav,
+  disableDefaultMockApi: false
 })
