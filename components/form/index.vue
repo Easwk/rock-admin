@@ -60,7 +60,6 @@ import { componentMap } from './setting'
 import { camelToSnake, ruleCompute, isArray, uuidv4 } from '../../utils'
 import _ from 'lodash'
 import { makeFormOptions } from './setting'
-import { defineComponent } from 'vue'
 
 export default {
   name: 'VForm',

@@ -68,7 +68,7 @@
           class="sso-item"
           @click="loginType = 'local'"
         >
-          <icon name="zhongjianren" />
+          <span>账号</span><icon name="zhongjianren" />
         </div>
         <div
           v-for="(item, index) in sso"
@@ -76,7 +76,7 @@
           class="sso-item"
           @click="changLoginChannel(item)"
         >
-          <icon :name="item.icon" />
+          <span>{{ item.title }}</span><icon :name="item.icon" />
         </div>
       </div>
     </div>
