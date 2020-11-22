@@ -9,7 +9,6 @@ module.exports = {
   resolve: {
     alias: {
       '@': resolve('src'),
-      'rock-admin': resolve('../'),
       vue$: 'vue/dist/vue.esm-bundler.js'
     }
   }
