@@ -5,31 +5,13 @@
 
 打造一套完整的低代码后台构建工具集, 包含前端和后端的完整链路, 仅需要一些模板化的配置, 即可构造常见的后台功能.
 
-### 如何在三步之内构建一个完整的后台?
+### 快速启动
 
-1. 安装 `rock-admin`
+使用本项目提供的模板快速创建本地项目
 
 ```shell
-mkdir my-admin
+vue create --preset daodao97/rock-admin my-admin
 cd my-admin
-yarn add rock-admin
-```
-
-2. vue项目的基础配置
- 
-`vue.config.js`, `.env` , `package.json` 等开发/构建的配置
-
-详细可见本项目 `example` 目录, 可以直接
-
-3. 编写入口文件
-
-```javascript
-// src/main.js
-
-import AppMain from "rock-admin";
-AppMain({
-  config: {sidebarLogo: true, title: "Local"}
-});
 ```
 
 此时执行 `yarn serve` 即可得到一个完整功能的后台了

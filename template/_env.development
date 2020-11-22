@@ -6,6 +6,6 @@ VUE_APP_BASE_API = '/api'
 VUE_APP_ENABLE_MOCK=true
 VUE_APP_PROXY_TARGET='http://localhost:8080'
 #VUE_APP_ENABLE_MOCK=false
-#VUE_APP_PROXY_TARGET='http://127.0.0.1:9501/'
+#VUE_APP_PROXY_TARGET='https://www.fastmock.site/mock/b328c3f8cfdaf6017b0b16a7da41cb6f/jrender'
 
 VUE_CLI_BABEL_TRANSPILE_MODULES = true
