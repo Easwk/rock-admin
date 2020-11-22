@@ -165,7 +165,6 @@ _.merge(sql_mode_config, CodeMirror.mimeModes['text/x-mysql'], {
   }
 })
 
-console.log(sql_mode_config)
 CodeMirror.defineMIME('text/x-xmysql', sql_mode_config)
 
 CodeMirror.defineMode('php', function(config, parserConfig) {

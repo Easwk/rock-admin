@@ -102,9 +102,13 @@ export default {
     getSubProps() {
       const { type, form, table } = this.getBtnProps()
       if (type === 'form') {
+        form.saveApi = strVarReplace(form.saveApi, this.metaData)
+        form.infoApi = strVarReplace(form.infoApi, this.metaData)
         return Object.assign({}, form)
       }
       if (type === 'table') {
+        table.listApi = strVarReplace(table.listApi, this.metaData)
+        table.infoApi = strVarReplace(table.infoApi, this.metaData)
         return Object.assign({}, table)
       }
       return {}
