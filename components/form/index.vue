@@ -142,7 +142,7 @@ export default {
             {
               data: () => {
                 return Object.assign({}, item.comp.data, {
-                  formData: this.formData
+                  _formData: this.formData
                 })
               }
             }
