@@ -5,10 +5,8 @@ export default function(options) {
   this.appid = ''
   this.redirect_uri = ''
   this.style = ''
-  this.qrCodeUrl =
-    'https://login.dingtalk.com/login/qrcode.htm?goto={goto}&style={style}'
-  this.reloadUrl =
-    'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?response_type=code&scope=snsapi_login&state=&appid={appid}&redirect_uri={redirect_uri}'
+  this.qrCodeUrl = 'https://login.dingtalk.com/login/qrcode.htm?goto={goto}&style={style}'
+  this.reloadUrl = 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?response_type=code&scope=snsapi_login&state=&appid={appid}&redirect_uri={redirect_uri}'
   this.iframe = {}
   Object.keys(options).forEach(key => {
     if (Object.prototype.hasOwnProperty.call(this, key)) {

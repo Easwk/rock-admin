@@ -6,6 +6,7 @@
 </template>
 <script>
 import VTable from '../components/table/index'
+// import VNotification from '../components/Notification'
 export default {
   name: 'Table',
   components: { VTable },

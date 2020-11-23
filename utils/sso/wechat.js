@@ -5,8 +5,7 @@ export default function(options) {
   this.appid = ''
   this.agentid = ''
   this.redirect_uri = ''
-  this.qrCodeUrl =
-    'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid={appid}&agentid={agentid}&redirect_uri={redirect_uri}&state={state}&login_type=jssdk&style={style}&href={href}'
+  this.qrCodeUrl = 'https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid={appid}&agentid={agentid}&redirect_uri={redirect_uri}&state={state}&login_type=jssdk&style={style}&href={href}'
   this.iframe = {}
   this.style = ''
   this.href = ''

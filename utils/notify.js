@@ -15,10 +15,10 @@ const notify = () => {
     return () => {}
   }
 
-  const defaultNoticeTitle = '选品系统商品采集'
+  const defaultNoticeTitle = ''
   const defaultNoticeOptions = {
     requireInteraction: true,
-    icon: 'http://app.mengtuiapp.com/favicon.ico'
+    icon: 'http://rock-admin.com/favicon.ico'
   }
 
   /**

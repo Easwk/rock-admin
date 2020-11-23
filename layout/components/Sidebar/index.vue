@@ -13,6 +13,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
+        <!--<div class="menu-section">模块</div>-->
         <sidebar-item
           v-for="route in routes"
           :key="route.path"
@@ -73,4 +74,13 @@ export default {
   /*  height: 40px;*/
   /*  line-height: 40px;*/
   /*}*/
+  .menu-section {
+    height: 30px;
+    font-size: 14px;
+    display:table-cell;
+    vertical-align:bottom;
+    padding-left: 20px;
+    color: #97a8be;
+    padding-top: 5px;
+  }
 </style>
