@@ -233,9 +233,7 @@ export const simpleForm = {
       comp: {
         template:
           '<div>{{msg}} 当前的表单数据是: <pre>{{JSON.stringify(formData, null, 2)}}</pre></div>',
-        inject: ['formData'],
         data() {
-          console.log(this, this.$refs)
           return {
             msg: 'i am a template component'
           }
@@ -429,8 +427,8 @@ export const simpleTable = {
     {
       type: 'form',
       form: {
-        infoApi: '/form/{id}',
-        saveApi: '/save'
+        infoApi: '/user/{id}',
+        saveApi: '/user/{id}'
       },
       btnProps: {
         icon: 'el-icon-edit',
@@ -462,6 +460,8 @@ export const simpleTable = {
   ]
 }
 
+const regUserId = /api\/user\/\d+/
+
 export default [
   {
     url: '/user/form_schema',
@@ -479,6 +479,16 @@ export default [
     url: '/user/list_schema',
     type: 'get',
     response: () => response(simpleTable)
+  },
+  {
+    url: regUserId,
+    type: 'get',
+    response: () => response(simpleForm.formItems)
+  },
+  {
+    url: regUserId,
+    type: 'post',
+    response: () => response({})
   },
   {
     url: '/user/list',

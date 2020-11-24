@@ -142,12 +142,11 @@ export default {
             {
               data: () => {
                 return Object.assign({}, item.comp.data, {
-                  _formData: this.formData
+                  formData: this.formData
                 })
               }
             }
           )
-          console.log(111, this.$options.components['VTpl' + item.field])
         }
         fieldMap[item.field] = item
         if (item.computed !== undefined) {
