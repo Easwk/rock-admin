@@ -114,7 +114,7 @@ export default {
       this.$http
         .request({ method: 'GET', url: this.$props.infoApi })
         .then(({ payload }) => {
-          const initData = this.init(payload)
+          const initData = this.init(payload.formItems || [])
           Object.keys(initData).forEach((key) => {
             this[key] = initData[key]
           })

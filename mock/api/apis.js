@@ -11,9 +11,6 @@ export const simpleForm = {
         click: '() => console.error(33333333)'
       }
     },
-    section: {
-      type: 'card'
-    }
   },
   formItems: [
     {
@@ -466,7 +463,7 @@ export default [
   {
     url: '/user/form_schema',
     type: 'get',
-    response: () => response(simpleForm.formItems)
+    response: () => response(simpleForm)
   },
   {
     url: '/user/save',
@@ -483,7 +480,7 @@ export default [
   {
     url: regUserId,
     type: 'get',
-    response: () => response(simpleForm.formItems)
+    response: () => response(simpleForm)
   },
   {
     url: regUserId,
