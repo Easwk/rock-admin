@@ -1,6 +1,6 @@
 import axios from 'axios'
-import Message from 'element-plus/lib/message'
-import MessageBox from 'element-plus/lib/message-box'
+import Message from 'element-plus/lib/el-message'
+import MessageBox from 'element-plus/lib/el-message-box'
 import store from '../store'
 import { getToken } from './auth'
 

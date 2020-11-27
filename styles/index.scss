@@ -71,3 +71,8 @@ div:focus {
   fill: currentColor;
   overflow: hidden;
 }
+
+.el-dialog {
+  max-height: 80%;
+  overflow-y: auto;
+}
