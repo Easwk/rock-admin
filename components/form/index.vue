@@ -1,6 +1,7 @@
 <template>
   <el-form
     ref="formData"
+    v-loading="loading"
     class="v-form"
     :model="formData"
     :rules="formRules"
@@ -94,9 +95,10 @@ export default {
       default: false
     }
   },
-  emits: ['submit', 'reset', 'field-change', 'update:modelValue'],
+  emits: ['submit', 'reset', 'fieldchange', 'update:modelValue'],
   data() {
     return {
+      loading: false,
       props: this.$props,
       formData: {}, // 表单数据
       formRules: [], // 验证规则
@@ -112,7 +114,6 @@ export default {
       handler() {
         const { formItems, options } = this.props
         const initData = this.init(formItems || [])
-        console.log(initData)
         Object.keys(initData).forEach((key) => {
           this[key] = initData[key]
         })
@@ -123,8 +124,10 @@ export default {
   },
   beforeCreate() {
     if (this.$props.infoApi) {
+      this.loading = true
       this.$http.request({ method: 'GET', url: this.$props.infoApi }).then(({ payload }) => {
         this.props = payload
+        this.loading = false
       })
     }
   },
@@ -176,8 +179,9 @@ export default {
           this.$props.saveApi &&
             this.$http
               .request({ method: 'POST', url: this.$props.saveApi })
-              .then(({ payload }) => {
+              .then(({ payload, message }) => {
                 console.log('form save success', payload)
+                this.$message({ type: 'success', message: message || '保存成功' })
               })
           this.$emit('submit', this.formData)
         } else {
@@ -217,7 +221,7 @@ export default {
     onFiledChange(field, value) {
       this.formData[field] = value
       this.computedWhen(field, value)
-      this.$emit('field-change', { field, value })
+      this.$emit('fieldchange', { field, value })
       this.$emit('update:modelValue', this.formData)
     },
     computedWhen(field, value) {

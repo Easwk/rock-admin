@@ -9,6 +9,7 @@
         :options="filterFormOptions"
         :form-items="tableFilter"
         @submit="searchAction"
+        @reset="load"
       />
     </slot>
   </el-card>
@@ -150,7 +151,7 @@ export default {
         labelWidth: 'auto',
         submitButton: true,
         cancelButton: {
-          text: '重置1'
+          text: '重置'
         }
       },
       tableNormalButton: this.$props.normalButton,
