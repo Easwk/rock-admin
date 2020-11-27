@@ -1,6 +1,5 @@
 <template>
   <el-form
-    :key="uniqueId"
     ref="formData"
     class="v-form"
     :model="formData"
@@ -57,7 +56,7 @@ import VCheckbox from './VChecbox'
 import VNumberRange from './VNumberRange'
 import VJson from './VJson'
 import { componentMap } from './setting'
-import { camelToSnake, ruleCompute, isArray, uuidv4 } from '../../utils'
+import { camelToSnake, ruleCompute, isArray } from '../../utils'
 import _ from 'lodash'
 import { makeFormOptions } from './setting'
 
@@ -97,28 +96,36 @@ export default {
   },
   emits: ['submit', 'reset', 'field-change', 'update:modelValue'],
   data() {
-    return Object.assign(
-      {
-        uniqueId: uuidv4()
-      },
-      this.init(this.$props.formItems)
-    )
+    return {
+      props: this.$props,
+      formData: {}, // 表单数据
+      formRules: [], // 验证规则
+      fieldMap: {}, // field -> item map
+      computeRules: [], // 动态计算规则
+      formItemsSource: [], // 原始数据
+      cacheItems: [],
+      formOptions: makeFormOptions(this.$props.options)
+    }
   },
-  computed: {
-    formOptions() {
-      return makeFormOptions(this.$props.options)
+  watch: {
+    props: {
+      handler() {
+        const { formItems, options } = this.props
+        const initData = this.init(formItems || [])
+        console.log(initData)
+        Object.keys(initData).forEach((key) => {
+          this[key] = initData[key]
+        })
+        this.formOptions = makeFormOptions(options)
+      },
+      immediate: true
     }
   },
   beforeCreate() {
     if (this.$props.infoApi) {
-      this.$http
-        .request({ method: 'GET', url: this.$props.infoApi })
-        .then(({ payload }) => {
-          const initData = this.init(payload.formItems || [])
-          Object.keys(initData).forEach((key) => {
-            this[key] = initData[key]
-          })
-        })
+      this.$http.request({ method: 'GET', url: this.$props.infoApi }).then(({ payload }) => {
+        this.props = payload
+      })
     }
   },
   methods: {
