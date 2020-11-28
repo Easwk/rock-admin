@@ -2,6 +2,7 @@ import _ from 'lodash'
 export const simpleForm = {
   submitApi: '/save',
   options: {
+    column: 3,
     submitButton: {
       text: '提交'
     },
@@ -10,15 +11,14 @@ export const simpleForm = {
       on: {
         click: '() => console.error(33333333)'
       }
-    },
+    }
   },
   formItems: [
     {
       type: 'radio',
       field: 'radio',
       label: '单选框',
-      info:
-        '表单控件支持提示信息, 可写html <a class="el-link el-link--primary is-underline" target="_blank" href="http://github.com/daodao97">文档</a>',
+      info: '表单控件支持提示信息, 可写html <a class="el-link el-link--primary is-underline" target="_blank" href="http://github.com/daodao97">文档</a>',
       options: [
         {
           value: 1,
@@ -29,7 +29,10 @@ export const simpleForm = {
           label: '选项2'
         }
       ],
-      value: 1
+      value: 1,
+      col: {
+        span: 12
+      }
     },
     {
       type: 'input',
@@ -50,7 +53,10 @@ export const simpleForm = {
         field: 'radio',
         value: 1
       },
-      info: '当前控件依赖 单选框 的值, 仅在 选项1 下显示'
+      info: '当前控件依赖 单选框 的值, 仅在 选项1 下显示',
+      col: {
+        span: 12
+      }
     },
     {
       type: 'number',
@@ -68,12 +74,18 @@ export const simpleForm = {
             label: '数字区间2'
           }
         }
+      },
+      col: {
+        span: 12
       }
     },
     {
       type: 'number-range',
       field: 'range_number',
-      label: '数字区间'
+      label: '数字区间',
+      col: {
+        span: 12
+      }
     },
     {
       type: 'checkbox',
@@ -95,8 +107,10 @@ export const simpleForm = {
           set: [2, 3]
         }
       ],
-      info:
-        '动态计算, 当 数字 字段的值 <= 10 时, 复选框1将被选中, > 10 时, 复选框2,3 将被选中'
+      info: '动态计算, 当 数字 字段的值 <= 10 时, 复选框1将被选中, > 10 时, 复选框2,3 将被选中',
+      col: {
+        span: 8
+      }
     },
     {
       type: 'date',
@@ -105,7 +119,10 @@ export const simpleForm = {
       props: {
         disabled: true
       },
-      info: '禁用控件'
+      info: '禁用控件',
+      col: {
+        span: 8
+      }
     },
     {
       type: 'date',
@@ -119,6 +136,9 @@ export const simpleForm = {
         endPlaceholder: '结束日期',
         format: 'yyyy-MM-dd',
         valueFormat: 'yyyy-MM-dd'
+      },
+      col: {
+        span: 8
       }
     },
     {

@@ -9,29 +9,33 @@
     :inline="formOptions.inline"
     :label-position="formOptions.labelPosition"
   >
-    <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
-      <el-form-item v-if="canShow(item)" :label="item.label" :prop="item.field">
-        <template #label>
-          {{ item.label }}
-          <el-tooltip v-if="item.info && formOptions.inline" placement="top">
-            <template #content>
-              <span v-html="item.info" />
+    <el-row>
+      <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
+        <el-col v-bind="item.col || {span: 24}">
+          <el-form-item v-if="canShow(item)" :label="item.label" :prop="item.field">
+            <template #label>
+              {{ item.label }}
+              <el-tooltip v-if="item.info && formOptions.inline" placement="top">
+                <template #content>
+                  <span v-html="item.info" />
+                </template>
+                <i class="el-icon-warning-outline" />
+              </el-tooltip>
             </template>
-            <i class="el-icon-warning-outline" />
-          </el-tooltip>
-        </template>
-        <component
-          :is="getComponentName(item.type)"
-          v-model="formData[item.field]"
-          v-bind="item.props || {}"
-          @update:modelValue="(val) => onFiledChange(item.field, val)"
-        />
-        <div v-if="item.info && !formOptions.inline" class="form-item-info">
-          <i class="el-icon-warning-outline" />
-          <span v-html="item.info" />
-        </div>
-      </el-form-item>
-    </template>
+            <component
+              :is="getComponentName(item.type)"
+              v-model="formData[item.field]"
+              v-bind="item.props || {}"
+              @update:modelValue="(val) => onFiledChange(item.field, val)"
+            />
+            <div v-if="item.info && !formOptions.inline" class="form-item-info">
+              <i class="el-icon-warning-outline" />
+              <span v-html="item.info" />
+            </div>
+          </el-form-item>
+        </el-col>
+      </template>
+    </el-row>
     <el-form-item
       v-if="formOptions.submitButton.show || formOptions.cancelButton.show"
     >
@@ -89,10 +93,6 @@ export default {
       default: () => {
         return {}
       }
-    },
-    removeLabelWidth: {
-      type: Boolean,
-      default: false
     }
   },
   emits: ['submit', 'reset', 'fieldchange', 'update:modelValue'],
@@ -106,18 +106,18 @@ export default {
       computeRules: [], // 动态计算规则
       formItemsSource: [], // 原始数据
       cacheItems: [],
-      formOptions: makeFormOptions(this.$props.options)
+      formOptions: {}
     }
   },
   watch: {
     props: {
       handler() {
         const { formItems, options } = this.props
+        this.formOptions = makeFormOptions(options || this.$props.options)
         const initData = this.init(formItems || [])
         Object.keys(initData).forEach((key) => {
           this[key] = initData[key]
         })
-        this.formOptions = makeFormOptions(options)
       },
       immediate: true
     }
@@ -163,6 +163,9 @@ export default {
           computeRules[item.field] = item.computed
         }
         item.props = this.getComponentProps(item)
+        if (this.formOptions.column !== undefined) {
+          item.col = { span: 24 / this.formOptions.column }
+        }
       })
       return {
         formData: formData,
