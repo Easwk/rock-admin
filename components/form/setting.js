@@ -1,5 +1,8 @@
 import _ from 'lodash'
 import { isBool } from '../../utils'
+import { reactive } from 'vue'
+
+export const formData = reactive({})
 
 export const componentMap = {
   input: 'el-input',

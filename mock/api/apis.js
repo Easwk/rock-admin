@@ -77,7 +77,8 @@ export const simpleForm = {
       },
       col: {
         span: 12
-      }
+      },
+      value: 4
     },
     {
       type: 'number-range',
@@ -204,7 +205,8 @@ export const simpleForm = {
         { value: 1, label: '备选项1' },
         { value: 2, label: '备选项2' },
         { value: 3, label: '备选项3' }
-      ]
+      ],
+      value: []
     },
     {
       type: 'color',
@@ -248,12 +250,12 @@ export const simpleForm = {
       field: 'p3',
       label: '自定义',
       comp: {
-        template:
-          '<div>{{msg}} 当前的表单数据是: <pre>{{JSON.stringify(formData, null, 2)}}</pre></div>',
-        data() {
-          return {
-            msg: 'i am a template component'
-          }
+        template: '<div>{{ msg }}<br/>当前的表单数据是:<pre>{{JSON.stringify(formData, null, 2)}}</pre><el-button @click="onclick">click</el-button></div>',
+        data: {
+          msg: 'this is custom data'
+        },
+        methods: {
+          onclick: '() => { console.log(this)}'
         }
       },
       info: '在通用表单控件无法满足需求时, 可以编写 `template` 模板组件'

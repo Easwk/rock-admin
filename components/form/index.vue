@@ -9,64 +9,63 @@
     :inline="formOptions.inline"
     :label-position="formOptions.labelPosition"
   >
-    <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
-      <el-form-item v-if="canShow(item)" :label="item.label" :prop="item.field">
-        <template #label>
-          {{ item.label }}
-          <el-tooltip v-if="item.info && formOptions.inline" placement="top">
-            <template #content>
-              <span v-html="item.info" />
-            </template>
-            <i class="el-icon-warning-outline" />
-          </el-tooltip>
+    <el-row>
+      <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
+        <template v-if="formOptions.inline === true">
+          <form-item
+            v-if="canShow(item)"
+            v-model="formData[item.field]"
+            :form-options="formOptions"
+            :item="item"
+            @update:modelValue="(val) => onFiledChange(item.field, val)"
+          />
         </template>
-        <component
-          :is="getComponentName(item.type)"
-          v-model="formData[item.field]"
-          v-bind="item.props || {}"
-          @update:modelValue="(val) => onFiledChange(item.field, val)"
+        <template v-else>
+          <el-col v-bind="item.col">
+            <form-item
+              v-if="canShow(item)"
+              v-model="formData[item.field]"
+              :form-options="formOptions"
+              :item="item"
+              @update:modelValue="(val) => onFiledChange(item.field, val)"
+            />
+          </el-col>
+        </template>
+      </template>
+      <template v-if="formOptions.inline === true">
+        <form-action
+          :form-options="formOptions"
+          @submit="submitForm('formData')"
+          @cancel="resetForm('formData')"
         />
-        <div v-if="item.info && !formOptions.inline" class="form-item-info">
-          <i class="el-icon-warning-outline" />
-          <span v-html="item.info" />
-        </div>
-      </el-form-item>
-    </template>
-    <el-form-item
-      v-if="formOptions.submitButton.show || formOptions.cancelButton.show"
-    >
-      <el-button
-        v-if="formOptions.submitButton.show"
-        v-bind="formOptions.submitButton"
-        @click="submitForm('formData')"
-      >{{ formOptions.submitButton.text }}
-      </el-button>
-      <el-button
-        v-if="formOptions.cancelButton.show"
-        v-bind="formOptions.cancelButton"
-        @click="resetForm('formData')"
-      >{{ formOptions.cancelButton.text }}</el-button>
-    </el-form-item>
+      </template>
+      <template v-else>
+        <el-col :span="24">
+          <form-action
+            :form-options="formOptions"
+            @submit="submitForm('formData')"
+            @cancel="resetForm('formData')"
+          />
+        </el-col>
+      </template>
+    </el-row>
   </el-form>
 </template>
 
 <script>
-import VSelect from './VSelect'
-import VRadio from './VRadio'
-import VCheckbox from './VChecbox'
-import VNumberRange from './VNumberRange'
-import VJson from './VJson'
 import { componentMap } from './setting'
-import { camelToSnake, ruleCompute, isArray } from '../../utils'
+import { camelToSnake, ruleCompute, isArray, showEleByClassName } from '../../utils'
 import _ from 'lodash'
-import { makeFormOptions } from './setting'
+import { makeFormOptions, formData } from './setting'
+import FormAction from './FormAction'
+import FormItem from './FormItem'
 
 export default {
   name: 'VForm',
-  components: { VSelect, VRadio, VCheckbox, VNumberRange, VJson },
+  components: { FormAction, FormItem },
   provide() {
     return {
-      formData: this.formData
+      formData: Symbol(this.formData)
     }
   },
   props: {
@@ -96,7 +95,7 @@ export default {
     return {
       loading: false,
       props: this.$props,
-      formData: {}, // 表单数据
+      formData: undefined, // 表单数据
       formRules: [], // 验证规则
       fieldMap: {}, // field -> item map
       computeRules: [], // 动态计算规则
@@ -140,20 +139,6 @@ export default {
         if (item.rules !== undefined) {
           formRules[item.field] = item.rules
         }
-        if (item.type === 'template') {
-          item.type = 'v-tpl' + item.field
-          this.$options.components['VTpl' + item.field] = Object.assign(
-            {},
-            item.comp,
-            {
-              data: () => {
-                return Object.assign({}, item.comp.data, {
-                  formData: this.formData
-                })
-              }
-            }
-          )
-        }
         fieldMap[item.field] = item
         if (item.computed !== undefined) {
           computeRules[item.field] = item.computed
@@ -182,9 +167,11 @@ export default {
                 console.log('form save success', payload)
                 this.$message({ type: 'success', message: message || '保存成功' })
               })
+          console.log('formData', this.formData)
           this.$emit('submit', this.formData)
         } else {
           console.log('error submit!!')
+          showEleByClassName('is-error')
           return false
         }
       })
@@ -222,6 +209,9 @@ export default {
       this.computedWhen(field, value)
       this.$emit('fieldchange', { field, value })
       this.$emit('update:modelValue', this.formData)
+      Object.keys(this.formData).forEach(key => {
+        formData[key] = this.formData[key]
+      })
     },
     computedWhen(field, value) {
       const rule = this.computeRules[field]
@@ -253,14 +243,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.form-item-info {
-  color: #909399;
-  font-size: 12px;
-  line-height: 1.5;
-  ::v-deep(*) {
-    font-size: 12px;
-    line-height: 1.5;
-  }
-}
-</style>
+
