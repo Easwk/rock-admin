@@ -19,7 +19,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <v-button :buttons="makeBatchButton(tableBatchButton)" />
-          <div v-if="selectedInfoPosition === 'afterBatchButton'" class="selected-info">
+          <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'afterBatchButton'" class="selected-info">
             <span v-html="selectedInfo" />
           </div>
         </el-col>
@@ -81,13 +81,13 @@
     </slot>
     <el-row>
       <el-col :span="12">
-        <div v-if="selectedInfoPosition === 'beforePagination'" class="selected-info">
+        <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
           <span v-html="selectedInfo" />
         </div>
       </el-col>
       <el-col :span="12">
         <slot name="page">
-          <div v-if="tableShowPagination" class="table-pageination">
+          <div v-if="tableShowPagination" class="table-pagination">
             <el-pagination
               :key="paginationKey"
               background
@@ -161,7 +161,7 @@ export default {
     },
     selectedNotice: {
       type: [String, Object],
-      default: '当前共勾选: {selectedCount} 条'
+      default: ''
     }
   },
   data() {
@@ -365,7 +365,7 @@ export default {
   color: #909399;
   font-size: 13px;
 }
-.table-pageination {
+.table-pagination {
   text-align: right;
   padding: 10px 0;
   ::v-deep(.el-pagination) {

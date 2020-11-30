@@ -476,7 +476,8 @@ export const simpleTable = {
         type: 'primary'
       }
     }
-  ]
+  ],
+  selectedNotice: '当前共勾选: {selectedCount} 条'
 }
 
 const regUserId = /api\/user\/\d+/

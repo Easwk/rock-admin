@@ -1,5 +1,6 @@
 import { strVarReplace } from '../../utils'
 import { defineAsyncComponent } from 'vue'
+import MessageBox from 'element-plus/lib/el-message-box'
 
 export default {
   emits: ['click'],
@@ -65,18 +66,29 @@ export default {
           this.showContainer = true
         },
         api: () => {
-          // todo request confirm
-          const options = Object.assign(
+          MessageBox.confirm(
+            this.text ? `确认要${this.text}吗?` : '确认要执行该操作吗?',
+            '操作确认',
             {
-              method: 'GET',
-              data: this.$props.injectData
-            },
-            this.getBtnProps().api
-          )
-          options.url = strVarReplace(options.url, this.$props.metaData)
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }
+          ).then(() => {
+            const options = Object.assign(
+              {
+                method: 'GET',
+                data: this.$props.injectData
+              },
+              this.getBtnProps().api
+            )
+            options.url = strVarReplace(options.url, this.$props.metaData)
 
-          this.$http.request(options).then(({ payload }) => {
-            console.log('api success', payload)
+            this.$http.request(options).then(({ payload }) => {
+              console.log('api success', payload)
+            })
+          }).catch(() => {
+            console.log('cancel')
           })
         },
         table: () => {
