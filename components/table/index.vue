@@ -19,6 +19,9 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <v-button :buttons="makeBatchButton(tableBatchButton)" />
+          <div v-if="selectedInfoPosition === 'afterBatchButton'" class="selected-info">
+            <span v-html="selectedInfo" />
+          </div>
         </el-col>
         <el-col :span="12" class="normal-button">
           <v-button :buttons="makeNormalButton(tableNormalButton)" />
@@ -51,9 +54,9 @@
           <!--    表头    -->
           <template #header>
             <span>{{ item.label }}</span>
-            <el-tooltip v-if="item.info" effect="dark">
+            <el-tooltip v-if="item.info" effect="dark" placement="top-start">
               <i class="el-icon-warning-outline" />
-              <template #content> <span v-html="item.info" /> </template>
+              <template #content><span v-html="item.info" /></template>
             </el-tooltip>
           </template>
           <!--    单元格    -->
@@ -76,21 +79,30 @@
         <template #empty> 没有数据 </template>
       </el-table>
     </slot>
-    <slot name="page">
-      <div class="table-pageination">
-        <el-pagination
-          :key="paginationKey"
-          background
-          :page-size="page.pageSize"
-          :page-sizes="page.sizes"
-          :current-page="page.currentPage"
-          layout="total, sizes, prev, pager, next"
-          :total="page.total"
-          @size-change="pageSizesChange"
-          @current-change="(page) => currentPageChange(page)"
-        />
-      </div>
-    </slot>
+    <el-row>
+      <el-col :span="12">
+        <div v-if="selectedInfoPosition === 'beforePagination'" class="selected-info">
+          <span v-html="selectedInfo" />
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <slot name="page">
+          <div v-if="tableShowPagination" class="table-pageination">
+            <el-pagination
+              :key="paginationKey"
+              background
+              :page-size="page.pageSize"
+              :page-sizes="page.sizes"
+              :current-page="page.currentPage"
+              layout="total, sizes, prev, pager, next"
+              :total="page.total"
+              @size-change="pageSizesChange"
+              @current-change="(page) => currentPageChange(page)"
+            />
+          </div>
+        </slot>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 
@@ -98,7 +110,8 @@
 import Cells from './cell/index'
 import VForm from '../form'
 import VButton from '../button/VButton'
-import { firstUpperCase, isArray } from '../../utils'
+import { firstUpperCase, isArray, strVarReplace, isObject } from '../../utils'
+import pipe from '../../utils/pipe'
 
 export default {
   name: 'VTable',
@@ -141,6 +154,14 @@ export default {
     rowButton: {
       type: Array,
       default: () => []
+    },
+    showPagination: {
+      type: Boolean,
+      default: true
+    },
+    selectedNotice: {
+      type: [String, Object],
+      default: '当前共勾选: {selectedCount} 条'
     }
   },
   data() {
@@ -160,6 +181,8 @@ export default {
       tableHeaders: this.$props.headers,
       tableFilter: this.$props.filter,
       tableList: this.$props.list,
+      tableSelectedNotice: this.$props.selectedNotice,
+      tableShowPagination: this.$props.showPagination,
       selectionRows: [],
       page: {
         pageSize: 20,
@@ -170,6 +193,31 @@ export default {
       paginationKey: 0,
       filterForm: {},
       loading: false
+    }
+  },
+  computed: {
+    selectedInfoPosition() {
+      return isObject(this.tableSelectedNotice) ? this.tableSelectedNotice.position : 'beforePagination'
+    },
+    selectedInfo() {
+      const data = {
+        selectedCount: this.selectionRows.length
+      }
+      const tpl = isObject(this.tableSelectedNotice) ? this.tableSelectedNotice.text : this.tableSelectedNotice
+      const match = tpl.match(/{([\s\S]*?)}/g).map(item => item.replace('{', '').replace('}', ''))
+      const fields = this.tableHeaders.map(item => item.field)
+      for (const i in match) {
+        const tokens = match[i].split('|')
+        if (tokens.length === 1) {
+          continue
+        }
+        if (fields.indexOf(tokens[0]) === -1) {
+          continue
+        }
+        const column_data = this.selectionRows.map(item => item[tokens[0]])
+        data[match[i]] = pipe.execute(column_data, tokens.slice(1))
+      }
+      return strVarReplace(tpl, data)
     }
   },
   beforeCreate() {
@@ -309,6 +357,13 @@ export default {
   ::v-deep(.el-form-item__label) {
     /*text-align-last: justify;*/
   }
+}
+.selected-info {
+  padding: 10px 0;
+  height: 28px;
+  line-height: 28px;
+  color: #909399;
+  font-size: 13px;
 }
 .table-pageination {
   text-align: right;
