@@ -4,12 +4,12 @@
       <template v-if="group.children !== undefined">
         <el-option-group
           v-if="!group.hidden "
-          :label="group.name"
+          :label="group.meta.title"
         >
-          <template v-for="item in group.children" :key="item.path">
+          <template v-for="(item, index) in group.children" :key="item.path">
             <el-option
               v-if="!item.hidden"
-              :label="'' + item.name"
+              :label="(index === (group.children.length - 1) ? '└─' : '├─' )+ item.meta.title"
               :value="item.path"
             />
           </template>
@@ -17,7 +17,7 @@
       </template>
       <template v-else>
         <el-option
-          :label="'' + group.name"
+          :label="'' + group.meta.title"
           :value="group.path"
         />
       </template>

@@ -11,15 +11,13 @@ const users = {
   'admin-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
-    avatar:
-      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
   'editor-token': {
     roles: ['editor'],
     introduction: 'I am an editor',
-    avatar:
-      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
   }
 }
@@ -97,57 +95,77 @@ export default [
         code: 0,
         payload: [
           {
-            name: '用户管理',
-            path: '#',
-            children: [
-              {
-                path: '/user/list',
-                name: '用户列表',
-                icon: 'el-icon-help',
-                is_show: false
-              },
-              {
-                path: '/user/form',
-                name: '用户新建',
-                icon: 'el-icon-help',
-                is_show: false
-              }
-            ]
-          },
-          {
-            path: '/example/chart',
-            name: '图表',
-            view: 'Chart'
-          },
-          {
-            name: '列表',
+            name: '系统管理',
             path: '#',
             icon: 'el-icon-help',
             children: [
               {
-                path: '/list/example',
-                name: '基础样例',
-                view: 'Test',
-                icon: 'el-icon-help'
-              },
-              {
-                path: '/list/list',
-                name: '页签样例',
-                icon: 'el-icon-help'
-              },
-              {
-                name: '学生管理',
+                name: '用户管理',
                 path: '#',
                 children: [
                   {
-                    path: '/student/list',
-                    name: '学生列表',
+                    path: '/user/list',
+                    name: '列表',
                     icon: 'el-icon-help',
                     is_show: false
                   },
                   {
-                    path: '/student/form',
-                    name: '学生新建',
+                    path: '/user/form',
+                    name: '新建',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/user/:id',
+                    name: '新建',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  }
+                ]
+              },
+              {
+                name: '角色管理',
+                path: '#',
+                children: [
+                  {
+                    path: '/role/list',
+                    name: '角色列表',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/role/form',
+                    name: '角色新建',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/role/:id',
+                    name: '角色编辑',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  }
+                ]
+              },
+              {
+                name: '菜单管理',
+                path: '#',
+                children: [
+                  {
+                    path: '/menu/list',
+                    name: '菜单列表',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/menu/form',
+                    name: '菜单新建',
+                    icon: 'el-icon-help',
+                    is_show: false
+                  },
+                  {
+                    path: '/menu/:id',
+                    name: '菜单编辑',
                     icon: 'el-icon-help',
                     is_show: false
                   }

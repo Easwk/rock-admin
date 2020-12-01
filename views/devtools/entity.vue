@@ -3,6 +3,7 @@
     <div class="my-card">
       <el-button>从表结构解析</el-button>
       <el-button>查看当前实体配置</el-button>
+      <el-button>保存为菜单</el-button>
     </div>
     <el-card shadow="never" class="my-card">
       <template #header>

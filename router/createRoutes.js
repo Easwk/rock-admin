@@ -47,7 +47,7 @@ function getPath(item) {
 const transRoute = item => {
   const route = {
     path: getPath(item),
-    name: item.name,
+    name: item.path + item.name,
     component: getComponent(item),
     meta: { title: item.name, icon: item.icon, hidden: item.is_show !== undefined ? !item.is_show : false },
     hidden: item.is_show !== undefined ? !item.is_show : false,
