@@ -1,6 +1,6 @@
 <template>
   <!--  筛选条件  -->
-  <el-card shadow="never" class="table-filter">
+  <el-card v-if="tableFilter.length > 0" shadow="never" class="table-filter">
     <slot name="filter">
       <v-form
         v-if="tableFilter.length > 0"
@@ -31,8 +31,8 @@
     <el-divider
       v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0"
     />
+    <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
     <!--  列表  -->
-    <!--   v-loading 启用是 表格边框的bug   -->
     <slot name="table">
       <el-table
         v-loading="loading"
@@ -50,6 +50,7 @@
           :key="index + '-table-column'"
           :prop="item.field"
           :label="item.label"
+          v-bind="item.columnProps || {}"
         >
           <!--    表头    -->
           <template #header>
@@ -61,8 +62,16 @@
           </template>
           <!--    单元格    -->
           <template #default="scope">
+            <cell-edit
+              v-if="item.edit"
+              :key="`${index}-${rowKey}`"
+              v-model="scope.row[scope.column.property]"
+              v-bind="{item: item}"
+              @update:modelValue="value => cellChange(scope.index_, item.field, value)"
+            />
             <component
               :is="cellType(item)"
+              v-else
               v-bind="{
                 data: scope.row[scope.column.property],
                 column: item,
@@ -79,8 +88,9 @@
         <template #empty> 没有数据 </template>
       </el-table>
     </slot>
+    <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
     <el-row>
-      <el-col :span="12">
+      <el-col :span="12" style="min-height: 20px">
         <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
           <span v-html="selectedInfo" />
         </div>
@@ -110,15 +120,17 @@
 import Cells from './cell/index'
 import VForm from '../form'
 import VButton from '../button/VButton'
-import { firstUpperCase, isArray, strVarReplace, isObject } from '../../utils'
+import { firstUpperCase, isArray, strVarReplace, isObject, isBool } from '../../utils'
 import pipe from '../../utils/pipe'
+import CellEdit from './cellEdit'
 
 export default {
   name: 'VTable',
   components: Object.assign(
     {
       VForm,
-      VButton
+      VButton,
+      CellEdit
     },
     Cells
   ),
@@ -162,10 +174,16 @@ export default {
     selectedNotice: {
       type: [String, Object],
       default: ''
+    },
+    listIncrease: {
+      type: [Boolean, Object],
+      default: false
     }
   },
+  emits: ['cell-change'],
   data() {
     return {
+      rowKey: 0,
       filterFormOptions: {
         inline: true,
         labelPosition: 'right',
@@ -188,7 +206,7 @@ export default {
         pageSize: 20,
         sizes: [20, 100, 200],
         currentPage: 1,
-        total: 200
+        total: 0
       },
       paginationKey: 0,
       filterForm: {},
@@ -196,6 +214,22 @@ export default {
     }
   },
   computed: {
+    listIncreaseConf() {
+      if (isBool(this.$props.listIncrease)) {
+        if (this.$props.listIncrease === false) {
+          return {
+            state: false
+          }
+        } else {
+          return {
+            state: true,
+            type: 'append',
+            location: 'beforeList'
+          }
+        }
+      }
+      return this.$props.listIncrease
+    },
     selectedInfoPosition() {
       return isObject(this.tableSelectedNotice) ? this.tableSelectedNotice.position : 'beforePagination'
     },
@@ -236,7 +270,9 @@ export default {
   },
   methods: {
     cellType(column) {
-      return 'cell-' + (column.type || 'span')
+      let type = column.type || 'span'
+      type = type === 'input' ? 'span' : type
+      return `cell-${type}`
     },
     getAvailableFilter() {
       const available = {}
@@ -257,6 +293,9 @@ export default {
       this.load()
     },
     load(args = {}) {
+      if (!this.listApi) {
+        return
+      }
       this.loading = true
       if (args.resetPage !== false) {
         this.page.currentPage = 1
@@ -348,6 +387,23 @@ export default {
         ratio += item.text ? item.text.length : 3
       })
       return ratio * 10 * 2
+    },
+    listIncreaseRecord() {
+      const record = {}
+      Object.keys(this.tableHeaders).forEach(item => {
+        record[item.field] = undefined
+      })
+      if (this.listIncreaseConf.type === 'append') {
+        this.tableList.push(record)
+      } else if (this.listIncreaseConf.type === 'unshift') {
+        this.tableList.unshift(record)
+      } else {
+        console.log('unknown listIncrease type')
+      }
+      this.rowKey++
+    },
+    cellChange(index, field, value) {
+      this.$emit('cell-change', { index, field, value })
     }
   }
 }
@@ -406,4 +462,9 @@ export default {
     }
   }
 }
+  .list-incr-button {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 </style>

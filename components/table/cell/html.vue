@@ -8,10 +8,6 @@ export default {
     data: {
       type: String,
       default: ''
-    },
-    column: {
-      type: Object,
-      default: () => {}
     }
   }
 }

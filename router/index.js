@@ -3,6 +3,7 @@ import Index from '../views/login/index'
 import NotFoundPage from '../views/404'
 import Layout from '../layout/index'
 import Dashboard from '../views/dashboard/index'
+import Entity from '../views/devtools/entity'
 
 const routes = [
   {
@@ -15,6 +16,25 @@ const routes = [
         name: 'Dashboard',
         component: Dashboard,
         meta: { title: 'Dashboard', icon: 'el-icon-help' }
+      }
+    ]
+  },
+  {
+    path: '/',
+    component: Layout,
+    meta: { title: '开发工具', icon: 'el-icon-s-tools' },
+    children: [
+      {
+        path: '/devtool/entity',
+        name: 'GenEntity',
+        component: Entity,
+        meta: { title: '实体构建', icon: 'el-icon-s-tools' }
+      },
+      {
+        path: '/devtool/controller',
+        name: 'GenCtrl',
+        component: Dashboard,
+        meta: { title: '控制器构建', icon: 'el-icon-s-tools' }
       }
     ]
   },

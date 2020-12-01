@@ -1,6 +1,11 @@
 import _ from 'lodash'
 import { isBool } from '../../utils'
 import { reactive } from 'vue'
+import VSelect from './VSelect'
+import VRadio from './VRadio'
+import VCheckbox from './VChecbox'
+import VNumberRange from './VNumberRange'
+import VJson from './VJson'
 
 export const formData = reactive({})
 
@@ -50,4 +55,24 @@ export function makeFormOptions(options) {
   }
 
   return _.merge({}, formOptions, options)
+}
+
+export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson }
+
+export const getComponentName = (name) => {
+  if (componentMap[name] !== undefined) {
+    return componentMap[name]
+  }
+  if (componentMap['v-' + name] !== undefined) {
+    return componentMap['v-' + name]
+  }
+  return name
+}
+
+export const getComponentProps = (item) => {
+  const props = item.props || {}
+  if (item.options) {
+    props.options = item.options
+  }
+  return props
 }

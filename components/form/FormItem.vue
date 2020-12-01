@@ -12,7 +12,7 @@
     <component
       :is="getComponentName(item.type)"
       v-model="localValue"
-      v-bind="item.props || {}"
+      v-bind="getComponentProps(item)"
       @update:modelValue="onFiledChange"
     />
     <div v-if="item.info && !formOptions.inline" class="form-item-info">
@@ -22,18 +22,12 @@
   </el-form-item>
 </template>
 <script>
-import { componentMap } from './setting'
-import VSelect from './VSelect'
-import VRadio from './VRadio'
-import VCheckbox from './VChecbox'
-import VNumberRange from './VNumberRange'
-import VJson from './VJson'
-import { formData } from './setting'
+import { getComponentName, getComponentProps, customFormCtrl, formData } from './setting'
 import _ from 'lodash'
 
 export default {
   name: 'FormItem',
-  components: { VSelect, VRadio, VCheckbox, VNumberRange, VJson },
+  components: { ...customFormCtrl },
   props: {
     formOptions: {
       type: Object,
@@ -75,7 +69,10 @@ export default {
   },
   methods: {
     getComponentName(name) {
-      return componentMap[name] || name
+      return getComponentName(name)
+    },
+    getComponentProps(item) {
+      return getComponentProps(item)
     },
     onFiledChange(value) {
       this.$emit('update:modelValue', value)
