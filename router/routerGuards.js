@@ -61,6 +61,9 @@ router.beforeEach(async(to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+router.afterEach((to) => {
+  if (to.matched.length === 0) {
+    router.push('/404')
+  }
   NProgress.done()
 })
