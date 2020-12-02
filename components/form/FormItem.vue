@@ -11,6 +11,7 @@
     </template>
     <component
       :is="getComponentName(item.type)"
+      ref="ctrl"
       v-model="localValue"
       v-bind="getComponentProps(item)"
       @update:modelValue="onFiledChange"

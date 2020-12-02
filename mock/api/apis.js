@@ -222,10 +222,10 @@ export const simpleForm = {
     {
       type: 'sub-form',
       field: 'sub_form',
-      label: '子表单',
+      label: '多项子表单',
       props: {
         repeat: true,
-        controls: [
+        formItems: [
           {
             type: 'input',
             field: 'sub_input',
@@ -244,6 +244,36 @@ export const simpleForm = {
           }
         ]
       }
+    },
+    {
+      type: 'sub-form',
+      field: 'sub_form_not_repeat',
+      label: '子表单',
+      props: {
+        formItems: [
+          {
+            type: 'input',
+            field: 'sub_input',
+            label: '输入框',
+            rules: [
+              {
+                required: true,
+                message: '子表单的校验将在上层表单校验通过后执行'
+              }
+            ]
+          },
+          {
+            type: 'input',
+            field: 'sub_input_1',
+            label: '输入框1'
+          }
+        ]
+      }
+    },
+    {
+      type: 'icon-select',
+      field: 'icon',
+      label: '图标'
     },
     {
       type: 'template',

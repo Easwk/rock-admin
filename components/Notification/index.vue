@@ -4,6 +4,11 @@
 
 <script>
 export default {
-  name: 'Notification'
+  name: 'Notification',
+  data() {
+    return {
+      a: 1
+    }
+  }
 }
 </script>

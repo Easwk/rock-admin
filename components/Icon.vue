@@ -9,6 +9,9 @@ export default {
   },
   render() {
     const name = this.$props.name
+    if (name === undefined) {
+      return ''
+    }
     if (name.indexOf('el-') === 0) {
       return <i class={name}/>
     }

@@ -117,7 +117,7 @@ export default [
                   },
                   {
                     path: '/user/:id',
-                    name: '新建',
+                    name: '编辑',
                     icon: 'el-icon-help',
                     is_show: false
                   }

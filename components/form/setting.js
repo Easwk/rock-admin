@@ -6,6 +6,8 @@ import VRadio from './VRadio'
 import VCheckbox from './VChecbox'
 import VNumberRange from './VNumberRange'
 import VJson from './VJson'
+import VIconSelect from './VIconSelect'
+import VSubForm from './VSubForm'
 
 export const formData = reactive({})
 
@@ -25,7 +27,9 @@ export const componentMap = {
   rate: 'el-rate',
   select: 'v-select',
   switch: 'el-switch',
-  json: 'v-json'
+  json: 'v-json',
+  'icon-select': 'v-icon-select',
+  'sub-form': 'v-sub-form'
 }
 
 export const formOptions = {
@@ -57,7 +61,7 @@ export function makeFormOptions(options) {
   return _.merge({}, formOptions, options)
 }
 
-export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson }
+export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm }
 
 export const getComponentName = (name) => {
   if (componentMap[name] !== undefined) {

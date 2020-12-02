@@ -14,6 +14,7 @@
         <template v-if="formOptions.inline === true">
           <form-item
             v-if="canShow(item)"
+            :ref="item.field"
             v-model="formData[item.field]"
             :form-options="formOptions"
             :item="item"
@@ -24,6 +25,7 @@
           <el-col v-bind="item.col">
             <form-item
               v-if="canShow(item)"
+              :ref="item.field"
               v-model="formData[item.field]"
               :form-options="formOptions"
               :item="item"
@@ -69,6 +71,14 @@ export default {
     }
   },
   props: {
+    isSub: {
+      type: Boolean,
+      default: false
+    },
+    modelValue: {
+      type: Object,
+      default: () => {}
+    },
     formItems: {
       type: Array,
       default: () => {
@@ -90,12 +100,12 @@ export default {
       }
     }
   },
-  emits: ['submit', 'reset', 'fieldchange', 'update:modelValue'],
+  emits: ['submit', 'reset', 'fieldchange', 'update:modelValue', 'mounted'],
   data() {
     return {
       loading: false,
       props: this.$props,
-      formData: undefined, // 表单数据
+      formData: this.$props.modelValue, // 表单数据
       formRules: [], // 验证规则
       fieldMap: {}, // field -> item map
       computeRules: [], // 动态计算规则
@@ -110,12 +120,19 @@ export default {
         const { formItems, options } = this.props
         const initData = this.init(formItems || [])
         Object.keys(initData).forEach((key) => {
-          this[key] = initData[key]
+          if (key === 'formData') {
+            this[key] = _.merge(this.formData, initData[key])
+          } else {
+            this[key] = initData[key]
+          }
         })
         this.formOptions = makeFormOptions(options || this.$props.options)
       },
       immediate: true
     }
+  },
+  mounted() {
+    this.$emit('mounted', this.$refs.formData)
   },
   beforeCreate() {
     if (this.$props.infoApi) {
@@ -157,24 +174,46 @@ export default {
         cacheItems: _.concat([], formItems)
       }
     },
+    validate() {
+      return this.$refs.formData.validate
+    },
     submitForm(formName) {
+      let flag = true
       this.$refs[formName].validate((valid) => {
+        if (flag === false) {
+          return
+        }
         if (valid) {
-          this.$props.saveApi &&
-            this.$http
-              .request({ method: 'POST', url: this.$props.saveApi })
-              .then(({ payload, message }) => {
-                console.log('form save success', payload)
-                this.$message({ type: 'success', message: message || '保存成功' })
-              })
-          console.log('formData', this.formData)
-          this.$emit('submit', this.formData)
+          this.formItemsSource.forEach(item => {
+            if (flag === false) {
+              return
+            }
+            if (item.type === 'sub-form') {
+              const subValid = this.$refs[item.field].$refs.ctrl.validate()
+              if (subValid === false) {
+                flag = false
+              }
+            }
+          })
         } else {
-          console.log('error submit!!')
-          showEleByClassName('is-error')
-          return false
+          flag = false
         }
       })
+      if (flag) {
+        this.$props.saveApi &&
+        this.$http
+          .request({ method: 'POST', url: this.$props.saveApi })
+          .then(({ payload, message }) => {
+            console.log('form save success', payload)
+            this.$message({ type: 'success', message: message || '保存成功' })
+          })
+        console.log('formData', this.formData)
+        this.$emit('submit', this.formData)
+      } else {
+        console.log('error submit!!')
+        showEleByClassName('is-error')
+        return false
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -209,9 +248,11 @@ export default {
       this.computedWhen(field, value)
       this.$emit('fieldchange', { field, value })
       this.$emit('update:modelValue', this.formData)
-      Object.keys(this.formData).forEach(key => {
-        formData[key] = this.formData[key]
-      })
+      if (this.isSub === false) {
+        Object.keys(this.formData).forEach(key => {
+          formData[key] = this.formData[key]
+        })
+      }
     },
     computedWhen(field, value) {
       const rule = this.computeRules[field]
