@@ -87,6 +87,7 @@ export default {
         return key !== index
       })
       this.key++
+      this.$emit('update:modelValue', this.repeat ? this.sub : this.sub[0])
     },
     onchange() {
       this.$emit('update:modelValue', this.repeat ? this.sub : this.sub[0])
