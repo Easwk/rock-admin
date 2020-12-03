@@ -18,7 +18,8 @@ export const simpleForm = {
       type: 'radio',
       field: 'radio',
       label: '单选框',
-      info: '表单控件支持提示信息, 可写html <a class="el-link el-link--primary is-underline" target="_blank" href="http://github.com/daodao97">文档</a>',
+      info:
+        '表单控件支持提示信息, 可写html <a class="el-link el-link--primary is-underline" target="_blank" href="http://github.com/daodao97">文档</a>',
       options: [
         {
           value: 1,
@@ -108,7 +109,8 @@ export const simpleForm = {
           set: [2, 3]
         }
       ],
-      info: '动态计算, 当 数字 字段的值 <= 10 时, 复选框1将被选中, > 10 时, 复选框2,3 将被选中',
+      info:
+        '动态计算, 当 数字 字段的值 <= 10 时, 复选框1将被选中, > 10 时, 复选框2,3 将被选中',
       col: {
         span: 8
       }
@@ -193,8 +195,14 @@ export const simpleForm = {
       type: 'upload',
       field: 'upload',
       label: '上传',
+      props: {}
+    },
+    {
+      type: 'upload',
+      field: 'upload_multiple',
+      label: '上传多张',
       props: {
-        action: ''
+        limit: 3
       }
     },
     {
@@ -283,7 +291,8 @@ export const simpleForm = {
       field: 'p3',
       label: '自定义',
       comp: {
-        template: '<div>{{ msg }}<br/>当前的表单数据是:<pre>{{JSON.stringify(formData, null, 2)}}</pre><el-button @click="onclick">click</el-button></div>',
+        template:
+          '<div>{{ msg }}<br/>当前的表单数据是:<pre>{{JSON.stringify(formData, null, 2)}}</pre><el-button @click="onclick">click</el-button></div>',
         data: {
           msg: 'this is custom data'
         },
@@ -524,9 +533,10 @@ export default [
   {
     url: '/user/save',
     type: 'post',
-    response: () => response({
-      success: true
-    })
+    response: () =>
+      response({
+        success: true
+      })
   },
   {
     url: '/user/list_schema',
@@ -546,7 +556,7 @@ export default [
   {
     url: '/user/list',
     type: 'get',
-    response: req => {
+    response: (req) => {
       const ret = {
         'list|0-20': [
           {

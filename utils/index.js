@@ -517,3 +517,16 @@ export function objFuncNames(obj) {
   }
   return arr
 }
+
+export function toArray(value) {
+  return Array.isArray(value)
+    ? value
+    : ((value === undefined || value === null || value === '' ? [] : [value])
+    )
+}
+
+export function checkImgExists(imgurl) {
+  const ImgObj = new Image() // 判断图片是否存在
+  ImgObj.src = imgurl
+  return ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)
+}

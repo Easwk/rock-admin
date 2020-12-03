@@ -8,6 +8,7 @@ import VNumberRange from './VNumberRange'
 import VJson from './VJson'
 import VIconSelect from './VIconSelect'
 import VSubForm from './VSubForm'
+import VUpload from './VUpload'
 
 export const formData = reactive({})
 
@@ -21,7 +22,7 @@ export const componentMap = {
   time: 'el-time-picker',
   datetime: 'el-date-picker',
   slider: 'el-slider',
-  upload: 'el-upload',
+  upload: 'v-upload',
   transfer: 'el-transfer',
   color: 'el-color-picker',
   rate: 'el-rate',
@@ -61,7 +62,7 @@ export function makeFormOptions(options) {
   return _.merge({}, formOptions, options)
 }
 
-export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm }
+export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload }
 
 export const getComponentName = (name) => {
   if (componentMap[name] !== undefined) {
@@ -77,6 +78,10 @@ export const getComponentProps = (item) => {
   const props = item.props || {}
   if (item.options) {
     props.options = item.options
+  }
+  if (item.type === 'upload') {
+    item.props.action = `${process.env.VUE_APP_BASE_API}/upload` // upload action
+    item.props.action = `http://0.0.0.0:9511/upload/image` // upload action
   }
   return props
 }
