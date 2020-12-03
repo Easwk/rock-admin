@@ -6,7 +6,7 @@
           :ref="'subForm' + index"
           v-model="sub[index]"
           :is-sub="true"
-          :options="options"
+          :options="formOptions"
           :form-items="$props.formItems"
           @update:modelValue="onchange"
           @mounted="fApi => subMounted(fApi, index)"
@@ -54,6 +54,12 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    options: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   emits: ['update:modelValue'],
@@ -72,10 +78,10 @@ export default {
       key: 1,
       fApis: [],
       sub: subData,
-      options: {
+      formOptions: _.merge(this.$props.options, {
         submitButton: false,
         cancelButton: false
-      }
+      })
     }
   },
   methods: {

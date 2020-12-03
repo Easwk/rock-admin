@@ -250,6 +250,9 @@ export const simpleForm = {
       field: 'sub_form_not_repeat',
       label: '子表单',
       props: {
+        options: {
+          inline: true
+        },
         formItems: [
           {
             type: 'input',
