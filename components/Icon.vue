@@ -15,6 +15,9 @@ export default {
     if (name.indexOf('el-') === 0) {
       return <i class={name}/>
     }
+    if (name.indexOf('ra-') === 0) {
+      return <i class={'iconfont ' + name}/>
+    }
     return <svg class='icon svg-icon' aria-hidden='true'>
       <use href={'#icon-' + name}/>
     </svg>
