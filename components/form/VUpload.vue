@@ -164,4 +164,9 @@ export default {
     height: 100px;
     line-height: 100px;
   }
+  ::v-deep(.el-upload-list--picture-card .el-upload-list__item-status-label i) {
+    top: -1px;
+    position: absolute;
+    right: 13px;
+  }
 </style>

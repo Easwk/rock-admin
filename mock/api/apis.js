@@ -565,8 +565,7 @@ export default [
             'sex|0-1': 1,
             'score|0-100': 60,
             link: 'http://github.com/daodao97',
-            image:
-              'http://qupinapptest.oss-cn-beijing.aliyuncs.com/1/202002/d81d3c9dc7c3df7590d333f783a97995.jpeg',
+            image: 'http://qupinapptest.oss-cn-beijing.aliyuncs.com/1/202002/d81d3c9dc7c3df7590d333f783a97995.jpeg',
             html: '<S>显示删除线1</S>',
             json: { slogan: '左手代码右手诗' },
             richText:

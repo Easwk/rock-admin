@@ -81,7 +81,6 @@ export const getComponentProps = (item) => {
   }
   if (item.type === 'upload') {
     item.props.action = `${process.env.VUE_APP_BASE_API}/upload` // upload action
-    item.props.action = `http://0.0.0.0:9511/upload/image` // upload action
   }
   return props
 }
