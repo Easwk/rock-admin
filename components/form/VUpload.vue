@@ -57,10 +57,15 @@ export default {
       tempIndex: 1
     }
   },
+  mounted() {
+    setTimeout(() => {
+      this.uploadAction()
+    }, 20)
+  },
   methods: {
     parseFile(file = '', index) {
       let uid = ''
-      if (this.fileList[index] && this.fileList[index].url === file) {
+      if (this.fileList && this.fileList[index] && this.fileList[index].url === file) {
         // 如果文件没变化  id不变 避免重绘
         uid = this.fileList[index].uid || Date.now() + this.tempIndex++
       }
@@ -71,14 +76,17 @@ export default {
         uid: uid || (Date.now() + this.tempIndex++)
       }
     },
-    handleRemove(file, fileList) {
+    uploadAction() {
       const el = this.uploadEl()
-      this.fileList = fileList
       if (this.fileList.length >= this.limit) {
         el.style.display = 'none'
       } else {
-        el.style.display = 'block'
+        el.style.display = 'inline-block'
       }
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList
+      this.uploadAction()
     },
     preview(file) {
       if (file.status !== 'success') {
@@ -143,12 +151,7 @@ export default {
         return item.response.payload.url
       })
       this.$emit('update:modelValue', this.limit === 1 ? list[0] : list)
-      const el = this.uploadEl()
-      if (this.fileList.length >= this.limit) {
-        el.style.display = 'none'
-      } else {
-        el.style.display = 'inline-block'
-      }
+      this.uploadAction()
     }
   }
 }

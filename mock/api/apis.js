@@ -195,6 +195,7 @@ export const simpleForm = {
       type: 'upload',
       field: 'upload',
       label: '上传',
+      value: 'http://qupinapptest.oss-cn-beijing.aliyuncs.com/1/202002/d81d3c9dc7c3df7590d333f783a97995.jpeg',
       props: {}
     },
     {
