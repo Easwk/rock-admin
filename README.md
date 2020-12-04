@@ -12,9 +12,10 @@
 ```shell
 vue create --preset daodao97/rock-admin my-admin
 cd my-admin
+yarn serve
 ```
 
-此时执行 `yarn serve` 即可得到一个完整功能的后台了
+此时即可得到一个完整功能的后台了
 
 ![PDEy8u](https://gitee.com/daodao97/asset/raw/master/imgs/PDEy8u.png)
 

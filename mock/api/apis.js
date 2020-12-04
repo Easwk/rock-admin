@@ -136,9 +136,7 @@ export const simpleForm = {
         type: 'daterange',
         rangeSeparator: '~',
         startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期',
-        format: 'yyyy-MM-dd',
-        valueFormat: 'yyyy-MM-dd'
+        endPlaceholder: '结束日期'
       },
       col: {
         span: 8
@@ -179,7 +177,10 @@ export const simpleForm = {
         { value: 2, label: '选项2' },
         { value: 3, label: '选项3' },
         { value: 4, label: '选项4' }
-      ]
+      ],
+      props: {
+        selectApi: '/user/select'
+      }
     },
     {
       type: 'switch',
@@ -587,6 +588,21 @@ export default [
       //   ret["list|1-20"][0].sex = req.query.sex;
       // }
       return response(ret)
+    }
+  },
+  {
+    url: '/user/select',
+    type: 'get',
+    response: () => {
+      return {
+        code: 0,
+        'payload|0-20': [
+          {
+            'value|0-1000': 1,
+            label: '@cname'
+          }
+        ]
+      }
     }
   }
 ]

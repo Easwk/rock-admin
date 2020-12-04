@@ -9,6 +9,7 @@ import request from './utils/request'
 import './router/routerGuards'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import App from './App.vue'
+import lodash from 'lodash'
 
 // style
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
@@ -51,7 +52,8 @@ export default (options = {}) => {
     mockXHR(mockApis || [], disableDefaultMockApi === undefined ? false : !!disableDefaultMockApi)
   }
 
-  app.config.globalProperties.$http = request;
+  app.config.globalProperties.$http = request
+  app.config.globalProperties.$lodash = lodash;
 
   (routes || []).forEach(item => {
     router.addRoute(item)

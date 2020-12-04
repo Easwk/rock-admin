@@ -34,8 +34,8 @@ export default {
       }
     },
     modelValue: {
-      type: Array,
-      default: undefined
+      type: String,
+      default: ''
     },
     disabled: {
       type: Boolean,

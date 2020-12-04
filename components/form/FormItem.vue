@@ -39,7 +39,7 @@ export default {
       default: () => {}
     },
     modelValue: {
-      type: [String, Number, Object, Array],
+      type: [String, Number, Object, Array, Boolean],
       default: undefined
     }
   },
