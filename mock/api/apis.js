@@ -297,8 +297,8 @@ export const simpleForm = {
       field: 'p3',
       label: '自定义',
       comp: {
-        template:
-          '<div>{{ msg }}<br/>当前的表单数据是:<pre>{{JSON.stringify(formData, null, 2)}}</pre><el-button @click="onclick">click</el-button></div>',
+        inject: ['formData'],
+        template: '<div>{{ msg }}<br/>当前的表单数据是:<pre>{{JSON.stringify(formData, null, 2)}}</pre><el-button @click="onclick">click</el-button></div>',
         data: {
           msg: 'this is custom data'
         },

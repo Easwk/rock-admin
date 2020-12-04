@@ -23,10 +23,10 @@
 
 <script>
 import { strVarReplace, isArray } from '../../utils'
-import { formData } from './setting'
 
 export default {
   name: 'VSelect',
+  inject: ['formData'],
   props: {
     options: {
       type: Array,
@@ -94,7 +94,7 @@ export default {
       if (!kw) {
         return
       }
-      const url = strVarReplace(this.$props.selectApi, formData)
+      const url = strVarReplace(this.$props.selectApi, this.formData)
       this.loading = true
       this.$http.request({ method: 'GET', url: url, params: { kw: 11 }})
         .then(({ payload }) => {

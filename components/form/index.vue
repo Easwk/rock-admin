@@ -58,7 +58,7 @@
 import { componentMap } from './setting'
 import { camelToSnake, ruleCompute, isArray, showEleByClassName } from '../../utils'
 import _ from 'lodash'
-import { makeFormOptions, formData } from './setting'
+import { makeFormOptions } from './setting'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
 
@@ -67,7 +67,7 @@ export default {
   components: { FormAction, FormItem },
   provide() {
     return {
-      formData: Symbol(this.formData)
+      formData: this.formData
     }
   },
   props: {
@@ -248,11 +248,6 @@ export default {
       this.computedWhen(field, value)
       this.$emit('fieldchange', { field, value })
       this.$emit('update:modelValue', this.formData)
-      if (this.isSub === false) {
-        Object.keys(this.formData).forEach(key => {
-          formData[key] = this.formData[key]
-        })
-      }
     },
     computedWhen(field, value) {
       const rule = this.computeRules[field]

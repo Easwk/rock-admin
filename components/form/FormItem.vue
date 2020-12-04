@@ -23,7 +23,7 @@
   </el-form-item>
 </template>
 <script>
-import { getComponentName, getComponentProps, customFormCtrl, formData } from './setting'
+import { getComponentName, getComponentProps, customFormCtrl } from './setting'
 import _ from 'lodash'
 
 export default {
@@ -56,7 +56,6 @@ export default {
       this.$options.components['VTpl' + item.field] = _.merge({}, item.comp, {
         data() {
           return {
-            formData: formData,
             ...item.comp.data
           }
         },

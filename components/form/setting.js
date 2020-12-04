@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { isBool } from '../../utils'
-import { reactive } from 'vue'
 import VSelect from './VSelect'
 import VRadio from './VRadio'
 import VCheckbox from './VChecbox'
@@ -10,8 +9,6 @@ import VIconSelect from './VIconSelect'
 import VSubForm from './VSubForm'
 import VUpload from './VUpload'
 import VInput from './VInput'
-
-export const formData = reactive({})
 
 export const componentMap = {
   input: 'v-input',
