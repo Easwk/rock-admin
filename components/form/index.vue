@@ -132,15 +132,15 @@ export default {
     }
   },
   mounted() {
-    this.$emit('mounted', this.$refs.formData)
-  },
-  beforeCreate() {
     if (this.$props.infoApi) {
       this.loading = true
       this.$http.request({ method: 'GET', url: this.$props.infoApi }).then(({ payload }) => {
         this.props = payload
         this.loading = false
+        this.$emit('mounted', this.$refs.formData)
       })
+    } else {
+      this.$emit('mounted', this.$refs.formData)
     }
   },
   methods: {
@@ -284,4 +284,3 @@ export default {
   }
 }
 </script>
-
