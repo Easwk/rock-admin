@@ -1,7 +1,7 @@
 <template>
   <template v-if="shape === 'icon' && btnProps && btnProps.icon">
     <div class="el-btn-icon" @click="onclick">
-      <i :class="btnProps.icon || 'el-icon-warning-outline'" />
+      <icon :name="btnProps.icon || 'el-icon-warning-outline'" />
     </div>
   </template>
   <template v-else>
