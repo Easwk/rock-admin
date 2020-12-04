@@ -41,7 +41,7 @@ export const simpleForm = {
       label: '输入框',
       value: 5,
       props: {
-        maxlength: 100,
+        maxlength: 10,
         suffixIcon: 'el-icon-date',
         slots: {
           prepend: '前缀'
@@ -244,7 +244,11 @@ export const simpleForm = {
                 required: true,
                 message: '子表单的校验将在上层表单校验通过后执行'
               }
-            ]
+            ],
+            info: 'input 输入框支持 mask',
+            props: {
+              mask: '99-9999999'
+            }
           },
           {
             type: 'input',

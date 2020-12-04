@@ -62,7 +62,6 @@ export default {
         },
         methods
       })
-      console.log(this.$options.components['VTpl' + item.field])
     }
     return {
       localValue: this.$props.modelValue

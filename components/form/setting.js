@@ -9,11 +9,12 @@ import VJson from './VJson'
 import VIconSelect from './VIconSelect'
 import VSubForm from './VSubForm'
 import VUpload from './VUpload'
+import VInput from './VInput'
 
 export const formData = reactive({})
 
 export const componentMap = {
-  input: 'el-input',
+  input: 'v-input',
   number: 'el-input-number',
   radio: 'v-radio',
   checkbox: 'v-checkbox',
@@ -62,7 +63,7 @@ export function makeFormOptions(options) {
   return _.merge({}, formOptions, options)
 }
 
-export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload }
+export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload, VInput }
 
 export const getComponentName = (name) => {
   if (componentMap[name] !== undefined) {
