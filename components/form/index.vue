@@ -12,7 +12,11 @@
     <el-row>
       <template v-for="(item, index) in formItemsSection" :key="'item-' + index">
         <!--   card     -->
-        <component :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')" class="form-section">
+        <component
+          :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')"
+          class="form-section"
+          shadow="never"
+        >
           <template v-if="item.name" #header>
             <span>{{ item.name }}</span>
           </template>

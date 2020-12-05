@@ -17,7 +17,7 @@
     @input="input"
     @update:modelValue="updateModel"
   >
-    <template #append>
+    <template v-if="showCopy" #append>
       <el-button v-if="showCopy" icon="el-icon-copy-document" @click="copy" />
     </template>
   </el-input>
