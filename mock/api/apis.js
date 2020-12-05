@@ -1,4 +1,43 @@
 import _ from 'lodash'
+
+export const layoutForm = {
+  formItems: [
+    {
+      field: 'a',
+      label: 'a',
+      type: 'input',
+      // col: {
+      //   span: 6
+      // }
+    },
+    {
+      field: 'b',
+      label: 'b',
+      section: '片段1',
+      type: 'input',
+      col: {
+        span: 6
+      }
+    },
+    {
+      field: 'c',
+      label: 'c',
+      type: 'input',
+      col: {
+        span: 12
+      }
+    },
+    {
+      field: 'd',
+      type: 'input',
+      section: '片段2',
+      // col: {
+      //   span: 12
+      // }
+    }
+  ]
+}
+
 export const simpleForm = {
   submitApi: '/save',
   options: {

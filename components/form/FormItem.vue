@@ -1,7 +1,7 @@
 <template>
   <el-form-item :label="item.label" :prop="item.field">
     <template #label>
-      {{ item.label }}
+      {{ item.label || item.field }}
       <el-tooltip v-if="item.info && formOptions.inline" placement="top">
         <template #content>
           <span v-html="item.info" />

@@ -10,29 +10,31 @@
     :label-position="formOptions.labelPosition"
   >
     <el-row>
-      <template v-for="(item, index) in formItemsSource" :key="'item-' + index">
-        <template v-if="formOptions.inline === true">
-          <form-item
-            v-if="canShow(item)"
-            :ref="item.field"
-            v-model="formData[item.field]"
-            :form-options="formOptions"
-            :item="item"
-            @update:modelValue="(val) => onFiledChange(item.field, val)"
-          />
-        </template>
-        <template v-else>
-          <el-col v-bind="item.col">
-            <form-item
-              v-if="canShow(item)"
-              :ref="item.field"
-              v-model="formData[item.field]"
-              :form-options="formOptions"
-              :item="item"
-              @update:modelValue="(val) => onFiledChange(item.field, val)"
-            />
-          </el-col>
-        </template>
+      <template v-for="(item, index) in formItemsSection" :key="'item-' + index">
+        <!--   card     -->
+        <component :is="(index === 0 && formItemsSection.length === 1) ? 'span': 'el-card'" class="form-section" :title="item.name">
+          <template v-if="item.name" #header>
+            <span>{{ item.name }}</span>
+          </template>
+          <template v-for="(section, num) in item.children" :key="'section-' + index + '-' + num">
+            <!--    row     -->
+            <component :is="section.isRow ? 'el-row' : 'span'">
+              <template v-for="(each, i) in section.items" :key="'each-' + i">
+                <!--   col    -->
+                <component :is="'el-col'" :span="each.col.span">
+                  <form-item
+                    v-if="canShow(each)"
+                    :ref="each.field"
+                    v-model="formData[each.field]"
+                    :form-options="formOptions"
+                    :item="each"
+                    @update:modelValue="(val) => onFiledChange(each.field, val)"
+                  />
+                </component>
+              </template>
+            </component>
+          </template>
+        </component>
       </template>
       <template v-if="formOptions.inline === true">
         <form-action
@@ -114,6 +116,27 @@ export default {
       formOptions: {}
     }
   },
+  computed: {
+    formItemsSection() {
+      const sectionIndex = []
+      this.formItemsSource.forEach((item, index) => {
+        if (index === 0 || item.section !== undefined) {
+          sectionIndex.push(index)
+        }
+      })
+      const sections = []
+      for (let i = 0, j = 1; sectionIndex[i] !== undefined; i++, j++) {
+        sections.push(this.formItemsSource.slice(sectionIndex[i], sectionIndex[j] || this.formItemsSource.length))
+      }
+      return sections.map(each => {
+        const children = this.layoutItem(each)
+        return {
+          name: children[0].items[0].section,
+          children
+        }
+      })
+    }
+  },
   watch: {
     props: {
       handler() {
@@ -144,6 +167,32 @@ export default {
     }
   },
   methods: {
+    layoutItem(section) {
+      const items = []
+      const cell = {
+        isCard: false,
+        isRow: true,
+        items: []
+      }
+      section.forEach((item, index) => {
+        item.col = item.col || { span: 24 }
+        if (item.col.span === 24) {
+          items.push(Object.assign({}, cell, { items: [item] }))
+        } else {
+          if (items.length > 0) {
+            const sum = this.$lodash.sum(items[items.length - 1].items.map(each => each.col.span))
+            if (sum < 24 && sum + item.col.span <= 24) {
+              items[items.length - 1].items.push(item)
+            } else {
+              items.push(Object.assign({}, cell, { items: [item] }))
+            }
+          } else {
+            items.push(Object.assign({}, cell, { items: [item] }))
+          }
+        }
+      })
+      return items
+    },
     init(formItems) {
       const formData = {}
       const formRules = {}
@@ -279,3 +328,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .form-section {
+    margin-bottom: 15px;
+  }
+</style>
