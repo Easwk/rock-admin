@@ -12,7 +12,7 @@
     <el-row>
       <template v-for="(item, index) in formItemsSection" :key="'item-' + index">
         <!--   card     -->
-        <component :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')" class="form-section" :title="item.name">
+        <component :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')" class="form-section">
           <template v-if="item.name" #header>
             <span>{{ item.name }}</span>
           </template>
@@ -59,7 +59,6 @@
 <script>
 import { componentMap } from './setting'
 import { camelToSnake, ruleCompute, isArray, showEleByClassName } from '../../utils'
-import _ from 'lodash'
 import { makeFormOptions } from './setting'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
@@ -144,7 +143,7 @@ export default {
         const initData = this.init(formItems || [])
         Object.keys(initData).forEach((key) => {
           if (key === 'formData') {
-            this[key] = _.merge(this.formData, initData[key])
+            this[key] = this.$lodash.merge(this.formData, initData[key])
           } else {
             this[key] = initData[key]
           }
@@ -219,8 +218,8 @@ export default {
         formRules,
         fieldMap,
         computeRules,
-        formItemsSource: _.concat([], formItems),
-        cacheItems: _.concat([], formItems)
+        formItemsSource: this.$lodash.concat([], formItems),
+        cacheItems: this.$lodash.concat([], formItems)
       }
     },
     validate() {
@@ -312,15 +311,15 @@ export default {
       const obj = {}
       obj[field] = value
       Object.keys(rule.set || []).forEach((field) => {
-        const index = _.findIndex(this.formItemsSource, { field: field })
+        const index = this.$lodash.findIndex(this.formItemsSource, { field: field })
         if (ruleCompute(obj, when)) {
-          this.formItemsSource[index] = _.merge(
+          this.formItemsSource[index] = this.$lodash.merge(
             this.formItemsSource[index],
             rule.set[field]
           )
         } else {
-          this.formItemsSource[index] = _.cloneDeep(
-            this.cacheItems[_.findIndex(this.cacheItems, { field: field })]
+          this.formItemsSource[index] = this.$lodash.cloneDeep(
+            this.cacheItems[this.$lodash.findIndex(this.cacheItems, { field: field })]
           )
         }
       })
