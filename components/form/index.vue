@@ -12,16 +12,16 @@
     <el-row>
       <template v-for="(item, index) in formItemsSection" :key="'item-' + index">
         <!--   card     -->
-        <component :is="(index === 0 && formItemsSection.length === 1) ? 'span': 'el-card'" class="form-section" :title="item.name">
+        <component :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')" class="form-section" :title="item.name">
           <template v-if="item.name" #header>
             <span>{{ item.name }}</span>
           </template>
           <template v-for="(section, num) in item.children" :key="'section-' + index + '-' + num">
             <!--    row     -->
-            <component :is="section.isRow ? 'el-row' : 'span'">
+            <component :is="formOptions.inline ? 'span' : (section.isRow ? 'el-row' : 'span')">
               <template v-for="(each, i) in section.items" :key="'each-' + i">
                 <!--   col    -->
-                <component :is="'el-col'" :span="each.col.span">
+                <component :is="formOptions.inline ? 'span' : 'el-col'" :span="each.col.span">
                   <form-item
                     v-if="canShow(each)"
                     :ref="each.field"
