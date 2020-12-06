@@ -4,6 +4,7 @@
  * @param {string} cFormat
  * @returns {string | null}
  */
+
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
@@ -500,6 +501,14 @@ export function isBool(arg) {
   return type(arg) === 'boolean'
 }
 
+export function isNumber(arg) {
+  return type(arg) === 'number'
+}
+
+export function isString(arg) {
+  return type(arg) === 'string'
+}
+
 export function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = (Math.random() * 16) | 0
@@ -529,4 +538,32 @@ export function checkImgExists(imgurl) {
   const ImgObj = new Image() // 判断图片是否存在
   ImgObj.src = imgurl
   return ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)
+}
+
+export function setUrlParams(obj) {
+  const qs = new URLSearchParams(obj)
+  let hash = location.hash
+  const index = hash.indexOf('?')
+  if (index !== -1) {
+    hash = hash.substring(0, index)
+  }
+  const url = location.pathname + hash + (qs.toString() ? '?' + qs.toString() : '')
+  history.pushState({ url: url, title: document.title }, document.title, url)
+}
+
+export function queryStringToObj(str) {
+  return Object.fromEntries(new URLSearchParams(str))
+}
+
+export function parseBool(value) {
+  if (isBool(value)) {
+    return value
+  }
+  if (isNumber(value)) {
+    return value > 0
+  }
+  if (isString(value)) {
+    return value === 'true'
+  }
+  return !!value
 }

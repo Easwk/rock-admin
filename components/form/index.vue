@@ -62,7 +62,7 @@
 
 <script>
 import { componentMap } from './setting'
-import { camelToSnake, ruleCompute, isArray, showEleByClassName } from '../../utils'
+import { camelToSnake, ruleCompute, isArray, showEleByClassName, type, parseBool } from '../../utils'
 import { makeFormOptions } from './setting'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
@@ -82,7 +82,7 @@ export default {
     },
     modelValue: {
       type: Object,
-      default: () => {}
+      default: _ => {}
     },
     formItems: {
       type: Array,
@@ -110,7 +110,7 @@ export default {
     return {
       loading: false,
       props: this.$props,
-      formData: this.$props.modelValue, // 表单数据
+      formData: Object.assign({}, this.$props.modelValue), // 表单数据
       formRules: [], // 验证规则
       fieldMap: {}, // field -> item map
       computeRules: [], // 动态计算规则
@@ -201,7 +201,11 @@ export default {
       const formRules = {}
       const fieldMap = {}
       const computeRules = {}
+      const query = this.$route.query
       formItems.forEach((item) => {
+        if (query[item.field] !== undefined) {
+          item.value = this.parseType(item, query[item.field])
+        }
         if (item.value !== undefined) {
           formData[item.field] = item.value
         }
@@ -225,6 +229,37 @@ export default {
         formItemsSource: this.$lodash.concat([], formItems),
         cacheItems: this.$lodash.concat([], formItems)
       }
+    },
+    parseType(item, value) {
+      let reference = item.value
+      const refType = type(reference)
+      if (refType === 'object') {
+        return reference
+      }
+      if (item.options) {
+        reference = item.options[item.options.length - 1].value
+      }
+      if (refType === 'string' && refType !== 'object') {
+        return value + ''
+      }
+      if (refType === 'number') {
+        if (type(value) === 'array') {
+          return value.map(each => {
+            if ((each + '').indexOf('.') > -1) {
+              return parseFloat(each)
+            }
+            return parseInt(each)
+          })
+        }
+        if ((value + '').indexOf('.') > -1) {
+          return parseFloat(value)
+        }
+        return parseInt(value)
+      }
+      if (refType === 'boolean' || item.type === 'switch') {
+        return parseBool(value)
+      }
+      return value
     },
     validate() {
       return this.$refs.formData.validate

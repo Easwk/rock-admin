@@ -121,7 +121,7 @@
 import Cells from './cell/index'
 import VForm from '../form'
 import VButton from '../button/VButton'
-import { firstUpperCase, isArray, strVarReplace, isObject, isBool } from '../../utils'
+import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams } from '../../utils'
 import pipe from '../../utils/pipe'
 import CellEdit from './cellEdit'
 
@@ -210,7 +210,7 @@ export default {
         total: 0
       },
       paginationKey: 0,
-      filterForm: {},
+      filterForm: Object.assign({}, this.$route.query),
       loading: false,
       sort: null
     }
@@ -302,10 +302,12 @@ export default {
       if (args.resetPage !== false) {
         this.page.currentPage = 1
       }
-      const params = Object.assign({}, this.getAvailableFilter(), {
+      const filter = this.getAvailableFilter()
+      const page = {
         _page: this.page.currentPage,
         _size: this.page.pageSize
-      }, this.sort)
+      }
+      const params = Object.assign({}, filter, page, this.sort)
       // if (this.activeTab) {
       //   params[this.activeTab.field] = this.activeTab.value
       // }
@@ -319,6 +321,7 @@ export default {
           this.tableList = payload.list
           this.page = Object.assign(this.page, payload.page || {})
           this.loading = false
+          setUrlParams(filter)
         })
     },
     handleSelectionChange(rows) {
