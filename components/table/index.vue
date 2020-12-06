@@ -43,6 +43,7 @@
         header-cell-class-name="table-header-cell"
         style="width: 100%"
         @selection-change="handleSelectionChange"
+        @sort-change="sortTable"
       >
         <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
         <el-table-column
@@ -50,7 +51,7 @@
           :key="index + '-table-column'"
           :prop="item.field"
           :label="item.label"
-          v-bind="item.columnProps || {}"
+          v-bind="getColumnProps(item.columnProps || {})"
         >
           <!--    表头    -->
           <template #header>
@@ -210,7 +211,8 @@ export default {
       },
       paginationKey: 0,
       filterForm: {},
-      loading: false
+      loading: false,
+      sort: null
     }
   },
   computed: {
@@ -303,7 +305,7 @@ export default {
       const params = Object.assign({}, this.getAvailableFilter(), {
         _page: this.page.currentPage,
         _size: this.page.pageSize
-      })
+      }, this.sort)
       // if (this.activeTab) {
       //   params[this.activeTab.field] = this.activeTab.value
       // }
@@ -404,6 +406,19 @@ export default {
     },
     cellChange(index, field, value) {
       this.$emit('cell-change', { index, field, value })
+    },
+    getColumnProps(props) {
+      return {
+        sortable: props.sortable ? 'custom' : false
+      }
+    },
+    sortTable({ column, order, prop }) {
+      if (order && prop) {
+        this.sort = { _sort_by: prop, _sort_type: order }
+      } else {
+        this.sort = null
+      }
+      this.load()
     }
   }
 }

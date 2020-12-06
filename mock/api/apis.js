@@ -500,6 +500,9 @@ export const simpleTable = {
       state: {
         1: 'info',
         0: 'warning'
+      },
+      columnProps: {
+        sortable: true
       }
     },
     {
