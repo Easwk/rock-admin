@@ -4,6 +4,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    const loading = document.getElementById('preloader')
+    if (loading !== null) {
+      document.body.removeChild(loading)
+    }
+  }
 }
 </script>
