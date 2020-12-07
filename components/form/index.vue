@@ -62,7 +62,7 @@
 
 <script>
 import { componentMap } from './setting'
-import { camelToSnake, ruleCompute, isArray, showEleByClassName, type, parseBool } from '../../utils'
+import { camelToSnake, ruleCompute, isArray, showEleByClassName, type, parseBool, isString, isFunc } from '../../utils'
 import { makeFormOptions } from './setting'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
@@ -103,6 +103,14 @@ export default {
       default: () => {
         return {}
       }
+    },
+    afterSubmit: {
+      type: [String, Function],
+      default: 'goback'
+    },
+    afterReset: {
+      type: [String, Function],
+      default: 'goback'
     }
   },
   emits: ['submit', 'reset', 'fieldchange', 'update:modelValue', 'mounted'],
@@ -161,7 +169,7 @@ export default {
     if (this.$props.infoApi) {
       this.loading = true
       this.$http.request({ method: 'GET', url: this.$props.infoApi }).then(({ payload }) => {
-        this.props = payload
+        this.props = this.$lodash.merge(this.$props, payload)
         this.loading = false
         this.$emit('mounted', this.$refs.formData)
       })
@@ -296,6 +304,7 @@ export default {
           })
         console.log('formData', this.formData)
         this.$emit('submit', this.formData)
+        setTimeout(this.execAfter('afterSubmit'), 200)
       } else {
         console.log('error submit!!')
         showEleByClassName('is-error')
@@ -305,6 +314,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
       this.$emit('reset')
+      setTimeout(this.execAfter('afterReset'), 200)
     },
     getComponentName(name) {
       return componentMap[name] || name
@@ -362,6 +372,25 @@ export default {
           )
         }
       })
+    },
+    execAfter(type) {
+      const action = this.props[type]
+      if (action === undefined) {
+        return
+      }
+      if (isString(action)) {
+        switch (this.props[type]) {
+          case 'goback':
+            this.$router.back(-1)
+            break
+          case 'reload':
+            location.reload()
+            break
+        }
+      }
+      if (isFunc(action)) {
+        action()
+      }
     }
   }
 }
