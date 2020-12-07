@@ -161,6 +161,7 @@ export default {
           }
         })
         this.formOptions = makeFormOptions(options || this.$props.options)
+        setTimeout(this.computedInit, 50) // fixme 是否有更好的方式?
       },
       immediate: true
     }
@@ -345,6 +346,11 @@ export default {
       this.computedWhen(field, value)
       this.$emit('fieldchange', { field, value })
       this.$emit('update:modelValue', this.formData)
+    },
+    computedInit() {
+      Object.keys(this.formData).forEach(field => {
+        this.computedWhen(field, this.formData[field])
+      })
     },
     computedWhen(field, value) {
       const rule = this.computeRules[field]
