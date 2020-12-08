@@ -25,10 +25,16 @@ const routes = [
     meta: { title: '开发工具', icon: 'el-icon-s-tools' },
     children: [
       {
-        path: '/devtool/entity',
-        name: 'GenEntity',
+        path: '/devtool/gen_from',
+        name: 'GenForm',
         component: Entity,
-        meta: { title: '实体构建', icon: 'el-icon-s-tools' }
+        meta: { title: '表单构建', icon: 'el-icon-s-tools' }
+      },
+      {
+        path: '/devtool/gen_table',
+        name: 'GenTable',
+        component: Entity,
+        meta: { title: '列表构建', icon: 'el-icon-s-tools' }
       },
       {
         path: '/devtool/controller',

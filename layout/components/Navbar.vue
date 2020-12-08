@@ -36,10 +36,7 @@
         class="right-item"
         @click="showPageJsonSchema"
       >
-        <icon name="code" />
-      </div>
-      <div class="right-item">
-        <i class="el-icon-edit" />
+        <icon name="ra-code" />
       </div>
       <div class="right-item-button" style="padding: 0">
         <v-button :buttons="config.nav" />
@@ -140,8 +137,7 @@ export default {
     },
     showPageJsonSchema() {
       this.showJsonSchema = true
-      this.json =
-        this.$store.state.app.pages[this.$route.path + '/page_info'] || ''
+      this.json = this.$store.state.app.pages[this.$route.path + '/page_info'] || ''
       this.key++
     }
   }
