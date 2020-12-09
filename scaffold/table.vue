@@ -1,30 +1,21 @@
 <template>
-  <v-table
-    :info-api="infoApi"
-    :list-api="listApi"
-  />
+  <v-table v-bind="tableProps" />
 </template>
 <script>
 import VTable from '../components/table/index'
 // import VNotification from '../components/Notification'
 export default {
-  name: 'Table',
+  name: 'TableRender',
   components: { VTable },
   data() {
-    return {
-      formData: {}
+    const token = this.$route.path.split('/')
+    const project = token.slice(0, token.length - 1).join('/')
+    const schema = this.$route.meta.pageSchema || { infoApi: project + '/list_schema' }
+    if (schema.listApi === undefined) {
+      schema.listApi = project + '/list'
     }
-  },
-  computed: {
-    project() {
-      const token = this.$route.path.split('/')
-      return token.slice(0, token.length - 1).join('/')
-    },
-    infoApi() {
-      return this.project + '/list_schema'
-    },
-    listApi() {
-      return this.project + '/list'
+    return {
+      tableProps: schema
     }
   }
 }

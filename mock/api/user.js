@@ -1,3 +1,7 @@
+import { simpleTable } from '../data/table'
+import { simpleForm } from '../data/form'
+import menu from '../data/menu'
+import role from '../data/role'
 const tokens = {
   admin: {
     token: 'admin-token'
@@ -107,43 +111,25 @@ export default [
                     path: '/user/list',
                     name: '列表',
                     icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'list',
+                    page_schema: simpleTable
                   },
                   {
                     path: '/user/form',
                     name: '新建',
                     icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: simpleForm
                   },
                   {
                     path: '/user/:id',
                     name: '编辑',
                     icon: 'el-icon-help',
-                    is_show: false
-                  }
-                ]
-              },
-              {
-                name: '角色管理',
-                path: '#',
-                children: [
-                  {
-                    path: '/role/list',
-                    name: '角色列表',
-                    icon: 'el-icon-help',
-                    is_show: false
-                  },
-                  {
-                    path: '/role/form',
-                    name: '角色新建',
-                    icon: 'el-icon-help',
-                    is_show: false
-                  },
-                  {
-                    path: '/role/:id',
-                    name: '角色编辑',
-                    icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: simpleForm
                   }
                 ]
               },
@@ -153,21 +139,57 @@ export default [
                 children: [
                   {
                     path: '/menu/list',
-                    name: '菜单列表',
+                    name: '列表',
                     icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'list',
+                    page_schema: menu.table
                   },
                   {
                     path: '/menu/form',
-                    name: '菜单新建',
+                    name: '新建',
                     icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: menu.form
                   },
                   {
                     path: '/menu/:id',
-                    name: '菜单编辑',
+                    name: '编辑',
                     icon: 'el-icon-help',
-                    is_show: false
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: menu.form
+                  }
+                ]
+              },
+              {
+                name: '角色管理',
+                path: '#',
+                children: [
+                  {
+                    path: '/role/list',
+                    name: '列表',
+                    icon: 'el-icon-help',
+                    is_show: false,
+                    page_type: 'list',
+                    page_schema: role.table
+                  },
+                  {
+                    path: '/role/form',
+                    name: '新建',
+                    icon: 'el-icon-help',
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: role.form
+                  },
+                  {
+                    path: '/role/:id',
+                    name: '编辑',
+                    icon: 'el-icon-help',
+                    is_show: false,
+                    page_type: 'form',
+                    page_schema: role.form
                   }
                 ]
               }

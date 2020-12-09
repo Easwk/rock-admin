@@ -1,30 +1,22 @@
 <template>
   <v-form
-    v-model="formData"
-    :info-api="infoApi"
-    :save-api="saveApi"
+    v-bind="formProps"
   />
 </template>
 <script>
 import VForm from '../components/form/index'
 export default {
-  name: 'Form',
+  name: 'FormRender',
   components: { VForm },
   data() {
-    return {
-      formData: {}
+    const token = this.$route.path.split('/')
+    const project = token.slice(0, token.length - 1).join('/')
+    const schema = this.$route.meta.pageSchema || { infoApi: project + '/form_schema' }
+    if (schema.listApi === undefined) {
+      schema.saveApi = project + '/save'
     }
-  },
-  computed: {
-    project() {
-      const token = this.$route.path.split('/')
-      return token.slice(0, token.length - 1).join('/')
-    },
-    infoApi() {
-      return this.project + '/form_schema'
-    },
-    saveApi() {
-      return this.project + '/save'
+    return {
+      formProps: schema
     }
   }
 }

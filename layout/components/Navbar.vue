@@ -34,9 +34,8 @@
       <div
         v-if="showPageJsonSchemaIcon"
         class="right-item"
-        @click="showPageJsonSchema"
       >
-        <icon name="ra-code" />
+        <page-schema />
       </div>
       <div class="right-item-button" style="padding: 0">
         <v-button :buttons="config.nav" />
@@ -66,6 +65,7 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from './Breadcrumb/index'
 import Hamburger from './Hamburger/index'
+import PageSchema from './PageScheam'
 import { showEleByClassName } from '../../utils'
 import Cache from '../../utils/cache'
 import VButton from 'rock-admin/components/button/VButton'
@@ -74,7 +74,8 @@ export default {
   components: {
     Breadcrumb,
     Hamburger,
-    VButton
+    VButton,
+    PageSchema
   },
   data() {
     return {
@@ -134,11 +135,6 @@ export default {
     closeNotice(text) {
       const key = 'dismiss:navbar_notice'
       Cache.set(key, text)
-    },
-    showPageJsonSchema() {
-      this.showJsonSchema = true
-      this.json = this.$store.state.app.pages[this.$route.path + '/page_info'] || ''
-      this.key++
     }
   }
 }

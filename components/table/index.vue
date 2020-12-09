@@ -1,6 +1,6 @@
 <template>
   <!--  筛选条件  -->
-  <el-card v-if="tableFilter.length > 0" shadow="never" class="table-filter">
+  <el-card v-if="tableFilter.length > 0 && tableBatchButton.length > 0" shadow="never" class="table-filter">
     <slot name="filter">
       <v-form
         v-if="tableFilter.length > 0"
@@ -18,10 +18,25 @@
     <slot name="action">
       <el-row :gutter="20">
         <el-col :span="12">
-          <v-button :buttons="makeBatchButton(tableBatchButton)" />
-          <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'afterBatchButton'" class="selected-info">
-            <span v-html="selectedInfo" />
-          </div>
+          <template v-if="tableBatchButton.length === 0">
+            <slot name="filter">
+              <v-form
+                v-if="tableFilter.length > 0"
+                v-model="filterForm"
+                class="filter-form"
+                :options="filterFormOptions"
+                :form-items="tableFilter"
+                @submit="searchAction"
+                @reset="load"
+              />
+            </slot>
+          </template>
+          <template v-else>
+            <v-button :buttons="makeBatchButton(tableBatchButton)" />
+            <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'afterBatchButton'" class="selected-info">
+              <span v-html="selectedInfo" />
+            </div>
+          </template>
         </el-col>
         <el-col :span="12" class="normal-button">
           <v-button :buttons="makeNormalButton(tableNormalButton)" />
@@ -454,9 +469,6 @@ export default {
 .table-filter {
   margin-bottom: 15px;
 }
-::v-deep(.el-card__body) {
-  padding-bottom: 0;
-}
 ::v-deep(.el-divider--horizontal) {
   margin: 10px 0;
 }
@@ -480,9 +492,15 @@ export default {
     }
   }
 }
-  .list-incr-button {
-    width: 100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
+.list-incr-button {
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+::v-deep(.el-form-item) {
+   margin-bottom: 0;
+}
+::v-deep(.el-form-item--small.el-form-item) {
+   margin-bottom: 0;
+}
 </style>

@@ -39,7 +39,7 @@ const routes = [
       {
         path: '/devtool/controller',
         name: 'GenCtrl',
-        component: Dashboard,
+        component: () => import('../views/dashboard'),
         meta: { title: '控制器构建', icon: 'el-icon-s-tools' }
       }
     ]

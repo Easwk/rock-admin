@@ -20,13 +20,11 @@ const getComponent = item => {
   if (item.path === '#') {
     return Container
   }
-  const tokens = item.path.split('/')
-  const pathType = tokens[tokens.length - 1]
-  if (pathType === ':id' || pathType === 'form') {
-    return Form
-  }
-  if (pathType === 'list') {
-    return Table
+  switch (item?.page_type) {
+    case 'list':
+      return Table
+    case 'form':
+      return Form
   }
   return Container
 }
@@ -49,7 +47,12 @@ const transRoute = item => {
     path: getPath(item),
     name: item.path + item.name,
     component: getComponent(item),
-    meta: { title: item.name, icon: item.icon, hidden: item.is_show !== undefined ? !item.is_show : false },
+    meta: {
+      title: item.name,
+      icon: item.icon,
+      hidden: item.is_show !== undefined ? !item.is_show : false,
+      pageSchema: item.page_schema || {}
+    },
     hidden: item.is_show !== undefined ? !item.is_show : false,
     children: item.children !== undefined ? item.children.map(each => transRoute(each)) : []
   }
