@@ -1,7 +1,6 @@
-import { simpleTable } from '../data/table'
-import { simpleForm } from '../data/form'
 import menu from '../data/menu'
 import role from '../data/role'
+import example from '../data/example'
 const tokens = {
   admin: {
     token: 'admin-token'
@@ -113,7 +112,7 @@ export default [
                     icon: 'el-icon-help',
                     is_show: false,
                     page_type: 'list',
-                    page_schema: simpleTable
+                    page_schema: example.table
                   },
                   {
                     path: '/user/form',
@@ -121,7 +120,7 @@ export default [
                     icon: 'el-icon-help',
                     is_show: false,
                     page_type: 'form',
-                    page_schema: simpleForm
+                    page_schema: example.form
                   },
                   {
                     path: '/user/:id',
@@ -129,7 +128,7 @@ export default [
                     icon: 'el-icon-help',
                     is_show: false,
                     page_type: 'form',
-                    page_schema: simpleForm
+                    page_schema: example.form
                   }
                 ]
               },
