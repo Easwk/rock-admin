@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import menu from '../data/menu'
 import role from '../data/role'
 import example from '../data/example'
@@ -9,8 +8,6 @@ function response(payload) {
     payload
   }
 }
-
-const regUserId = /api\/user\/\d+/
 
 export default [
   {
@@ -36,14 +33,14 @@ export default [
     }
   },
   {
-    url: regUserId,
+    url: /api\/user\/\d+/,
     type: 'get',
     response: () => {
       return example.form
     }
   },
   {
-    url: regUserId,
+    url: /api\/user\/\d+/,
     type: 'post',
     response: () => response({})
   },

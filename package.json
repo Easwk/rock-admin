@@ -41,7 +41,7 @@
     "sass-loader": "^10.1.0",
     "system": "^2.0.1",
     "vue": "^3.0.3",
-    "vue-router": "^4.0.0-rc.6",
+    "vue-router": "^4.0.1",
     "vuex": "^4.0.0-0"
   },
   "repository": {
