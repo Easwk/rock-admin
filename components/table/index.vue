@@ -4,12 +4,13 @@
     <slot name="filter">
       <v-form
         v-if="tableFilter.length > 0"
+        :key="formKey"
         v-model="filterForm"
         class="filter-form"
         :options="filterFormOptions"
         :form-items="tableFilter"
         @submit="searchAction"
-        @reset="load"
+        @reset="resetFilter"
       />
     </slot>
   </el-card>
@@ -200,6 +201,7 @@ export default {
   data() {
     return {
       rowKey: 0,
+      formKey: 0,
       filterFormOptions: {
         inline: true,
         labelPosition: 'right',
@@ -286,6 +288,11 @@ export default {
     setTimeout(() => this.load(), 200)
   },
   methods: {
+    resetFilter() {
+      this.filterForm = {}
+      this.formKey++
+      this.load()
+    },
     cellType(column) {
       let type = column.type || 'span'
       type = type === 'input' ? 'span' : type
