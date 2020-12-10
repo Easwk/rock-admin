@@ -152,7 +152,7 @@ export default {
     props: {
       handler() {
         const { formItems, options } = this.props
-        const initData = this.init(formItems || [])
+        const initData = this.init(this.$lodash.cloneDeep(formItems || []))
         Object.keys(initData).forEach((key) => {
           if (key === 'formData') {
             this[key] = this.$lodash.merge(this.formData, initData[key])
@@ -235,8 +235,8 @@ export default {
         formRules,
         fieldMap,
         computeRules,
-        formItemsSource: this.$lodash.concat([], formItems),
-        cacheItems: this.$lodash.concat([], formItems)
+        formItemsSource: formItems,
+        cacheItems: formItems
       }
     },
     parseType(item, value) {
