@@ -17,7 +17,7 @@
     <!--   批量按钮/其他按钮   -->
     <slot name="action">
       <el-row :gutter="20">
-        <el-col :span="18">
+        <el-col :span="tableBatchButton.length > 0 ? 12 : 18">
           <template v-if="tableBatchButton.length === 0">
             <slot name="filter">
               <v-form
@@ -38,7 +38,7 @@
             </div>
           </template>
         </el-col>
-        <el-col :span="6" class="normal-button">
+        <el-col :span="tableBatchButton.length > 0 ? 12 : 6" class="normal-button">
           <v-button :buttons="makeNormalButton(tableNormalButton)" />
         </el-col>
       </el-row>
