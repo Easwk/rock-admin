@@ -20,7 +20,7 @@ const getComponent = item => {
   if (item.path === '#') {
     return Container
   }
-  switch (item?.page_type) {
+  switch (item.page_type) {
     case 'list':
       return Table
     case 'form':
