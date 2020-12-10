@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 const form = {
-  submitApi: '/save',
+  saveApi: '/save',
   options: {
     column: 3,
     submitButton: {

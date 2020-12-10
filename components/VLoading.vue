@@ -1,14 +1,14 @@
 <template>
-  <Suspense>
-    <template #default>
-      <slot />
-    </template>
-    <template #fallback>
-      <div class="loading">
-        <div class="loading-inner" />
-      </div>
-    </template>
-  </Suspense>
+  <!--  <Suspense>-->
+  <!--    <template #default>-->
+  <slot />
+<!--    </template>-->
+<!--    <template #fallback>-->
+<!--      <div class="loading">-->
+<!--        <div class="loading-inner" />-->
+<!--      </div>-->
+<!--    </template>-->
+<!--  </Suspense>-->
 </template>
 <style lang="scss" scoped>
   .loading {
@@ -16,7 +16,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 500px;
     z-index: 1000;
   }
 

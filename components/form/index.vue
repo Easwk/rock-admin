@@ -80,6 +80,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isSub: {
+      type: Boolean,
+      default: false
+    },
     modelValue: {
       type: Object,
       default: _ => {}
@@ -117,7 +121,7 @@ export default {
   data() {
     return {
       loading: false,
-      props: this.$props,
+      props: this.$lodash.cloneDeep(this.$props),
       formData: Object.assign({}, this.$props.modelValue), // 表单数据
       formRules: [], // 验证规则
       fieldMap: {}, // field -> item map
@@ -170,7 +174,13 @@ export default {
     if (this.$props.infoApi) {
       this.loading = true
       this.$http.request({ method: 'GET', url: this.$props.infoApi }).then(({ payload }) => {
-        this.props = this.$lodash.merge(this.$props, payload)
+        if (this.$props.infoApi !== '') {
+          delete payload['infoApi']
+        }
+        if (this.$props.saveApi !== '') {
+          delete payload['saveApi']
+        }
+        this.props = this.$lodash.merge({}, this.$props, payload)
         this.loading = false
         this.$emit('mounted', this.$refs.formData)
       })

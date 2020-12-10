@@ -36,7 +36,7 @@ export default [
     url: /api\/user\/\d+/,
     type: 'get',
     response: () => {
-      return example.form
+      return response(example.form)
     }
   },
   {
