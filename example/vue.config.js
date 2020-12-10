@@ -34,8 +34,8 @@ if (enableMock) {
 }
 
 module.exports = {
-  publicPath: '/',
-  outputDir: 'dist',
+  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
+  outputDir: process.env.VUE_APP_OUTPUT_DIR || 'dist',
   assetsDir: 'static',
   lintOnSave: isDev,
   productionSourceMap: isDev,
@@ -51,7 +51,6 @@ module.exports = {
       },
       output: {
         filename: `static/js/[name].[${hashType}].js`,
-        publicPath: '/',
         chunkFilename: `static/js/[name].[${hashType}].js`
       },
       stats: 'none', // 屏蔽打包报警
@@ -121,6 +120,5 @@ module.exports = {
           chunkFilename: `static/css/[name].[${hashType}].css`
         }
       ])
-
   }
 }
