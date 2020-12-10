@@ -11,10 +11,12 @@ export default {
   data() {
     const token = this.$route.path.split('/')
     const project = token.slice(0, token.length - 1).join('/')
-    const schema = this.$route.meta.pageSchema || { infoApi: project + '/form_schema' }
-    if (schema.listApi === undefined) {
-      schema.saveApi = project + '/save'
-    }
+    let schema = this.$route.meta.pageSchema || { infoApi: project + '/form_schema' }
+    schema = this.$lodash.merge({
+      saveApi: project + '/save',
+      afterSubmit: 'goback',
+      afterReset: 'goback'
+    }, schema)
     return {
       formProps: schema
     }

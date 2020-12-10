@@ -106,11 +106,11 @@ export default {
     },
     afterSubmit: {
       type: [String, Function],
-      default: 'goback'
+      default: ''
     },
     afterReset: {
       type: [String, Function],
-      default: 'goback'
+      default: ''
     }
   },
   emits: ['submit', 'reset', 'fieldchange', 'update:modelValue', 'mounted'],
