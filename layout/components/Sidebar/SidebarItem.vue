@@ -33,7 +33,7 @@
         </app-link>
         <menu-content v-else :meta="item.meta" />
       </template>
-      <sidebar-item
+      <side-item
         v-for="child in item.children"
         :key="child.path"
         :is-nest="true"
@@ -51,10 +51,15 @@ import { isExternal } from '../../../utils/validate'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
 import MenuContent from './MenuContent'
+import { defineAsyncComponent } from 'vue'
 
 export default {
   name: 'SidebarItem',
-  components: { AppLink, MenuContent },
+  components: {
+    AppLink,
+    MenuContent,
+    SideItem: defineAsyncComponent(() => import('./SidebarItem'))
+  },
   mixins: [FixiOSBug],
   props: {
     // route object
