@@ -462,7 +462,8 @@ const table = {
       }
     }
   ],
-  selectedNotice: '当前共勾选: {selectedCount} 条'
+  selectedNotice: '当前共勾选: {selectedCount} 条',
+  listApi: '/user/list'
 }
 
 const listMock = {
@@ -488,5 +489,81 @@ const listMock = {
   }
 }
 
-export default { form, table, listMock }
+const layoutForm = {
+  formItems: [
+    {
+      type: 'input',
+      label: 'span12-1',
+      col: {
+        span: 12
+      }
+    },
+    {
+      type: 'input',
+      label: 'span12-1',
+      col: {
+        span: 12
+      }
+    },
+    {
+      type: 'input',
+      label: 'span6-1',
+      col: {
+        span: 6
+      }
+    },
+    {
+      type: 'input',
+      label: 'span6-1',
+      col: {
+        span: 6
+      }
+    },
+    {
+      type: 'input',
+      label: 'span'
+    }
+  ]
+}
+
+const layoutSection = {
+  formItems: [
+    {
+      type: 'input',
+      label: 'span12-1',
+      col: {
+        span: 12
+      }
+    },
+    {
+      type: 'input',
+      label: 'span12-1',
+      col: {
+        span: 12
+      }
+    },
+    {
+      type: 'input',
+      label: 'span6-1',
+      section: '表单片段1',
+      col: {
+        span: 6
+      }
+    },
+    {
+      type: 'input',
+      label: 'span6-1',
+      col: {
+        span: 6
+      }
+    },
+    {
+      section: '表单片段2',
+      type: 'input',
+      label: 'span'
+    }
+  ]
+}
+
+export default { form, table, listMock, layoutForm, layoutSection }
 

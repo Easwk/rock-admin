@@ -98,6 +98,48 @@ export default [
         code: 0,
         payload: [
           {
+            name: '表单DEMO',
+            path: '#',
+            icon: 'el-icon-help',
+            children: [
+              {
+                path: '/form/overview',
+                name: '表单控件',
+                icon: 'el-icon-help',
+                page_type: 'form',
+                page_schema: example.form
+              },
+              {
+                path: '/form/layout',
+                name: '表单布局',
+                icon: 'el-icon-help',
+                page_type: 'form',
+                page_schema: example.layoutForm
+              },
+              {
+                path: '/form/section',
+                name: '表单分片',
+                icon: 'el-icon-help',
+                page_type: 'form',
+                page_schema: example.layoutSection
+              }
+            ]
+          },
+          {
+            name: '列表DEMO',
+            path: '#',
+            icon: 'el-icon-help',
+            children: [
+              {
+                path: '/table/overview',
+                name: '列表概览',
+                icon: 'el-icon-help',
+                page_type: 'list',
+                page_schema: example.table
+              }
+            ]
+          },
+          {
             name: '系统管理',
             path: '#',
             icon: 'el-icon-help',
