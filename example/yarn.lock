@@ -7517,10 +7517,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rock-admin@^0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/rock-admin/-/rock-admin-0.0.15.tgz#d3a48b6d364880354349af2c1d28956a7b94b4e8"
-  integrity sha512-MQ0Q1+63CBUubgZz7GlCN7bCwGC9+x7hIALGBzzgiCmCetXnjiSF8Kkwo50sYy8yWPxDFsSCTl98q300plDsJg==
+rock-admin@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/rock-admin/-/rock-admin-0.0.16.tgz#4827503061a3f40cd8f5a38ab6fb716b425c2e8d"
+  integrity sha512-J9MU1PwxGAmMVg+Kvtfejk0VH+eBWa+AP8fTcrUqx6Xr1WOSyYl+f8b0DFB15TH4eLSAHBv9Ps+QZNp9BKTK8Q==
   dependencies:
     "@vue/babel-plugin-jsx" "^1.0.0-rc.3"
     "@vue/cli-plugin-babel" "^4.5.9"
