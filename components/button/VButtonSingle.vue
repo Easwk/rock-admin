@@ -19,11 +19,13 @@
       :title="text"
       :destroy-on-close="true"
     >
-      <component
-        :is="getSubComp()"
-        v-bind="getSubProps()"
-        v-on="getSubEvent()"
-      />
+      <slot>
+        <component
+          :is="getSubComp()"
+          v-bind="getSubProps()"
+          v-on="getSubEvent()"
+        />
+      </slot>
     </component>
   </template>
 </template>

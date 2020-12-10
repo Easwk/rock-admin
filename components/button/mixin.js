@@ -40,6 +40,10 @@ export default {
         return ['dialog', 'drawer'].indexOf(value) !== -1
       }
     },
+    beforeClose: {
+      type: Function,
+      default: _ => true
+    },
     preCheck: {
       type: Function,
       default: () => {
@@ -63,6 +67,9 @@ export default {
           this.showContainer = true
         },
         list: () => {
+          this.showContainer = true
+        },
+        modal: () => {
           this.showContainer = true
         },
         api: () => {
@@ -99,6 +106,9 @@ export default {
   },
   methods: {
     closeContainer() {
+      if (!this.beforeClose()) {
+        return
+      }
       this.showContainer = false
     },
     getSubComp() {

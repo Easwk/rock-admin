@@ -3,7 +3,8 @@ import Index from '../views/login/index'
 import NotFoundPage from '../views/404'
 import Layout from '../layout/index'
 import Dashboard from '../views/dashboard/index'
-import Entity from '../views/devtools/entity'
+import FormSchema from '../views/devtools/formSchema'
+import TableSchema from '../views/devtools/tableSchema'
 
 const routes = [
   {
@@ -27,13 +28,13 @@ const routes = [
       {
         path: '/devtool/gen_from',
         name: 'GenForm',
-        component: Entity,
+        component: FormSchema,
         meta: { title: '表单构建', icon: 'el-icon-s-tools' }
       },
       {
         path: '/devtool/gen_table',
         name: 'GenTable',
-        component: Entity,
+        component: TableSchema,
         meta: { title: '列表构建', icon: 'el-icon-s-tools' }
       },
       {
