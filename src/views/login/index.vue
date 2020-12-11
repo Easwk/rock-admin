@@ -43,9 +43,7 @@
               @keyup.enter="handleLogin"
             />
             <span class="show-pwd" @click="showPwd">
-              <icon
-                :name="passwordType === 'password' ? 'not-visible' : 'visible'"
-              />
+              <icon :name="passwordType === 'password' ? 'not-visible' : 'visible'"/>
             </span>
           </el-form-item>
           <el-button
@@ -55,7 +53,7 @@
             @click.prevent="handleLogin"
           >Login</el-button>
           <div class="tips">
-            <span>{{ $store.state.settings.loginTips }}</span>
+            <span v-html="$store.state.settings.loginTips" />
           </div>
         </el-form>
         <div v-show="['dingTalk', 'wechat'].indexOf(loginType) !== -1">

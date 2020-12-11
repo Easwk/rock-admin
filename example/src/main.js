@@ -1,5 +1,8 @@
 import 'element-plus/lib/theme-chalk/index.css'
 import { createAdmin } from 'rock-admin'
+
+import mockApis from '../mock'
+import settings from './settings'
 const nav = [
   {
     type: 'jump',
@@ -13,13 +16,10 @@ const nav = [
 ]
 
 createAdmin({
-  config: {
-    sidebarLogo: true,
-    title: 'RockAdmin',
-    loginTips: '账号 admin 密码 a1a1a1'
-  },
+  config: settings,
   nav: nav,
   mock: {
+    apis: mockApis,
     baseURI: process.env.NODE_ENV_DEV_PORT
   }
 })
