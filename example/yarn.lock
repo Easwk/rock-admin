@@ -6904,10 +6904,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rock-admin@^0.0.17:
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/rock-admin/-/rock-admin-0.0.17.tgz#8dff2a2b98da222b974bd951c7b7e8a10575b0a2"
-  integrity sha512-5kMqycTYYze/0H9Nn0o7KgjnYUnuMi36ceJyFkotSP9GngSnlHHa92IQ+uJ5j3EI10d4PXeERf/Rlu5YgZk7mQ==
+rock-admin@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/rock-admin/-/rock-admin-0.0.18.tgz#fdf38d0eac464ad71dbac2927eb61e80559a8709"
+  integrity sha512-3cAIlZyWyXbSWXV0U6PriW3OJd/KVt4NTz7AeDtMrdX55NxrQZvrRbCbB9aTgIZl4bskK5gdCzDfzIHdiioUeQ==
   dependencies:
     axios "^0.21.0"
     codemirror "^5.58.2"
