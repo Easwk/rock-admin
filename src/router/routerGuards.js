@@ -1,6 +1,6 @@
 import router from './index'
 import store from '../store'
-// import { Message } from 'element-plus'
+import Message from 'element-plus/lib/el-message'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '../utils/auth' // get token from cookie
@@ -10,9 +10,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
-  if (to.matched.length === 0 && store.state.user.loadRemoteRoute) {
-    // next('/404')
-  }
   NProgress.start()
   document.title = to.meta.title ? to.meta.title + '-' + store.state.settings.title : store.state.settings.title
   const hasToken = getToken()
@@ -37,7 +34,7 @@ router.beforeEach(async(to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           console.error(error)
-          // Message.error(error || 'Has Error')
+          Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
@@ -64,6 +61,7 @@ router.beforeEach(async(to, from, next) => {
 router.afterEach((to) => {
   if (to.matched.length === 0) {
     router.push('/404')
+    // fixme 不能自动跳转404, 需要引导
   }
   NProgress.done()
 })
