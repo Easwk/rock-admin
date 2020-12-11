@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import CodeMirror from 'rock-admin/components/CodeMirror'
-import VJson from 'rock-admin/components/form/VJson'
+import CodeMirror from 'rock-admin/src/components/CodeMirror'
+import VJson from 'rock-admin/src/components/form/VJson'
 export default {
   name: 'Test',
   components: { CodeMirror, VJson },

@@ -2,7 +2,7 @@
   <v-chart :options="polar" class="widget" />
 </template>
 <script>
-import VChart from 'rock-admin/components/chart/VChart'
+import VChart from 'rock-admin/src/components/chart/VChart'
 
 export default {
   name: 'Chart',

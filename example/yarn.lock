@@ -3519,6 +3519,19 @@ element-plus@1.0.1-beta.6:
     normalize-wheel "^1.0.1"
     resize-observer-polyfill "^1.5.1"
 
+element-plus@^1.0.1-beta.7:
+  version "1.0.1-beta.7"
+  resolved "https://registry.yarnpkg.com/element-plus/-/element-plus-1.0.1-beta.7.tgz#080d3754ead09a71cdf1dda371fc34b55e8fc8ef"
+  integrity sha512-4U72sryKD/wO9oqJrB9xC4m00ARBZ14Kjcx4RVEBYP+Fl7V43SzPy0AW3ndso0byRz+gH76BkG0fzm9APcN0og==
+  dependencies:
+    "@popperjs/core" "^2.4.4"
+    async-validator "^3.4.0"
+    dayjs "1.x"
+    lodash "^4.17.20"
+    mitt "^2.1.0"
+    normalize-wheel "^1.0.1"
+    resize-observer-polyfill "^1.5.1"
+
 elliptic@^6.5.3:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"

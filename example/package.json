@@ -11,6 +11,7 @@
     "report": "node build/index.js --report"
   },
   "dependencies": {
+    "element-plus": "^1.0.1-beta.7",
     "rock-admin": "^0.0.16"
   },
   "devDependencies": {
