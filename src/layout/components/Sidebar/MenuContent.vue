@@ -1,5 +1,5 @@
 <template>
-  <icon :name="meta.icon || 'el-icon-menu'" />
+  <v-icon :name="meta.icon || 'el-icon-menu'" />
   <span class="menu-content">{{ meta.title }}</span>
 </template>
 

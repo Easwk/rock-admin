@@ -7,7 +7,7 @@
     <template #reference>
       <el-input v-model="localValue" :disabled="disabled" style="width: 25%" @focus="focus">
         <template #prepend>
-          <icon :name="localValue || ''" />
+          <v-icon :name="localValue || ''" />
         </template>
       </el-input>
     </template>
@@ -15,18 +15,15 @@
       <el-input v-model="filter" placeholder="搜索..." @focus="focus" />
       <el-row class="icon-list">
         <el-col v-for="(item, index) in elIconList.filter(each => each.indexOf(filter) !== -1)" :key="index" :span="2" @click="e => onselected(item)">
-          <icon :class="{'icon-cell': true, 'active': item === localValue}" :name="item" />
+          <v-icon :class="{'icon-cell': true, 'active': item === localValue}" :name="item" />
         </el-col>
       </el-row>
     </el-scrollbar>
   </el-popover>
 </template>
 <script>
-
-import Icon from '../Icon'
 export default {
   name: 'VIconSelect',
-  components: { Icon },
   props: {
     options: {
       type: Array,

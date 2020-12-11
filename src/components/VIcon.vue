@@ -1,6 +1,6 @@
 <script type="text/jsx">
 export default {
-  name: 'Icon',
+  name: 'VIcon',
   props: {
     name: {
       type: String,

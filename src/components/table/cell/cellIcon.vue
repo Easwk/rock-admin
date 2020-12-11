@@ -1,5 +1,5 @@
 <template>
-  <icon :name="data" />
+  <v-icon :name="data" />
 </template>
 <script>
 export default {

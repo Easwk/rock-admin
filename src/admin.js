@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import router from './router'
 import store from './store'
 import ElementPlus from 'element-plus'
-import Icon from './components/Icon'
+import VIcon from './components/VIcon'
 import request from './utils/request'
 import './router/routerGuards'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
@@ -17,7 +17,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import './styles/index.scss' // global css
 import settings from './settings'
 
-const GlobalComps = [Icon]
+const GlobalComps = [VIcon]
 
 const defaultConfig = {
   ElementPlus: {

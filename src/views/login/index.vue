@@ -15,7 +15,7 @@
         >
           <el-form-item prop="username">
             <span class="svg-container">
-              <icon name="user" />
+              <v-icon name="user" />
             </span>
             <el-input
               ref="username"
@@ -29,7 +29,7 @@
           </el-form-item>
           <el-form-item prop="password">
             <span class="svg-container">
-              <icon name="password" />
+              <v-icon name="password" />
             </span>
             <el-input
               :key="passwordType"
@@ -43,7 +43,7 @@
               @keyup.enter="handleLogin"
             />
             <span class="show-pwd" @click="showPwd">
-              <icon :name="passwordType === 'password' ? 'not-visible' : 'visible'"/>
+              <v-icon :name="passwordType === 'password' ? 'not-visible' : 'visible'"/>
             </span>
           </el-form-item>
           <el-button
@@ -66,7 +66,7 @@
           class="sso-item"
           @click="loginType = 'local'"
         >
-          <span>账号</span><icon name="zhongjianren" />
+          <span>账号</span><v-icon name="zhongjianren" />
         </div>
         <div
           v-for="(item, index) in sso"
@@ -74,7 +74,7 @@
           class="sso-item"
           @click="changLoginChannel(item)"
         >
-          <span>{{ item.title }}</span><icon :name="item.icon" />
+          <span>{{ item.title }}</span><v-icon :name="item.icon" />
         </div>
       </div>
     </div>
@@ -85,11 +85,9 @@
 import { validUsername } from '../../utils/validate'
 import DingTalk from '../../utils/sso/dingtalk'
 import WeChat from '../../utils/sso/wechat'
-import Icon from '../../components/Icon'
 
 export default {
   name: 'Login',
-  components: { Icon },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {

@@ -1,5 +1,5 @@
 <template>
-  <icon name="ra-code" @click="show = !show" />
+  <v-icon name="ra-code" @click="show = !show" />
   <el-drawer
     :key="$route.path"
     v-model="show"
