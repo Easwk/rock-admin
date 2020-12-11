@@ -68,7 +68,7 @@ import Hamburger from './Hamburger/index'
 import PageSchema from './PageScheam'
 import { showEleByClassName } from '../../utils'
 import Cache from '../../utils/cache'
-import VButton from 'rock-admin/src/components/button/VButton'
+import VButton from '../../components/button/VButton'
 
 export default {
   components: {
