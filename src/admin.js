@@ -15,56 +15,51 @@ import { mockXHR } from './mock'
 // style
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import './styles/index.scss' // global css
+import settings from './settings'
 
 const GlobalComps = [Icon]
 
-const defaultUi = {
-  size: 'small',
-  zIndex: 3000,
-  locale: locale
+const defaultConfig = {
+  ElementPlus: {
+    size: 'small',
+    zIndex: 3000,
+    locale: locale
+  },
+  nav: [],
+  routes: [],
+  globalComps: [],
+  mock: { apis: [], baseURI: '', defaultMockApi: true },
+  use: [],
+  config: settings
 }
 
 export default (options = {}) => {
+  options = lodash.merge(defaultConfig, options)
   const app = createApp(App)
 
-  const {
-    ElementOptions,
-    config,
-    routes,
-    globalComps,
-    mock,
-    nav,
-    use
-  } = options
-
   store.dispatch('app/setConfig', {
-    nav: nav || []
+    nav: options.nav
   })
-  store.dispatch('settings/loadLocalAdmin', config || {})
+  store.dispatch('settings/loadLocalAdmin', options.config)
 
-  GlobalComps.concat(globalComps || []).forEach(item => {
+  GlobalComps.concat(options.globalComps).forEach(item => {
     app.component(item.name, item)
   })
 
-  // mock api
-  // if (process.env.VUE_APP_ENABLE_MOCK === 'true') {
-  // const { mockXHR } = require('./mock')
-  const mockOpt = mock || {}
-  mockXHR(mockOpt.apis || [], mockOpt.baseURI || '', !!mockOpt.disableDefaultMockApi)
-  // }
+  mockXHR(options.mock.apis, options.mock.baseURI, options.mock.defaultMockApi)
 
   app.config.globalProperties.$http = request
-  app.config.globalProperties.$lodash = lodash;
+  app.config.globalProperties.$lodash = lodash
 
-  (routes || []).forEach(item => {
+  options.routes.forEach(item => {
     router.addRoute(item)
   })
 
   app.use(store)
     .use(router)
-    .use(ElementPlus, ElementOptions || defaultUi);
+    .use(ElementPlus, options.ElementPlus)
 
-  (use || []).forEach(item => {
+  options.use.forEach(item => {
     if (typeof item === 'object') {
       app.use(item)
     } else {

@@ -1,4 +1,4 @@
-export const defaultSetting = {
+export default {
   title: 'RockAdmin',
   fixedHeader: false,
   sidebarLogo: true,
@@ -8,23 +8,5 @@ export const defaultSetting = {
   hasNewMessage: true,
   showPageJsonSchema: true,
   loginTips: '登录信息提示',
-  sso: [
-    {
-      title: '钉钉',
-      name: 'dingTalk',
-      icon: 'dingding',
-      appid: 'dingoa6vcnfd63yrl9cp7f',
-      disable: false,
-      style: 'border:none;background-color:unset;'
-    },
-    {
-      title: '企微',
-      name: 'wechat',
-      icon: 'qiyeweixin',
-      appid: 'ww32a7b1a9dcae1ab1',
-      agentid: '1000002',
-      // 生成方式见 src/styles/wechat.css
-      href: 'data:text/css;base64,LmltcG93ZXJCb3ggLnRpdGxlew0KICBkaXNwbGF5OiBub25lOw0KfQ0KLmltcG93ZXJCb3ggLnN0YXR1c3sNCiAgY29sb3I6ICNmZmY7DQp9DQouaW1wb3dlckJveCAucXJjb2Rlew0KICB3aWR0aDogMjAwcHg7DQp9'
-    }
-  ]
+  sso: []
 }
