@@ -1,2 +1,3 @@
-import AppMain from 'rock-admin'
-AppMain()
+import { createAdmin } from 'rock-admin'
+
+createAdmin()
