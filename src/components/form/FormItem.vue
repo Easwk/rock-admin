@@ -13,6 +13,7 @@
       :is="getComponentName(item.type)"
       ref="ctrl"
       v-model="localValue"
+      clearable
       v-bind="getComponentProps(item)"
       @update:modelValue="onFiledChange"
     />
@@ -23,12 +24,12 @@
   </el-form-item>
 </template>
 <script>
-import { getComponentName, getComponentProps, customFormCtrl } from './setting'
+import { getComponentName, getComponentProps, customFormComps } from './setting'
 import _ from 'lodash'
 
 export default {
   name: 'FormItem',
-  components: { ...customFormCtrl },
+  components: { ...customFormComps },
   props: {
     formOptions: {
       type: Object,

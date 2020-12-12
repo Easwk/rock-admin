@@ -1,12 +1,10 @@
 'use strict'
 const path = require('path')
 const CompressionPlugin = require('compression-webpack-plugin')
-// const defaultSettings = require('./src/settings.js')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-// const name = defaultSettings.title || 'JRender Admin' // page title
 const port = process.env.NODE_ENV_DEV_PORT || 9528 // dev port
 const isDev = process.env.NODE_ENV === 'development'
 const enableMock = process.env.VUE_APP_ENABLE_MOCK === 'true'

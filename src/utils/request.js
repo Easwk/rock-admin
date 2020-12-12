@@ -60,9 +60,8 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.error(error) // for debug
     Message({
-      message: error.message,
+      message: `${error.message} @ ${error.config.method}::${error.config.baseURL}${error.config.url}`,
       type: 'error',
       duration: 5 * 1000
     })

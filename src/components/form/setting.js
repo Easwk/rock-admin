@@ -60,7 +60,7 @@ export function makeFormOptions(options) {
   return _.merge({}, formOptions, options)
 }
 
-export const customFormCtrl = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload, VInput }
+export const customFormComps = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload, VInput }
 
 export const getComponentName = (name) => {
   if (componentMap[name] !== undefined) {

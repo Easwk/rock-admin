@@ -1,7 +1,7 @@
-import { defaultSetting } from '../../settings'
+import defaultOptions from '../../options'
 import request from '../../utils/request'
 
-const state = defaultSetting
+const state = defaultOptions.config
 
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {

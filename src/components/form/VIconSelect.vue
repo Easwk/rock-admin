@@ -2,6 +2,7 @@
   <el-popover
     ref="popover"
     placement="bottom-start"
+    trigger="click"
     :width="650"
   >
     <template #reference>
@@ -66,7 +67,7 @@ export default {
       this.$refs.popover.hide()
     },
     focus() {
-      this.$refs.popover.show()
+      // this.$refs.popover.show()
     }
   }
 }

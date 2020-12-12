@@ -7,7 +7,6 @@ import ElementPlus from 'element-plus'
 import VIcon from './components/VIcon'
 import request from './utils/request'
 import './router/routerGuards'
-import locale from 'element-plus/lib/locale/lang/zh-cn'
 import App from './App.vue'
 import lodash from 'lodash'
 import { mockXHR } from './mock'
@@ -15,26 +14,12 @@ import { mockXHR } from './mock'
 // style
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import './styles/index.scss' // global css
-import settings from './settings'
+import defaultOptions from './options'
 
 const GlobalComps = [VIcon]
 
-const defaultConfig = {
-  ElementPlus: {
-    size: 'small',
-    zIndex: 3000,
-    locale: locale
-  },
-  nav: [],
-  routes: [],
-  globalComps: [],
-  mock: { apis: [], baseURI: '', defaultMockApi: true },
-  use: [],
-  config: settings
-}
-
 export default (options = {}) => {
-  options = lodash.merge(defaultConfig, options)
+  options = lodash.merge(defaultOptions, options)
   const app = createApp(App)
 
   store.dispatch('app/setConfig', {

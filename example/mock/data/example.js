@@ -2,6 +2,8 @@ import _ from 'lodash'
 
 const form = {
   saveApi: '/save',
+  afterSubmit: '',
+  afterReset: '',
   options: {
     column: 3,
     submitButton: {
@@ -153,7 +155,7 @@ const form = {
       field: 'time_range',
       label: '时间范围',
       props: {
-        range: true
+        isRange: true
       }
     },
     {
@@ -166,7 +168,7 @@ const form = {
       field: 'datetime_range',
       label: '日期时间范围',
       props: {
-        range: true
+        type: 'datetimerange'
       }
     },
     {
@@ -374,8 +376,12 @@ const table = {
     },
     {
       field: 'sex',
-      type: 'input',
-      label: '姓名'
+      type: 'select',
+      label: '性别',
+      options: [
+        { value: 1, label: '男' },
+        { value: 0, label: '女' }
+      ]
     }
   ],
   headers: [
@@ -490,6 +496,8 @@ const listMock = {
 }
 
 const layoutForm = {
+  afterSubmit: '',
+  afterReset: '',
   formItems: [
     {
       type: 'input',
@@ -527,6 +535,8 @@ const layoutForm = {
 }
 
 const layoutSection = {
+  afterSubmit: '',
+  afterReset: '',
   formItems: [
     {
       type: 'input',

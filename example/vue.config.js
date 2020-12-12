@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
 const CompressionPlugin = require('compression-webpack-plugin')
-// const defaultSettings = require('./src/settings.js')
+// const defaultSettings = require('./src/options.js')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }

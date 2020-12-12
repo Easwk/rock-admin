@@ -1,8 +1,8 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="isCollapse" />
-    <search-menu v-if="!isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
+      <search-menu v-if="!isCollapse" />
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
