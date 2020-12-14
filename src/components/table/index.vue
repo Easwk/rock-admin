@@ -510,4 +510,7 @@ export default {
 ::v-deep(.el-form-item--small.el-form-item) {
    margin-bottom: 0;
 }
+::v-deep(.form-section) {
+  margin-bottom: 0;
+}
 </style>

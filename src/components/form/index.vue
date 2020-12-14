@@ -14,7 +14,7 @@
         <!--   card     -->
         <component
           :is="formOptions.inline ? 'span' : ((index === 0 && formItemsSection.length === 1) ? 'span': 'el-card')"
-          class="form-section"
+          :class="formOptions.inline ? 'form-section-inline' : 'form-section'"
           shadow="never"
         >
           <template v-if="item.name" #header>
@@ -410,5 +410,9 @@ export default {
 <style lang="scss" scoped>
   .form-section {
     margin-bottom: 15px;
+    width: 100%;
+  }
+  .form-section-inline {
+    margin-bottom: 0;
   }
 </style>

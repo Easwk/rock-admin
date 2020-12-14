@@ -78,6 +78,7 @@ export default {
 <style>
   .my-card {
     margin-bottom: 20px;
+    width: 100%;
   }
   .card-action {
     display: flex;

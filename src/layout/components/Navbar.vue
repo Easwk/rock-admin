@@ -1,58 +1,62 @@
 <template>
   <el-row class="navbar">
-    <hamburger
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
-    <breadcrumb class="breadcrumb-container" />
-    <el-tag
-      v-if="
-        getSetting('navBarNotice').length > 0 &&
-          !getSetting('closeNavNotice') &&
-          showNotice(getSetting('navBarNotice'))
-      "
-      class="notice-setting"
-      type="warning"
-      closable
-      :disable-transitions="false"
-      @close="closeNavBarNotice"
-    >
-      {{ getSetting("navBarNotice") }}
-    </el-tag>
-    <div class="right-content">
-      <el-popover
-        placement="bottom"
-        width="400"
-        trigger="click"
-        @show="showPopover"
+    <el-col :span="16">
+      <hamburger
+        :is-active="sidebar.opened"
+        class="hamburger-container"
+        @toggleClick="toggleSideBar"
+      />
+      <breadcrumb class="breadcrumb-container" />
+      <el-tag
+        v-if="
+          getSetting('navBarNotice').length > 0 &&
+            !getSetting('closeNavNotice') &&
+            showNotice(getSetting('navBarNotice'))
+        "
+        class="notice-setting"
+        type="warning"
+        closable
+        :disable-transitions="false"
+        @close="closeNavBarNotice"
       >
-        <el-badge class="right-item" :is-dot="hasNewMessage">
-          <i class="el-icon-bell icon" circle />
-        </el-badge>
-      </el-popover>
-      <div
-        v-if="showPageJsonSchemaIcon"
-        class="right-item"
-      >
-        <page-schema />
-      </div>
-      <div class="right-item-button" style="padding: 0">
-        <v-button :buttons="config.nav" />
-      </div>
-      <el-dropdown class="right-item" trigger="click">
-        <div class="user-info">
-          <img :src="avatar" class="user-avatar" alt="头像">
-          <span class="user-name">{{ name }}</span>
+        {{ getSetting("navBarNotice") }}
+      </el-tag>
+    </el-col>
+    <el-col :span="8">
+      <div class="right-content">
+        <el-popover
+          placement="bottom"
+          width="400"
+          trigger="click"
+          @show="showPopover"
+        >
+          <el-badge class="right-item" :is-dot="hasNewMessage">
+            <i class="el-icon-bell icon" circle />
+          </el-badge>
+        </el-popover>
+        <div
+          v-if="showPageJsonSchemaIcon"
+          class="right-item"
+        >
+          <page-schema />
         </div>
-        <template #dropdown>
-          <el-dropdown-menu class="user-dropdown">
-            <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')">首页</el-dropdown-item>
-            <el-dropdown-item divided icon="el-icon-switch-button" @click="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+        <div class="right-item-button" style="padding: 0">
+          <v-button :buttons="config.nav" />
+        </div>
+        <el-dropdown class="right-item" trigger="click">
+          <div class="user-info">
+            <img :src="avatar" class="user-avatar" alt="头像">
+            <span class="user-name">{{ name }}</span>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu class="user-dropdown">
+              <el-dropdown-item icon="oms-icon-index" @click="$router.push('/')">首页</el-dropdown-item>
+              <el-dropdown-item divided icon="el-icon-switch-button" @click="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </el-col>
     <el-drawer
       v-if="showJsonSchema"
       :with-header="false"
@@ -249,17 +253,6 @@ export default {
 
   .user-name {
     vertical-align: middle;
-  }
-}
-
-.modulesItem {
-  &.disabled {
-    color: #ccc;
-    cursor: not-allowed;
-
-    &:hover {
-      background: #fff;
-    }
   }
 }
 </style>
