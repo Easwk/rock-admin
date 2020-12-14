@@ -43,7 +43,7 @@
               @keyup.enter="handleLogin"
             />
             <span class="show-pwd" @click="showPwd">
-              <v-icon :name="passwordType === 'password' ? 'not-visible' : 'visible'"/>
+              <v-icon :name="passwordType === 'password' ? 'not-visible' : 'visible'" />
             </span>
           </el-form-item>
           <el-button

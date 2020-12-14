@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0 15px;" @click="toggleClick">
-    <v-icon :class="{ 'is-active': isActive }" name="ra-leftalignment"/>
+    <v-icon :class="{ 'is-active': isActive }" name="ra-leftalignment" />
   </div>
 </template>
 
