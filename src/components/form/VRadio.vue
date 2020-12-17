@@ -14,8 +14,9 @@ export default {
   name: 'VRadio',
   props: {
     modelValue: {
-      type: [Number, String],
-      required: true
+      type: [Number, String, Boolean],
+      required: true,
+      default: 0
     },
     options: {
       type: Array,

@@ -304,14 +304,14 @@ export default {
       if (flag) {
         this.$props.saveApi &&
         this.$http
-          .request({ method: 'POST', url: this.$props.saveApi })
+          .request({ method: 'POST', url: this.$props.saveApi, data: this.formData })
           .then(({ payload, message }) => {
             console.log('form save success', payload)
             this.$message({ type: 'success', message: message || '保存成功' })
+            setTimeout(_ => this.execAfter('afterSubmit'), 1000)
           })
         console.log('formData', this.formData)
         this.$emit('submit', this.formData)
-        setTimeout(this.execAfter('afterSubmit'), 200)
       } else {
         console.log('error submit!!')
         showEleByClassName('is-error')
@@ -321,7 +321,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
       this.$emit('reset')
-      setTimeout(this.execAfter('afterReset'), 200)
+      setTimeout(_ => this.execAfter('afterReset'), 1000)
     },
     getComponentName(name) {
       return componentMap[name] || name
@@ -338,8 +338,14 @@ export default {
       })
       return props
     },
+    // TODO
+    // c -> b -> a
+    // 串联依赖时的显示问题
     canShow(item) {
       if (item.depend) {
+        if (isArray(item.depend.value)) {
+          return item.depend.value.indexOf(this.formData[item.depend.field]) > -1
+        }
         return item.depend.value === this.formData[item.depend.field]
       }
       if (item.hide) {

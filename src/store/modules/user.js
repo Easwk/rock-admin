@@ -1,6 +1,5 @@
 import { login, logout, getInfo, getRoutes } from '../../api/user'
 import { getToken, setToken, removeToken } from '../../utils/auth'
-// import { resetRouter } from '@/core/router'
 import createRoutes from '../../router/createRoutes'
 
 const state = {

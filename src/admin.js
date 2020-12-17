@@ -31,7 +31,7 @@ export default (options = {}) => {
     app.component(item.name, item)
   })
 
-  mockXHR(options.mock.apis, options.mock.baseURI, options.mock.defaultMockApi)
+  options.mock.enable && mockXHR(options.mock.apis, options.mock.baseURI, options.mock.defaultMockApi)
 
   app.config.globalProperties.$http = request
   app.config.globalProperties.$lodash = lodash

@@ -7,20 +7,6 @@
         @toggleClick="toggleSideBar"
       />
       <breadcrumb class="breadcrumb-container" />
-      <el-tag
-        v-if="
-          getSetting('navBarNotice').length > 0 &&
-            !getSetting('closeNavNotice') &&
-            showNotice(getSetting('navBarNotice'))
-        "
-        class="notice-setting"
-        type="warning"
-        closable
-        :disable-transitions="false"
-        @close="closeNavBarNotice"
-      >
-        {{ getSetting("navBarNotice") }}
-      </el-tag>
     </el-col>
     <el-col :span="8">
       <div class="right-content">
@@ -104,6 +90,16 @@ export default {
   },
   mounted() {
     showEleByClassName('el-submenu is-active')
+    const noticeStr = this.getSetting('navBarNotice')
+    if (noticeStr.length > 0 && !this.getSetting('closeNavNotice') && this.showNotice(noticeStr)) {
+      this.$notify({
+        title: '提示',
+        message: noticeStr,
+        dangerouslyUseHTMLString: true,
+        duration: 0,
+        onClose: this.closeNavBarNotice
+      })
+    }
   },
   methods: {
     toggleSideBar() {

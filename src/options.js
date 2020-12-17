@@ -9,7 +9,7 @@ export default {
   nav: [],
   routes: [],
   globalComps: [],
-  mock: { apis: [], baseURI: '', defaultMockApi: true },
+  mock: { enable: false, apis: [], baseURI: '', defaultMockApi: true },
   use: [],
   config: {
     title: 'RockAdmin',
@@ -21,7 +21,9 @@ export default {
     hasNewMessage: true,
     showPageJsonSchema: true,
     loginTips: '登录信息提示',
-    sso: []
+    sso: [],
+    axios: {
+      baseURL: '/api'
+    }
   }
 }
-

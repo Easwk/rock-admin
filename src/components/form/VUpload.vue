@@ -12,6 +12,7 @@
     :on-exceed="onExceed"
     :on-success="onSuccess"
     :on-error="onError"
+    :headers="headers"
   >
     <template v-if="fileList.length < limit" #default>
       <i class="el-icon-plus" />
@@ -38,9 +39,17 @@ export default {
       type: Boolean,
       default: false
     },
+    clearable: {
+      type: Boolean,
+      default: false
+    },
     action: {
       type: String,
       default: '#'
+    },
+    headers: {
+      type: Object,
+      default: _ => {}
     },
     limit: { type: Number, default: 1 },
     accept: { type: String, default: '' },
@@ -132,16 +141,22 @@ export default {
         })
         return
       }
-      const responseUrl = response.payload.url
-      if (!checkImgExists(responseUrl)) {
+      const responseUrl = response.payload?.url
+      if (!responseUrl) {
         this.$notify.error({
-          title: '图片地址不可用',
-          message: responseUrl
+          message: '上传接口错误'
         })
-      } else {
+        return
+      }
+      if (checkImgExists(responseUrl)) {
         this.$notify.success({
           title: '上传成功',
           message: file.name
+        })
+      } else {
+        this.$notify.error({
+          title: '图片地址不可用',
+          message: responseUrl
         })
       }
       file.url = responseUrl

@@ -3,7 +3,7 @@ import { defineAsyncComponent } from 'vue'
 import MessageBox from 'element-plus/lib/el-message-box'
 
 export default {
-  emits: ['click'],
+  emits: ['click', 'action'],
   components: {
     VForm: defineAsyncComponent(() => import('../form/index')),
     VTable: defineAsyncComponent(() => import('../table/index'))
@@ -93,6 +93,7 @@ export default {
 
             this.$http.request(options).then(({ payload }) => {
               console.log('api success', payload)
+              this.$emit('action', payload)
             })
           }).catch(() => {
             console.log('cancel')

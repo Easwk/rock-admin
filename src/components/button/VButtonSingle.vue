@@ -66,7 +66,6 @@ export default {
       const btn = this.getBtnProps()
       this.realTarget = strVarReplace(btn.target || '', this.$props.metaData)
       this.clickHandler[btn.type]()
-      this.$emit('click')
     },
     getBtnProps() {
       return this.$props

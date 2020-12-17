@@ -9,6 +9,9 @@ import VIconSelect from './VIconSelect'
 import VSubForm from './VSubForm'
 import VUpload from './VUpload'
 import VInput from './VInput'
+import VCascader from './VCascader'
+import VCascaderPanel from './VCascaderPanel'
+import { getToken } from '../../utils/auth'
 
 export const componentMap = {
   input: 'v-input',
@@ -20,6 +23,7 @@ export const componentMap = {
   time: 'el-time-picker',
   datetime: 'el-date-picker',
   slider: 'el-slider',
+  image: 'v-upload',
   upload: 'v-upload',
   transfer: 'el-transfer',
   color: 'el-color-picker',
@@ -28,7 +32,9 @@ export const componentMap = {
   switch: 'el-switch',
   json: 'v-json',
   'icon-select': 'v-icon-select',
-  'sub-form': 'v-sub-form'
+  'sub-form': 'v-sub-form',
+  cascader: 'v-cascader',
+  'cascader-panel': 'v-cascader-panel'
 }
 
 export const formOptions = {
@@ -60,7 +66,7 @@ export function makeFormOptions(options) {
   return _.merge({}, formOptions, options)
 }
 
-export const customFormComps = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload, VInput }
+export const customFormComps = { VSelect, VRadio, VCheckbox, VNumberRange, VJson, VIconSelect, VSubForm, VUpload, VInput, VCascader, VCascaderPanel }
 
 export const getComponentName = (name) => {
   if (componentMap[name] !== undefined) {
@@ -77,8 +83,9 @@ export const getComponentProps = (item) => {
   if (item.options) {
     props.options = item.options
   }
-  if (item.type === 'upload') {
-    item.props.action = `${process.env.VUE_APP_BASE_API}/upload` // upload action
+  if (['upload', 'image'].indexOf(item.type) > -1) {
+    item.props.action = `/api/upload` // upload action
+    item.props.headers = { Authorization: getToken() }
   }
   return props
 }

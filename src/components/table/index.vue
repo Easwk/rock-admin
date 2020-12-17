@@ -5,6 +5,7 @@
       <v-form
         v-if="tableFilter.length > 0"
         :key="formKey"
+        ref="filter"
         v-model="filterForm"
         class="filter-form"
         :options="filterFormOptions"
@@ -23,12 +24,14 @@
             <slot name="filter">
               <v-form
                 v-if="tableFilter.length > 0"
+                :key="formKey"
+                ref="filter"
                 v-model="filterForm"
                 class="filter-form"
                 :options="filterFormOptions"
                 :form-items="tableFilter"
                 @submit="searchAction"
-                @reset="load"
+                @reset="resetFilter"
               />
             </slot>
           </template>
@@ -53,11 +56,9 @@
       <el-table
         v-loading="loading"
         :data="tableList"
-        :border="true"
-        :stripe="true"
-        size="mini"
-        header-cell-class-name="table-header-cell"
+        :load="loadChildren"
         style="width: 100%"
+        v-bind="tableTableProps"
         @selection-change="handleSelectionChange"
         @sort-change="sortTable"
       >
@@ -99,7 +100,7 @@
         <!--     操作     -->
         <el-table-column v-if="tableRowButton.length > 0" label="操作" fixed="right" :width="actionColumnWidth()">
           <template #default="scope">
-            <v-button :buttons="makeRowButton(tableRowButton, scope.row)" />
+            <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
           </template>
         </el-table-column>
         <template #empty> 没有数据 </template>
@@ -195,13 +196,26 @@ export default {
     listIncrease: {
       type: [Boolean, Object],
       default: false
+    },
+    tableProps: {
+      type: Object,
+      default: _ => {}
     }
   },
   emits: ['cell-change'],
   data() {
+    const tableDefaultProps = {
+      border: true,
+      stripe: true,
+      size: 'mini',
+      rowKey: 'id',
+      lazy: true,
+      defaultExpandAll: false
+    }
     return {
       rowKey: 0,
       formKey: 0,
+      tableDefaultProps: tableDefaultProps,
       filterFormOptions: {
         inline: true,
         labelPosition: 'right',
@@ -219,6 +233,7 @@ export default {
       tableList: this.$props.list,
       tableSelectedNotice: this.$props.selectedNotice,
       tableShowPagination: this.$props.showPagination,
+      tableTableProps: Object.assign({}, tableDefaultProps, this.$props.tableProps),
       selectionRows: [],
       page: {
         pageSize: 20,
@@ -278,8 +293,13 @@ export default {
       this.$http
         .request({ method: 'GET', url: this.$props.infoApi })
         .then(({ payload }) => {
-          Object.keys(payload).forEach(
-            (key) => (this['table' + firstUpperCase(key)] = payload[key])
+          Object.keys(payload).forEach(key => {
+            if (key === 'tableProps') {
+              this['table' + firstUpperCase(key)] = Object.assign({}, this.tableDefaultProps, payload[key])
+            } else {
+              this['table' + firstUpperCase(key)] = payload[key]
+            }
+          }
           )
         })
     }
@@ -316,7 +336,7 @@ export default {
       }
       this.load()
     },
-    load(args = {}) {
+    load(args = {}, extraPrams = {}) {
       if (!this.listApi) {
         return
       }
@@ -329,7 +349,7 @@ export default {
         _page: this.page.currentPage,
         _size: this.page.pageSize
       }
-      const params = Object.assign({}, filter, page, this.sort)
+      const params = Object.assign({}, filter, page, this.sort, extraPrams)
       // if (this.activeTab) {
       //   params[this.activeTab.field] = this.activeTab.value
       // }
@@ -398,7 +418,7 @@ export default {
       })
     },
     makeRowButton(arr, row) {
-      return arr.map((item) => {
+      return this.$lodash.cloneDeep(arr).map((item) => {
         if (isArray(item)) {
           item = this.makeRowButton(item)
         } else {
@@ -443,6 +463,20 @@ export default {
       } else {
         this.sort = null
       }
+      this.load()
+    },
+    loadChildren(row, treeNode, resolve) {
+      this.$http
+        .request({
+          type: 'GET',
+          url: this.listApi,
+          params: { pid: row.id }
+        })
+        .then(({ payload }) => {
+          resolve(payload.list || [])
+        })
+    },
+    btnAction() {
       this.load()
     }
   }

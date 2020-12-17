@@ -3,6 +3,11 @@ import Form from '../scaffold/form'
 import Container from '../scaffold/container'
 import Table from '../scaffold/table'
 
+const PAGE_TYPE_FORM = 1
+const PAGE_TYPE_TABLE = 2
+const PAGE_TYPE_CUSTOM = 0
+const PAGE_TYPE_CUSTOM_SCHEMA = 3
+
 const base = {
   path: '/',
   component: Layout,
@@ -21,10 +26,18 @@ const getComponent = item => {
     return Container
   }
   switch (item.page_type) {
-    case 'list':
+    case PAGE_TYPE_TABLE:
       return Table
-    case 'form':
+    case PAGE_TYPE_FORM:
       return Form
+    case PAGE_TYPE_CUSTOM:
+      return () => {
+        return new Promise((resolve) => {
+          resolve(require('@/views/' + item.view))
+        })
+      }
+    case PAGE_TYPE_CUSTOM_SCHEMA:
+      return Container
   }
   return Container
 }
@@ -54,7 +67,7 @@ const transRoute = item => {
       pageSchema: item.page_schema || {}
     },
     hidden: item.is_show !== undefined ? !item.is_show : false,
-    children: item.children !== undefined ? item.children.map(each => transRoute(each)) : []
+    children: item.children ? item.children.map(each => transRoute(each)) : []
   }
   if (route.children.length > 0) {
     let allChildHidden = true
@@ -66,6 +79,7 @@ const transRoute = item => {
     if (allChildHidden) {
       route.redirect = route.children[0].path
     }
+    console.log(route)
   }
 
   return route

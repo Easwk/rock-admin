@@ -39,6 +39,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    clearable: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],

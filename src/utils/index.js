@@ -249,6 +249,23 @@ export function treeSearch(tree, kw_val, key = 'id') {
   }
 }
 
+export function searchTreeValues(tree, value, key = 'id') {
+  let nodes = []
+  tree.forEach(item => {
+    if (item[key] === value) {
+      nodes.push(value)
+      return
+    }
+    if (item.children) {
+      const sub = searchTreeValues(item.children, value, key)
+      if (sub.length > 0) {
+        nodes = [item[key]].concat(sub)
+      }
+    }
+  })
+  return nodes
+}
+
 export function showEleByClassName(class_name, block, behavior, index) {
   setTimeout(() => {
     const ele = document.getElementsByClassName(class_name)
@@ -537,7 +554,7 @@ export function toArray(value) {
 export function checkImgExists(imgurl) {
   const ImgObj = new Image() // 判断图片是否存在
   ImgObj.src = imgurl
-  return ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)
+  return ImgObj.width > 0 && ImgObj.height > 0
 }
 
 export function setUrlParams(obj) {

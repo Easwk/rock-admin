@@ -5,8 +5,10 @@
       v-bind="{
         buttons: item,
       }"
+      @click="onclick"
+      @action="onaction"
     />
-    <v-button-single v-else v-bind="item" />
+    <v-button-single v-else v-bind="item" @click="onclick" @action="onaction" />
   </template>
 </template>
 <script>
@@ -23,9 +25,16 @@ export default {
       default: () => []
     }
   },
+  emits: ['click', 'action'],
   methods: {
     isArray(tmp) {
       return isArray(tmp)
+    },
+    onclick(btn) {
+      this.$emit('click', btn)
+    },
+    onaction(payload) {
+      this.$emit('action', payload)
     }
   }
 }

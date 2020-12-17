@@ -39,6 +39,10 @@ export default {
     options: {
       type: Object,
       default: () => {}
+    },
+    clearable: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue', 'change'],
