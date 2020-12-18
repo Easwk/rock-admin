@@ -8,7 +8,12 @@
     <el-button v-if="text" v-bind="btnProps" @click="onclick">
       {{ text }}
     </el-button>
-    <el-button v-else v-bind="btnProps" @click="onclick" />
+    <template v-else>
+      <el-tooltip v-if="tips" effect="light" :content="tips">
+        <el-button v-bind="btnProps" @click="onclick" />
+      </el-tooltip>
+      <el-button v-else v-bind="btnProps" @click="onclick" />
+    </template>
   </template>
   <template v-if="showContainer">
     <component
@@ -37,6 +42,10 @@ export default {
   mixins: [Base],
   props: {
     text: {
+      type: String,
+      default: ''
+    },
+    tips: {
       type: String,
       default: ''
     },

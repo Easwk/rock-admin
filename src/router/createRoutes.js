@@ -41,7 +41,6 @@ const getComponent = item => {
   }
   return Container
 }
-
 function getPath(item) {
   let path = item.path
   // :id 默认转换为数字型匹配模式
@@ -78,6 +77,7 @@ const transRoute = item => {
     })
     if (allChildHidden) {
       route.redirect = route.children[0].path
+      route.path = '/DIR' + route.redirect.replaceAll('/', '_').toUpperCase()
     }
     console.log(route)
   }

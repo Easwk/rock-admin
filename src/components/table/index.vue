@@ -138,7 +138,7 @@
 import Cells from './cell'
 import VForm from '../form/index'
 import VButton from '../button/VButton'
-import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams } from '../../utils'
+import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams, ruleCompute } from '../../utils'
 import pipe from '../../utils/pipe'
 import CellEdit from './cellEdit/index'
 
@@ -418,7 +418,16 @@ export default {
       })
     },
     makeRowButton(arr, row) {
-      return this.$lodash.cloneDeep(arr).map((item) => {
+      return this.$lodash.cloneDeep(arr).filter(item => {
+        if (item.when) {
+          let tmp = item.when
+          if (!isArray(item.when[0])) {
+            tmp = [item.when]
+          }
+          return ruleCompute(row, tmp)
+        }
+        return true
+      }).map((item) => {
         if (isArray(item)) {
           item = this.makeRowButton(item)
         } else {

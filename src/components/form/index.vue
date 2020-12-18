@@ -28,6 +28,7 @@
                 <component :is="formOptions.inline ? 'span' : 'el-col'" :span="each.col.span">
                   <form-item
                     v-if="canShow(each)"
+                    :key="each.id"
                     :ref="each.field"
                     v-model="formData[each.field]"
                     :form-options="formOptions"
@@ -382,12 +383,21 @@ export default {
         if (ruleCompute(obj, when)) {
           this.formItemsSource[index] = this.$lodash.merge(
             this.formItemsSource[index],
-            rule.set[field]
+            rule.set[field],
+            { id: (this.formItemsSource[index] || 0) + 1 }
           )
+          if (rule.set[field].value !== undefined) {
+            this.formData[field] = rule.set[field].value
+          }
         } else {
+          const cacheIndex = this.$lodash.findIndex(this.cacheItems, { field: field })
           this.formItemsSource[index] = this.$lodash.cloneDeep(
-            this.cacheItems[this.$lodash.findIndex(this.cacheItems, { field: field })]
+            this.cacheItems[cacheIndex],
+            { id: (this.formItemsSource[index] || 0) + 1 }
           )
+          if (rule.set[field].value !== undefined) {
+            this.formData[field] = this.cacheItems[cacheIndex].value
+          }
         }
       })
     },

@@ -1,5 +1,5 @@
 <template>
-  <template v-for="(item, index) in buttons" :key="index + 'v-button'">
+  <template v-for="(item, index) in localButton" :key="index + 'v-button'">
     <v-button-group
       v-if="isArray(item)"
       v-bind="{
@@ -23,6 +23,16 @@ export default {
     buttons: {
       type: Array,
       default: () => []
+    }
+  },
+  data() {
+    const local = []
+    this.$props.buttons.forEach(item => {
+      delete item['when']
+      local.push(item)
+    })
+    return {
+      localButton: local
     }
   },
   emits: ['click', 'action'],
