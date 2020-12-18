@@ -96,7 +96,7 @@ export default {
       default: ''
     },
     saveApi: {
-      type: String,
+      type: [String, Boolean],
       default: ''
     },
     options: {

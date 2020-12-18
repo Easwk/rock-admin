@@ -60,6 +60,7 @@ const transRoute = item => {
     name: item.path + item.name,
     component: getComponent(item),
     meta: {
+      id: item.id,
       title: item.name,
       icon: item.icon,
       hidden: item.is_show !== undefined ? !item.is_show : false,

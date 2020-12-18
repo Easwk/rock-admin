@@ -1,3 +1,4 @@
+import './init'
 import createAdmin from './admin'
 import VForm from './components/form'
 import VTable from './components/table'
