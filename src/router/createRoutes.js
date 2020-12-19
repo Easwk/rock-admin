@@ -80,7 +80,6 @@ const transRoute = item => {
       route.redirect = route.children[0].path
       route.path = '/DIR' + route.redirect.replaceAll('/', '_').toUpperCase()
     }
-    console.log(route)
   }
 
   return route

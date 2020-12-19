@@ -98,7 +98,7 @@
           </template>
         </el-table-column>
         <!--     操作     -->
-        <el-table-column v-if="tableRowButton.length > 0" label="操作" fixed="right" :width="actionColumnWidth()">
+        <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
           <template #default="scope">
             <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
           </template>
@@ -248,6 +248,16 @@ export default {
     }
   },
   computed: {
+    actionWidth() {
+      if (this.tableRowButton.length === 1) {
+        return undefined
+      }
+      let ratio = 0
+      this.tableRowButton.forEach((item) => {
+        ratio += item.text ? 73 : 60
+      })
+      return ratio
+    },
     listIncreaseConf() {
       if (isBool(this.$props.listIncrease)) {
         if (this.$props.listIncrease === false) {
@@ -436,13 +446,6 @@ export default {
         }
         return item
       })
-    },
-    actionColumnWidth() {
-      let ratio = 0
-      this.tableRowButton.forEach((item) => {
-        ratio += item.text ? item.text.length : 3
-      })
-      return ratio * 10 * 2
     },
     listIncreaseRecord() {
       const record = {}

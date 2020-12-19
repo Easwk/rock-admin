@@ -9,16 +9,14 @@
       {{ text }}
     </el-button>
     <template v-else>
-      <el-tooltip v-if="tips" effect="light" :content="tips">
-        <el-button v-bind="btnProps" @click="onclick" />
-      </el-tooltip>
-      <el-button v-else v-bind="btnProps" @click="onclick" />
+      <el-button v-bind="btnProps" @click="onclick" />
     </template>
   </template>
   <template v-if="showContainer">
     <component
       :is="'el-' + container"
       v-model="showContainer"
+      width="80%"
       append-to-body
       :before-close="closeContainer"
       :title="text"

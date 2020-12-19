@@ -13,7 +13,7 @@
     "codemirror": "^5.58.2",
     "core-js": "^3.7.0",
     "echarts": "^4.9.0",
-    "element-plus": "1.0.1-beta.7",
+    "element-plus": "1.0.1-beta.10",
     "file": "^0.2.2",
     "inputmask": "^5.0.5",
     "js-beautify": "^1.13.0",

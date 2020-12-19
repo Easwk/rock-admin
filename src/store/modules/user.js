@@ -73,7 +73,6 @@ function filterResource(data, userResource, prefix = '') {
 
       if (item.page_schema.saveApi) {
         const exist = getObjectNodeByKeyTree(key + '.saveApi', userResource)
-        console.log(item.page_schema.saveApi, exist)
         if (!exist) {
           item.page_schema.options = _.merge(item.page_schema.options || {}, { submitButton: false })
         }
@@ -173,7 +172,6 @@ const actions = {
       getRoutes()
         .then(res => {
           const payload = state.roleIds.indexOf('1') > -1 ? res.payload : filterResource(res.payload, state.resource, '')
-          console.log(888888, payload)
           const data = createRoutes(payload)
           const routes = [data, { path: '/*', redirect: '/404', hidden: true }]
           commit('SET_ROUTER', data.children)

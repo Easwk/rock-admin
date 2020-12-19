@@ -25,6 +25,7 @@ export default {
       default: () => []
     }
   },
+  emits: ['click', 'action'],
   data() {
     const local = []
     this.$props.buttons.forEach(item => {
@@ -35,7 +36,6 @@ export default {
       localButton: local
     }
   },
-  emits: ['click', 'action'],
   methods: {
     isArray(tmp) {
       return isArray(tmp)

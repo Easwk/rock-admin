@@ -7,11 +7,16 @@
   />
 </template>
 <script>
-import { customFormCtrl, getComponentName, getComponentProps } from '../../form/setting'
+import { customFormComps, getComponentName, getComponentProps } from '../../form/setting'
 
 export default {
   name: 'CellEdit',
-  components: customFormCtrl,
+  components: customFormComps,
+  provide() {
+    return {
+      formData: {}
+    }
+  },
   props: {
     modelValue: {
       type: [String, Number, Array, Object],
