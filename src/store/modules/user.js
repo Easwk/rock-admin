@@ -171,7 +171,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getRoutes()
         .then(res => {
-          const payload = state.roleIds.indexOf('1') > -1 ? res.payload : filterResource(res.payload, state.resource, '')
+          const payload = state.roleIds.indexOf(1) > -1 ? res.payload : filterResource(res.payload, state.resource, '')
           const data = createRoutes(payload)
           const routes = [data, { path: '/*', redirect: '/404', hidden: true }]
           commit('SET_ROUTER', data.children)
