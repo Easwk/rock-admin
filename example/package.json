@@ -11,7 +11,7 @@
     "report": "node build/index.js --report"
   },
   "dependencies": {
-    "rock-admin": "^0.0.23"
+    "rock-admin": "^0.0.26"
   },
   "devDependencies": {
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",

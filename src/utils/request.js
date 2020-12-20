@@ -3,11 +3,10 @@ import Message from 'element-plus/lib/el-message'
 import MessageBox from 'element-plus/lib/el-message-box'
 import store from '../store'
 import { getToken } from './auth'
-import options from '../options'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: options.config.axios.baseURL || '/api', // url = base url + request url
+  baseURL: '/api', // url = base url + request url
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout

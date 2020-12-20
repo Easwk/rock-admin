@@ -9,16 +9,18 @@ const tokens = {
 
 const users = {
   'admin-token': {
-    roles: ['admin'],
-    introduction: 'I am a super administrator',
+    id: 1,
     avatar: 'https://gitee.com/daodao97/asset/raw/master/imgs/WechatIMG9.jpeg',
-    name: 'Super Admin'
+    name: 'SuperAdmin',
+    role_ids: [1],
+    resource: []
   },
   'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
+    id: 2,
     avatar: 'https://gitee.com/daodao97/asset/raw/master/imgs/WechatIMG9.jpeg',
-    name: 'Normal Editor'
+    name: 'NormalEditor',
+    role_ids: [1],
+    resource: []
   }
 }
 
