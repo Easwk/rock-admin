@@ -17,6 +17,7 @@ module.exports = (api, options, rootOptions) => {
       '@vue/babel-plugin-jsx': '^1.0.0-rc.3',
       '@vue/cli-plugin-babel': '~4.5.9',
       '@vue/cli-service': '~4.5.9',
+      '@vue/compiler-sfc': '^3.0.3',
       'chalk': '^4.1.0',
       'compression-webpack-plugin': '^6.1.1',
       'connect': '^3.7.0',
