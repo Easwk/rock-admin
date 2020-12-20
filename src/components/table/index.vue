@@ -137,7 +137,7 @@
 <script>
 import Cells from './cell'
 import VForm from '../form/index'
-import VButton from '../button/VButton'
+import VButton from '../button'
 import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams, ruleCompute } from '../../utils'
 import pipe from '../../utils/pipe'
 import CellEdit from './cellEdit/index'

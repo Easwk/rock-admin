@@ -58,7 +58,7 @@ import Hamburger from './Hamburger/index'
 import PageSchema from './PageScheam'
 import { showEleByClassName } from '../../utils'
 import Cache from '../../utils/cache'
-import VButton from '../../components/button/VButton'
+import VButton from '../../components/button'
 
 export default {
   components: {

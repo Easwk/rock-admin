@@ -20,7 +20,7 @@ createAdmin({
   nav: nav,
   mock: {
     apis: mockApis,
-    enable: true,
+    enable: process.env.VUE_APP_ENABLE_MOCK === true,
     baseURI: process.env.VUE_APP_BASE_API
   }
 })

@@ -2,9 +2,9 @@
   <el-row>
     <div class="my-card">
       <el-button>从表结构解析</el-button>
-      <v-button-single text="查看PageSchema" type="modal">
+      <v-button text="查看PageSchema" type="modal">
         <v-json v-model="formSchema" />
-      </v-button-single>
+      </v-button>
       <el-button>保存为页面</el-button>
     </div>
     <el-card shadow="never" class="my-card">
@@ -14,9 +14,9 @@
             <span>表单预览</span>
           </el-col>
           <el-col :span="12" class="card-action">
-            <v-button-single text="管理表单项" type="modal" :btn-props="{type:'text'}" :before-close="beforeFormItemClose">
+            <v-button text="管理表单项" type="modal" :btn-props="{type:'text'}" :before-close="beforeFormItemClose">
               <v-table ref="form-items" v-bind="formItemTable" />
-            </v-button-single>
+            </v-button>
           </el-col>
         </el-row>
       </template>
@@ -27,12 +27,12 @@
 <script>
 import VTable from '../../components/table/index'
 import VForm from '../../components/form/index'
-import VButtonSingle from '../../components/button/VButtonSingle'
+import VButton from '../../components/button/VButton'
 import VJson from '../../components/form/VJson'
 import form from './form'
 export default {
   name: 'Entity',
-  components: { VTable, VForm, VButtonSingle, VJson },
+  components: { VTable, VForm, VButton, VJson },
   data() {
     return {
       formKey: 1,

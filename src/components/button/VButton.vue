@@ -1,51 +1,102 @@
 <template>
-  <template v-for="(item, index) in localButton" :key="index + 'v-button'">
-    <v-button-group
-      v-if="isArray(item)"
-      v-bind="{
-        buttons: item,
-      }"
-      @click="onclick"
-      @action="onaction"
-    />
-    <v-button-single v-else v-bind="item" @click="onclick" @action="onaction" />
+  <template v-if="shape === 'icon' && btnProps && btnProps.icon">
+    <div class="el-btn-icon" @click="onclick">
+      <v-icon :name="btnProps.icon || 'el-icon-warning-outline'" />
+    </div>
+  </template>
+  <template v-else>
+    <el-button v-if="text" v-bind="btnProps" @click="onclick">
+      {{ text }}
+    </el-button>
+    <template v-else>
+      <el-button v-bind="btnProps" @click="onclick" />
+    </template>
+  </template>
+  <template v-if="showContainer">
+    <component
+      :is="'el-' + container"
+      v-model="showContainer"
+      width="80%"
+      append-to-body
+      :before-close="closeContainer"
+      :title="text"
+      :destroy-on-close="true"
+    >
+      <slot>
+        <component
+          :is="getSubComp()"
+          v-bind="getSubProps()"
+          v-on="getSubEvent()"
+        />
+      </slot>
+    </component>
   </template>
 </template>
 <script>
-import VButtonSingle from './VButtonSingle'
-import VButtonGroup from './VButtonGroup'
-import { isArray } from '../../utils'
-
+import { strVarReplace } from '../../utils'
+import Base from './mixin'
 export default {
   name: 'VButton',
-  components: { VButtonSingle, VButtonGroup },
+  mixins: [Base],
   props: {
-    buttons: {
-      type: Array,
-      default: () => []
+    text: {
+      type: String,
+      default: ''
+    },
+    tips: {
+      type: String,
+      default: ''
+    },
+    type: {
+      type: String,
+      default: ''
+    },
+    target: {
+      type: String,
+      default: ''
+    },
+    api: {
+      type: Object,
+      default: () => {}
+    },
+    form: {
+      type: Object,
+      default: () => {}
+    },
+    list: {
+      type: Object,
+      default: () => {}
     }
   },
-  emits: ['click', 'action'],
-  data() {
-    const local = []
-    this.$props.buttons.forEach(item => {
-      delete item['when']
-      local.push(item)
-    })
-    return {
-      localButton: local
-    }
-  },
+  emits: ['click'],
   methods: {
-    isArray(tmp) {
-      return isArray(tmp)
+    onclick() {
+      if (this.$props.preCheck(this.$props) !== true) {
+        return
+      }
+      const btn = this.getBtnProps()
+      this.realTarget = strVarReplace(btn.target || '', this.$props.metaData)
+      this.clickHandler[btn.type]()
     },
-    onclick(btn) {
-      this.$emit('click', btn)
-    },
-    onaction(payload) {
-      this.$emit('action', payload)
+    getBtnProps() {
+      return this.$props
     }
   }
 }
 </script>
+
+<style lang="scss">
+.el-btn-icon {
+  height: 100%;
+  line-height: 100%;
+  display: flex;
+  padding: 0 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  align-items: center;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.025);
+  }
+}
+</style>
