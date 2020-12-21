@@ -33,29 +33,33 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 0) {
-      Message({
-        message: res.message || 'api error code:' + (res.code),
-        type: 'error',
-        duration: 5 * 1000
-      })
-
       if (res.code === 50008) {
         // to re-login
         MessageBox.confirm(
-          'You have been logged out, you can cancel to stay on this page, or log in again',
-          'Confirm logout',
+          '登录状态已过期, 您需重新登录才能方法当前页面',
+          '',
           {
-            confirmButtonText: 'Re-Login',
-            cancelButtonText: 'Cancel',
-            type: 'warning'
+            confirmButtonText: '重新登录',
+            type: 'warning',
+            duration: 0,
+            closeOnClickModal: false,
+            showCancelButton: false,
+            showClose: false
           }
         ).then(() => {
           store.dispatch('user/resetToken').then(() => {
             location.reload()
           })
         })
+        return Promise.reject('token expire')
+      } else {
+        Message({
+          message: res.message || 'api error code:' + (res.code),
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject(res.message || 'error')
       }
-      return Promise.reject(res.message || 'error')
     } else {
       return res
     }

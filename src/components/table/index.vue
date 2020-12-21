@@ -1,6 +1,6 @@
 <template>
   <!--  筛选条件  -->
-  <el-card v-if="tableFilter.length > 0 && tableBatchButton.length > 0" shadow="never" class="table-filter">
+  <el-card v-if="showFilterCard" shadow="never" class="table-filter">
     <slot name="filter">
       <v-form
         v-if="tableFilter.length > 0"
@@ -15,123 +15,119 @@
       />
     </slot>
   </el-card>
-  <el-card shadow="never">
-    <!--   批量按钮/其他按钮   -->
-    <slot name="action">
-      <el-row :gutter="20">
-        <el-col :span="tableBatchButton.length > 0 ? 12 : 18">
-          <template v-if="tableBatchButton.length === 0">
-            <slot name="filter">
-              <v-form
-                v-if="tableFilter.length > 0"
-                :key="formKey"
-                ref="filter"
-                v-model="filterForm"
-                class="filter-form"
-                :options="filterFormOptions"
-                :form-items="tableFilter"
-                @submit="searchAction"
-                @reset="resetFilter"
-              />
-            </slot>
-          </template>
-          <template v-else>
-            <v-button :buttons="makeBatchButton(tableBatchButton)" />
-            <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'afterBatchButton'" class="selected-info">
-              <span v-html="selectedInfo" />
-            </div>
-          </template>
-        </el-col>
-        <el-col :span="tableBatchButton.length > 0 ? 12 : 6" class="normal-button">
-          <v-button :buttons="makeNormalButton(tableNormalButton)" />
-        </el-col>
-      </el-row>
-    </slot>
-    <el-divider
-      v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0"
-    />
-    <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
-    <!--  列表  -->
-    <slot name="table">
-      <el-table
-        v-loading="loading"
-        :data="tableList"
-        :load="loadChildren"
-        style="width: 100%"
-        v-bind="tableTableProps"
-        @selection-change="handleSelectionChange"
-        @sort-change="sortTable"
-      >
-        <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
-        <el-table-column
-          v-for="(item, index) in tableHeaders"
-          :key="index + '-table-column'"
-          :prop="item.field"
-          :label="item.label"
-          v-bind="getColumnProps(item.columnProps || {})"
-        >
-          <!--    表头    -->
-          <template #header>
-            <span>{{ item.label }}</span>
-            <el-tooltip v-if="item.info" effect="dark" placement="top-start">
-              <i class="el-icon-warning-outline" />
-              <template #content><span v-html="item.info" /></template>
-            </el-tooltip>
-          </template>
-          <!--    单元格    -->
-          <template #default="scope">
-            <cell-edit
-              v-if="item.edit"
-              :key="`${index}-${rowKey}`"
-              v-model="scope.row[scope.column.property]"
-              v-bind="{item: item}"
-              @update:modelValue="value => cellChange(scope.index_, item.field, value)"
+  <!--   批量按钮/其他按钮   -->
+  <slot name="action">
+    <el-row :gutter="20">
+      <el-col :span="tableBatchButton.length > 0 ? 12 : 18">
+        <template v-if="!showFilterCard">
+          <slot name="filter">
+            <v-form
+              v-if="tableFilter.length > 0"
+              :key="formKey"
+              ref="filter"
+              v-model="filterForm"
+              class="filter-form"
+              :options="filterFormOptions"
+              :form-items="tableFilter"
+              @submit="searchAction"
+              @reset="resetFilter"
             />
-            <component
-              :is="cellType(item)"
-              v-else
-              v-bind="{
-                data: scope.row[scope.column.property],
-                column: item,
-              }"
-            />
-          </template>
-        </el-table-column>
-        <!--     操作     -->
-        <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
-          <template #default="scope">
-            <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
-          </template>
-        </el-table-column>
-        <template #empty> 没有数据 </template>
-      </el-table>
-    </slot>
-    <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
-    <el-row>
-      <el-col :span="12" style="min-height: 20px">
-        <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
-          <span v-html="selectedInfo" />
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <slot name="page">
-          <div v-if="tableShowPagination" class="table-pagination">
-            <el-pagination
-              :key="paginationKey"
-              background
-              :page-size="page.pageSize"
-              :page-sizes="page.sizes"
-              :current-page="page.currentPage"
-              layout="total, sizes, prev, pager, next"
-              :total="page.total"
-              @size-change="pageSizesChange"
-              @current-change="(page) => currentPageChange(page)"
-            />
+          </slot>
+        </template>
+        <template v-else>
+          <v-button :buttons="makeBatchButton(tableBatchButton)" />
+          <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'afterBatchButton'" class="selected-info">
+            <span v-html="selectedInfo" />
           </div>
-        </slot>
+        </template>
+      </el-col>
+      <el-col :span="tableBatchButton.length > 0 ? 12 : 6" class="normal-button">
+        <v-button :buttons="makeNormalButton(tableNormalButton)" />
       </el-col>
     </el-row>
-  </el-card>
+  </slot>
+  <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0" />
+  <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
+  <!--  列表  -->
+  <slot name="table">
+    <el-table
+      v-loading="loading"
+      :data="tableList"
+      :load="loadChildren"
+      style="width: 100%"
+      v-bind="tableTableProps"
+      @selection-change="handleSelectionChange"
+      @sort-change="sortTable"
+    >
+      <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
+      <el-table-column
+        v-for="(item, index) in tableHeaders"
+        :key="index + '-table-column'"
+        :prop="item.field"
+        :label="item.label"
+        v-bind="getColumnProps(item.columnProps || {})"
+      >
+        <!--    表头    -->
+        <template #header>
+          <span>{{ item.label }}</span>
+          <el-tooltip v-if="item.info" effect="dark" placement="top-start">
+            <i class="el-icon-warning-outline" />
+            <template #content><span v-html="item.info" /></template>
+          </el-tooltip>
+        </template>
+        <!--    单元格    -->
+        <template #default="scope">
+          <cell-edit
+            v-if="item.edit"
+            :key="`${index}-${rowKey}`"
+            v-model="scope.row[scope.column.property]"
+            v-bind="{item: item}"
+            @update:modelValue="value => cellChange(scope.index_, item.field, value)"
+          />
+          <component
+            :is="cellType(item)"
+            v-else
+            v-bind="{
+              data: scope.row[scope.column.property],
+              column: item,
+            }"
+          />
+        </template>
+      </el-table-column>
+      <!--     操作     -->
+      <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
+        <template #default="scope">
+          <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
+        </template>
+      </el-table-column>
+      <template #empty> 没有数据 </template>
+    </el-table>
+  </slot>
+  <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
+  <el-row>
+    <el-col :span="12" style="min-height: 20px">
+      <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
+        <span v-html="selectedInfo" />
+      </div>
+    </el-col>
+    <el-col :span="12">
+      <slot name="page">
+        <div v-if="tableShowPagination" class="table-pagination">
+          <el-pagination
+            :key="paginationKey"
+            background
+            :page-size="page.pageSize"
+            :page-sizes="page.sizes"
+            :current-page="page.currentPage"
+            layout="total, sizes, prev, pager, next"
+            :total="page.total"
+            @size-change="pageSizesChange"
+            @current-change="(page) => currentPageChange(page)"
+          />
+        </div>
+      </slot>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -248,6 +244,9 @@ export default {
     }
   },
   computed: {
+    showFilterCard() {
+      return (this.tableFilter.length > 0 && this.tableBatchButton.length > 0) || this.tableFilter.length > 4
+    },
     actionWidth() {
       if (this.tableRowButton.length === 1) {
         return undefined
