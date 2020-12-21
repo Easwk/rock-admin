@@ -17,7 +17,6 @@ import VButtonGroup from './VButtonGroup'
 import { isArray } from '../../utils'
 
 export default {
-  name: 'VButton',
   components: { VButton, VButtonGroup },
   props: {
     buttons: {

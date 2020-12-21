@@ -62,18 +62,9 @@ export default {
 }
 </script>
 <style scoped>
-  /*::v-deep(.el-menu-item) {*/
-  /*  height: 40px;*/
-  /*  line-height: 40px;*/
-  /*}*/
-  /*::v-deep(.el-submenu__title) {*/
-  /*  height: 40px;*/
-  /*  line-height: 40px;*/
-  /*}*/
-  /*::v-deep(.el-submenu .el-menu-item) {*/
-  /*  height: 40px;*/
-  /*  line-height: 40px;*/
-  /*}*/
+  ::v-deep(.el-scrollbar__wrap) {
+    overflow: hidden;
+  }
   .menu-section {
     height: 30px;
     font-size: 14px;

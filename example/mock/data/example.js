@@ -296,6 +296,12 @@ const form = {
       label: '图标'
     },
     {
+      type: 'json',
+      field: 'json',
+      label: 'json',
+      value: '{"a":1}'
+    },
+    {
       type: 'template',
       field: 'p3',
       label: '自定义',
