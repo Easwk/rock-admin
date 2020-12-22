@@ -21,7 +21,7 @@ export default {
       afterSubmit: 'goback',
       afterReset: 'goback'
     }, schema)
-    const rep = ['saveApi', 'getApi']
+    const rep = ['saveApi', 'getApi', 'infoApi']
     rep.forEach(key => {
       if (schema[key]) {
         schema[key] = strVarReplace(schema[key], { id: this.$route.params.id || '' })

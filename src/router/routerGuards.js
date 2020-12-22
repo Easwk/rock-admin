@@ -5,13 +5,25 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '../utils/auth' // get token from cookie
 import { getUrlKey } from '../utils'
+import _ from 'lodash'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login'] // no redirect whitelist
 
+const setPageTitle = function(to) {
+  let title = store.state.settings.title
+  _.cloneDeep(to.matched).reverse().forEach((item, index) => {
+    if (index < 2 && item.meta.title) {
+      title = item.meta.title + '-' + title
+    }
+  })
+  document.title = title
+}
+
 router.beforeEach(async(to, from, next) => {
   NProgress.start()
-  document.title = to.meta.title ? to.meta.title + '-' + store.state.settings.title : store.state.settings.title
+  console.log(to)
+  setPageTitle(to)
   const hasToken = getToken()
 
   if (hasToken) {

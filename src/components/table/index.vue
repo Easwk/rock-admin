@@ -87,10 +87,7 @@
           <component
             :is="cellType(item)"
             v-else
-            v-bind="{
-              data: scope.row[scope.column.property],
-              column: item,
-            }"
+            v-bind="cellProps(item, scope)"
           />
         </template>
       </el-table-column>
@@ -326,6 +323,17 @@ export default {
       let type = column.type || 'span'
       type = type === 'input' ? 'span' : type
       return `cell-${type}`
+    },
+    cellProps(column, scope) {
+      const base = {
+        data: scope.row[scope.column.property],
+        column: column
+      }
+      if (column.type === 'tpl') {
+        base['row'] = scope.row
+        base['tpl'] = column.tpl || ''
+      }
+      return base
     },
     getAvailableFilter() {
       const available = {}

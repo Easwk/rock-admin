@@ -6,6 +6,7 @@ import CellJson from './json'
 import CellSpan from './span'
 import CellRichText from './rich'
 import CellIcon from './cellIcon'
+import CellTpl from './tpl'
 export default {
   CellEnum,
   CellHtml,
@@ -14,5 +15,6 @@ export default {
   CellLink,
   CellSpan,
   CellRichText,
-  CellIcon
+  CellIcon,
+  CellTpl
 }

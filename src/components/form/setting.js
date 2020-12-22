@@ -87,5 +87,9 @@ export const getComponentProps = (item) => {
     item.props.action = `/api/upload` // upload action
     item.props.headers = { Authorization: getToken() }
   }
+  if (item.readonly !== undefined) {
+    item.props.disabled = !!item.readonly
+    delete item['readonly']
+  }
   return props
 }

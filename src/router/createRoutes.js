@@ -3,9 +3,9 @@ import Form from '../scaffold/form'
 import Container from '../scaffold/container'
 import Table from '../scaffold/table'
 
-const PAGE_TYPE_FORM = 1
-const PAGE_TYPE_TABLE = 2
 const PAGE_TYPE_CUSTOM = 0
+const PAGE_TYPE_TABLE = 1
+const PAGE_TYPE_FORM = 2
 const PAGE_TYPE_CUSTOM_SCHEMA = 3
 
 const base = {

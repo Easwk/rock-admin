@@ -60,9 +60,9 @@ export default {
       type: String,
       default: ''
     },
-    saveAsArray: {
-      type: Boolean,
-      default: false
+    saveAs: {
+      type: String,
+      default: 'array'
     }
   },
   emits: ['update:modelValue'],
@@ -86,7 +86,18 @@ export default {
   },
   methods: {
     onchange() {
-      this.$emit('update:modelValue', isNumber(this.$props.modelValue) && !this.saveAsArray ? this.localValue[this.localValue.length - 1] : this.localValue)
+      let val = this.localValue
+      if (isNumber(this.$props.modelValue)) {
+        val = this.localValue[this.localValue.length - 1]
+      }
+
+      if (this.saveAs === 'array') {
+        val = this.localValue
+      } else if (this.saveAs === 'number') {
+        val = this.localValue[this.localValue.length - 1]
+      }
+
+      this.$emit('update:modelValue', val)
     }
   }
 }
