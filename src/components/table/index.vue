@@ -478,7 +478,7 @@ export default {
     },
     sortTable({ column, order, prop }) {
       if (order && prop) {
-        this.sort = { _sort_by: prop, _sort_type: order }
+        this.sort = { _sort_by: prop, _sort_type: order === 'descending' ? 'desc' : 'asc' }
       } else {
         this.sort = null
       }

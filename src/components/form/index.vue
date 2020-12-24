@@ -307,11 +307,9 @@ export default {
         this.$http
           .request({ method: 'POST', url: this.$props.saveApi, data: this.formData })
           .then(({ payload, message }) => {
-            console.log('form save success', payload)
             this.$message({ type: 'success', message: message || '保存成功' })
             setTimeout(_ => this.execAfter('afterSubmit'), 1000)
           })
-        console.log('formData', this.formData)
         this.$emit('submit', this.formData)
       } else {
         console.log('error submit!!')
