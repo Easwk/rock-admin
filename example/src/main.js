@@ -9,7 +9,7 @@ const nav = [
     text: '跳转',
     shape: 'icon',
     target: 'http://github.com/daodao97',
-    btnProps: {
+    props: {
       icon: 'ra-github1'
     }
   }

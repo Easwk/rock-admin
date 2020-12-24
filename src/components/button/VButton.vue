@@ -1,15 +1,15 @@
 <template>
-  <template v-if="shape === 'icon' && btnProps && btnProps.icon">
+  <template v-if="shape === 'icon' && props && props.icon">
     <div class="el-btn-icon" @click="onclick">
-      <v-icon :name="btnProps.icon || 'el-icon-warning-outline'" />
+      <v-icon :name="props.icon || 'el-icon-warning-outline'" />
     </div>
   </template>
   <template v-else>
-    <el-button v-if="text" v-bind="btnProps" @click="onclick">
+    <el-button v-if="text" v-bind="props" @click="onclick">
       {{ text }}
     </el-button>
     <template v-else>
-      <el-button v-bind="btnProps" @click="onclick" />
+      <el-button v-bind="props" @click="onclick" />
     </template>
   </template>
   <template v-if="showContainer">

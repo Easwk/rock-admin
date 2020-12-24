@@ -40,7 +40,7 @@ const itemTable = {
       field: 'props',
       label: '原始属性',
       edit: true,
-      columnProps: {
+      props: {
         width: '300px'
       }
     },
@@ -49,7 +49,7 @@ const itemTable = {
       field: 'options',
       label: '备选项',
       edit: true,
-      columnProps: {
+      props: {
         width: '300px'
       }
     }

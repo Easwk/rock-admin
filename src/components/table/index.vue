@@ -65,7 +65,7 @@
         :key="index + '-table-column'"
         :prop="item.field"
         :label="item.label"
-        v-bind="getColumnProps(item.columnProps || {})"
+        v-bind="getColumnProps(item.props || {})"
       >
         <!--    表头    -->
         <template #header>

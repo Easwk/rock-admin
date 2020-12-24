@@ -13,7 +13,7 @@ export default {
       type: String,
       default: 'button' // 展现形式 button, icon, link
     },
-    btnProps: {
+    props: {
       type: Object,
       default: () => {}
     },

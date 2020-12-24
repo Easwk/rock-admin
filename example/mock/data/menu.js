@@ -127,7 +127,7 @@ const table = {
     {
       type: 'jump',
       target: '/menu/{id}',
-      btnProps: {
+      props: {
         icon: 'el-icon-edit',
         type: 'success'
       }
@@ -138,7 +138,7 @@ const table = {
         method: 'DELETE',
         url: '/menu/{id}'
       },
-      btnProps: {
+      props: {
         icon: 'el-icon-delete',
         type: 'danger'
       }

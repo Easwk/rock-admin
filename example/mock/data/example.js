@@ -341,7 +341,7 @@ const buttons = [
       infoApi: '/student/list_info',
       listApi: '/student/list'
     },
-    btnProps: {
+    props: {
       type: 'info'
     }
   },
@@ -367,7 +367,7 @@ const buttons = [
       infoApi: '/form',
       saveApi: '/save'
     },
-    btnProps: {
+    props: {
       type: 'success'
     }
   }
@@ -408,7 +408,7 @@ const table = {
         1: 'info',
         0: 'warning'
       },
-      columnProps: {
+      props: {
         sortable: true
       }
     },
@@ -446,7 +446,7 @@ const table = {
         infoApi: '/user/{id}',
         saveApi: '/user/{id}'
       },
-      btnProps: {
+      props: {
         icon: 'el-icon-edit',
         type: 'success'
       }
@@ -457,7 +457,7 @@ const table = {
         method: 'POST',
         url: '/student/{id}'
       },
-      btnProps: {
+      props: {
         icon: 'el-icon-delete',
         type: 'danger'
       }
@@ -468,7 +468,7 @@ const table = {
     {
       type: 'jump',
       target: '/user/form',
-      btnProps: {
+      props: {
         icon: 'el-icon-plus',
         type: 'primary'
       }
