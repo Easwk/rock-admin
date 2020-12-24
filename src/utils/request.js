@@ -34,10 +34,10 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 0) {
-      if (res.code === 50008) {
+      if (res.code === 401) {
         // to re-login
         MessageBox.confirm(
-          '登录状态已过期, 您需重新登录才能方法当前页面',
+          '登录状态获取失败, 您需重新登录才能方法当前页面',
           '',
           {
             confirmButtonText: '重新登录',

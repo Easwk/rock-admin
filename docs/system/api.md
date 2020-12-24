@@ -252,7 +252,7 @@
               "infoApi":"/student/list_info",
               "listApi":"/student/list"
             },
-            "btnProps":{
+            "props":{
               "type":"info"
             }
           },
@@ -278,7 +278,7 @@
               "infoApi":"/form",
               "saveApi":"/save"
             },
-            "btnProps":{
+            "props":{
               "type":"success"
             }
           }
@@ -290,7 +290,7 @@
               "infoApi":"/form/{id}",
               "saveApi":"/save"
             },
-            "btnProps":{
+            "props":{
               "icon":"el-icon-edit",
               "type":"success"
             }
@@ -301,7 +301,7 @@
               "method":"POST",
               "url":"/student/{id}"
             },
-            "btnProps":{
+            "props":{
               "icon":"el-icon-delete",
               "type":"danger"
             }
@@ -328,7 +328,7 @@
               "infoApi":"/student/list_info",
               "listApi":"/student/list"
             },
-            "btnProps":{
+            "props":{
               "type":"info"
             }
           },
@@ -354,14 +354,14 @@
               "infoApi":"/form",
               "saveApi":"/save"
             },
-            "btnProps":{
+            "props":{
               "type":"success"
             }
           },
           {
             "type":"jump",
             "target":"/user/form",
-            "btnProps":{
+            "props":{
               "icon":"el-icon-plus",
               "type":"primary"
             }

@@ -115,8 +115,8 @@ const actions = {
           if (!payload) {
             reject('Verification failed, please Login again.')
           }
-          const { name, avatar, id, role_ids } = payload
-          commit('SET_NAME', name)
+          const { nickname, avatar, id, role_ids } = payload
+          commit('SET_NAME', nickname)
           commit('SET_AVATAR', avatar)
           let resourceTree = {};
           (payload.resource || []).forEach(item => {
@@ -147,6 +147,7 @@ const actions = {
       logout(state.token)
         .then(() => {
           commit('SET_TOKEN', '')
+          commit('SET_NAME', '')
           removeToken()
           // resetRouter()
           resolve()
@@ -161,6 +162,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
+      commit('SET_NAME', '')
       removeToken()
       resolve()
     })

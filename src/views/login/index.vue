@@ -110,7 +110,6 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined,
       loginType: 'local'
     }
   },
@@ -166,7 +165,7 @@ export default {
       }
       this.loginType = sso.name
       const redirect_url =
-        location.origin + location.pathname + '#' + this.redirect
+        location.origin + location.pathname + '#' + (this.$route.params.redirect || '')
       const params = Object.assign(
         {},
         {

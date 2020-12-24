@@ -32,7 +32,7 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      if (hasGetUserInfo !== '') {
         next()
       } else {
         try {
@@ -60,8 +60,12 @@ router.beforeEach(async(to, from, next) => {
     } else {
       const ticket = getUrlKey('code')
       if (ticket) {
-        await store.dispatch('user/login', { ticket })
-        next(`${to.path}`)
+        try {
+          await store.dispatch('user/login', { ticket })
+          next(`${to.path}`)
+        } catch (e) {
+          location.href = '/'
+        }
       } else {
         next(`/login?redirect=${to.path}`)
       }
