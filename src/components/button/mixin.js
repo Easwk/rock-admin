@@ -1,4 +1,4 @@
-import { strVarReplace } from '../../utils'
+import { isFunc, strVarReplace } from '../../utils'
 import { defineAsyncComponent } from 'vue'
 import MessageBox from 'element-plus/lib/el-message-box'
 
@@ -30,7 +30,7 @@ export default {
       default: () => {}
     },
     injectData: {
-      type: Object,
+      type: [Object, Function],
       default: () => {}
     },
     container: {
@@ -82,12 +82,20 @@ export default {
               type: 'warning'
             }
           ).then(() => {
+            console.log(3333)
+            let data = this.$props.injectData
+            if (isFunc(data)) {
+              data = data()
+            }
             const options = Object.assign(
               {
                 method: 'GET',
-                data: this.$props.injectData
+                data: data
               },
-              this.getBtnProps().api
+              {
+                url: strVarReplace(this.target || '', this.$props.metaData)
+              },
+              this.getBtnProps().api || {}
             )
             options.url = strVarReplace(options.url, this.$props.metaData)
 
@@ -95,8 +103,8 @@ export default {
               console.log('api success', payload)
               this.$emit('action', payload)
             })
-          }).catch(() => {
-            console.log('cancel')
+          }).catch(error => {
+            console.log('cancel', error)
           })
         },
         table: () => {

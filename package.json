@@ -2,7 +2,7 @@
   "name": "rock-admin",
   "version": "0.0.1-rc",
   "description": "vue3 + element-plus fast admin scaffold",
-  "main": "lib/rock-admin.common.js",
+  "main": "src/index.js",
   "scripts": {
     "lint": "vue-cli-service lint --fix --ext .js,.vue src template example",
     "lib": "vue-cli-service build --target lib --name rock-admin --dest lib src/index.js",
@@ -15,6 +15,7 @@
     "echarts": "^4.9.0",
     "element-plus": "1.0.1-beta.10",
     "file": "^0.2.2",
+    "file-saver": "^2.0.5",
     "inputmask": "^5.0.5",
     "js-beautify": "^1.13.0",
     "js-cookie": "^2.2.1",
@@ -28,7 +29,8 @@
     "system": "^2.0.1",
     "vue": "^3.0.3",
     "vue-router": "^4.0.1",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
@@ -45,7 +47,8 @@
     "eslint-plugin-vue": "7.0.0-beta.3",
     "prettier": "^2.1.2",
     "sass": "^1.29.0",
-    "sass-loader": "^10.1.0"
+    "sass-loader": "^10.1.0",
+    "script-loader": "^0.7.2"
   },
   "repository": {
     "type": "git",

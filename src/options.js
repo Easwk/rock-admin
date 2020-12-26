@@ -2,7 +2,7 @@ import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 export default {
   ElementPlus: {
-    size: 'small',
+    size: 'mini',
     zIndex: 3000,
     locale: locale
   },

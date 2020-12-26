@@ -1,3 +1,6 @@
+import store from '../store'
+import _ from 'lodash'
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
@@ -610,4 +613,14 @@ export function tplEngine(html, options) {
 
 export function heredoc(fn) {
   return fn.toString().split('\n').slice(1, -1).join('\n') + '\n'
+}
+
+export function getPageTitle(matched, withBase = true) {
+  let title = withBase ? store.state.settings.title : ''
+  _.cloneDeep(matched).reverse().forEach((item, index) => {
+    if (index < 2 && item.meta.title) {
+      title = item.meta.title + (title ? '-' + title : title)
+    }
+  })
+  return title
 }

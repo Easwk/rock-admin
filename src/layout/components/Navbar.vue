@@ -151,6 +151,7 @@ export default {
 }
 
 .navbar {
+  display: flex;
   height: 50px;
   /*overflow: hidden;*/
   position: relative;

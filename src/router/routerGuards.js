@@ -10,9 +10,9 @@ import _ from 'lodash'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 const whiteList = ['/login'] // no redirect whitelist
 
-const setPageTitle = function(to) {
+const setPageTitle = function(matched) {
   let title = store.state.settings.title
-  _.cloneDeep(to.matched).reverse().forEach((item, index) => {
+  _.cloneDeep(matched).reverse().forEach((item, index) => {
     if (index < 2 && item.meta.title) {
       title = item.meta.title + '-' + title
     }
@@ -22,8 +22,7 @@ const setPageTitle = function(to) {
 
 router.beforeEach(async(to, from, next) => {
   NProgress.start()
-  console.log(to)
-  setPageTitle(to)
+  setPageTitle(to.matched)
   const hasToken = getToken()
 
   if (hasToken) {

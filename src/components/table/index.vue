@@ -43,6 +43,7 @@
       </el-col>
       <el-col :span="tableBatchButton.length > 0 ? 12 : 6" class="normal-button">
         <v-button :buttons="makeNormalButton(tableNormalButton)" />
+        <export-add-button :get-info="getExportInfo" />
       </el-col>
     </el-row>
   </slot>
@@ -101,7 +102,7 @@
     </el-table>
   </slot>
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
-  <el-row>
+  <el-row style="display: flex">
     <el-col :span="12" style="min-height: 20px">
       <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
         <span v-html="selectedInfo" />
@@ -131,9 +132,10 @@
 import Cells from './cell'
 import VForm from '../form/index'
 import VButton from '../button'
-import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams, ruleCompute } from '../../utils'
+import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams, ruleCompute, getPageTitle } from '../../utils'
 import pipe from '../../utils/pipe'
 import CellEdit from './cellEdit/index'
+import ExportAddButton from '../../utils/export'
 
 export default {
   name: 'VTable',
@@ -141,7 +143,8 @@ export default {
     {
       VForm,
       VButton,
-      CellEdit
+      CellEdit,
+      ExportAddButton
     },
     Cells
   ),
@@ -431,6 +434,20 @@ export default {
         } else {
           // todo
         }
+        if (item.type === 'export') {
+          item.type = 'api'
+          item.injectData = () => {
+            return {
+              listApi: this.listApi,
+              filter: this.filterForm,
+              name: getPageTitle(this.$route.matched, false)
+            }
+          }
+          item.api = {
+            url: '/export_task/create',
+            method: 'POST'
+          }
+        }
         return item
       })
     },
@@ -497,6 +514,14 @@ export default {
     },
     btnAction() {
       this.load()
+    },
+    getExportInfo() {
+      return {
+        listApi: this.listApi,
+        params: this.filterForm,
+        header: this.$lodash.cloneDeep(this.tableHeaders),
+        name: getPageTitle(this.$route.matched, false)
+      }
     }
   }
 }
