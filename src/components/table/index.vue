@@ -43,11 +43,11 @@
       </el-col>
       <el-col :span="tableBatchButton.length > 0 ? 12 : 6" class="normal-button">
         <v-button :buttons="makeNormalButton(tableNormalButton)" />
-        <export-add-button :get-info="getExportInfo" />
+        <export-add-button v-if="tableExportAble" :get-info="getExportInfo" />
       </el-col>
     </el-row>
   </slot>
-  <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0" />
+  <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0 || tableExportAble" />
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <!--  列表  -->
   <slot name="table">
@@ -196,6 +196,10 @@ export default {
     tableProps: {
       type: Object,
       default: _ => {}
+    },
+    exportAble: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['cell-change'],
@@ -231,6 +235,7 @@ export default {
       tableShowPagination: this.$props.showPagination,
       tableTableProps: Object.assign({}, tableDefaultProps, this.$props.tableProps),
       selectionRows: [],
+      tableExportAble: this.$props.exportAble,
       page: {
         pageSize: 20,
         sizes: [20, 100, 200],
@@ -433,20 +438,6 @@ export default {
           item = this.makeNormalButton(item)
         } else {
           // todo
-        }
-        if (item.type === 'export') {
-          item.type = 'api'
-          item.injectData = () => {
-            return {
-              listApi: this.listApi,
-              filter: this.filterForm,
-              name: getPageTitle(this.$route.matched, false)
-            }
-          }
-          item.api = {
-            url: '/export_task/create',
-            method: 'POST'
-          }
         }
         return item
       })
