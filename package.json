@@ -2,7 +2,7 @@
   "name": "rock-admin",
   "version": "0.0.1-rc",
   "description": "vue3 + element-plus fast admin scaffold",
-  "main": "src/index.js",
+  "main": "lib/rock-admin.common.js",
   "scripts": {
     "lint": "vue-cli-service lint --fix --ext .js,.vue src template example",
     "lib": "vue-cli-service build --target lib --name rock-admin --dest lib src/index.js",
@@ -13,7 +13,7 @@
     "codemirror": "^5.58.2",
     "core-js": "^3.7.0",
     "echarts": "^4.9.0",
-    "element-plus": "1.0.1-beta.10",
+    "element-plus": "1.0.1-beta.17",
     "file": "^0.2.2",
     "file-saver": "^2.0.5",
     "inputmask": "^5.0.5",

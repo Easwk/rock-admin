@@ -47,7 +47,6 @@
       </el-col>
     </el-row>
   </slot>
-  <el-divider v-if="tableBatchButton.length > 0 || tableNormalButton.length > 0 || tableExportAble" />
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <!--  列表  -->
   <slot name="table">
