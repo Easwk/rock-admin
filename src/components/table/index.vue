@@ -374,7 +374,7 @@ export default {
         _page: this.page.currentPage,
         _size: this.page.pageSize
       }
-      const params = Object.assign({}, filter, page, this.sort, extraPrams)
+      const params = Object.assign({}, filter, page, this.sort, extraPrams, this.$route.params)
       // if (this.activeTab) {
       //   params[this.activeTab.field] = this.activeTab.value
       // }

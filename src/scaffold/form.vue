@@ -1,4 +1,9 @@
 <template>
+  <div v-if="showNotice" style="margin: 0 0 20px 0">
+    <el-alert
+      v-bind="notice"
+    />
+  </div>
   <v-form
     :key="key"
     v-model="formData"
@@ -7,7 +12,7 @@
 </template>
 <script>
 import VForm from '../components/form/index'
-import { strVarReplace } from '../utils'
+import { isObject, isString, strVarReplace } from '../utils'
 
 export default {
   name: 'FormRender',
@@ -27,10 +32,23 @@ export default {
         schema[key] = strVarReplace(schema[key], { id: this.$route.params.id || '' })
       }
     })
+    let notice = {}
+    if (schema.notice !== undefined) {
+      if (isString(schema.notice)) {
+        notice = {
+          title: schema.notice
+        }
+      } else if (isObject(schema.notice)) {
+        notice = schema.notice
+      }
+      delete schema['notice']
+    }
     return {
       key: 0,
       formData: {},
-      formProps: schema
+      formProps: schema,
+      showNotice: Object.keys(notice).length > 0,
+      notice
     }
   },
   computed: {
