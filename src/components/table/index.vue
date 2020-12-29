@@ -49,110 +49,45 @@
   </slot>
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <!--  列表  -->
-  <slot name="table">
-    <el-tabs v-if="tableTabs.length > 0" v-model="activeTab" type="border-card" @tab-click="changeTab">
-      <el-tab-pane v-for="(item, index) in tableTabs" :key="index+'-pane'" :label="item.label" :name="item.value + ''" :lazy="true">
-        <el-table
+  <el-tabs v-if="tableTabs.length > 0" v-model="activeTab" type="border-card" @tab-click="changeTab">
+    <el-tab-pane v-for="(item, index) in tableTabs" :key="index+'-pane'" :label="item.label" :name="item.value + ''" :lazy="true">
+      <slot name="table">
+        <table-style
           v-loading="loading"
-          :data="tableList"
-          :load="loadChildren"
-          style="width: 100%"
-          v-bind="tableTableProps"
-          @selection-change="handleSelectionChange"
+          :headers="tableHeaders"
+          :data-list="tableList"
+          :props="tableTableProps"
+          :section="tableBatchButton.length > 0"
+          :cell-type="cellType"
+          :cell-props="cellProps"
+          :row-button="tableRowButton"
+          :make-row-button="makeRowButton"
+          :load-children="loadChildren"
+          @select-change="handleSelectionChange"
           @sort-change="sortTable"
-        >
-          <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
-          <el-table-column
-            v-for="(item, index) in tableHeaders"
-            :key="index + '-table-column'"
-            :prop="item.field"
-            :label="item.label"
-            v-bind="getColumnProps(item.props || {})"
-          >
-            <!--    表头    -->
-            <template #header>
-              <span>{{ item.label }}</span>
-              <el-tooltip v-if="item.info" effect="dark" placement="top-start">
-                <i class="el-icon-warning-outline" />
-                <template #content><span v-html="item.info" /></template>
-              </el-tooltip>
-            </template>
-            <!--    单元格    -->
-            <template #default="scope">
-              <cell-edit
-                v-if="item.edit"
-                :key="`${index}-${rowKey}`"
-                v-model="scope.row[scope.column.property]"
-                v-bind="{item: item}"
-                @update:modelValue="value => cellChange(scope.index_, item.field, value)"
-              />
-              <component
-                :is="cellType(item)"
-                v-else
-                v-bind="cellProps(item, scope)"
-              />
-            </template>
-          </el-table-column>
-          <!--     操作     -->
-          <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
-            <template #default="scope">
-              <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
-            </template>
-          </el-table-column>
-          <template #empty> 没有数据 </template>
-        </el-table>
-      </el-tab-pane>
-    </el-tabs>
-    <el-table
-      v-else
+          @cell-change="cellChange"
+          @btn-action="btnAction"
+        />
+      </slot>
+    </el-tab-pane>
+  </el-tabs>
+  <slot v-else name="table">
+    <table-style
       v-loading="loading"
-      :data="tableList"
-      :load="loadChildren"
-      style="width: 100%"
-      v-bind="tableTableProps"
-      @selection-change="handleSelectionChange"
+      :headers="tableHeaders"
+      :data-list="tableList"
+      :props="tableTableProps"
+      :section="tableBatchButton.length > 0"
+      :cell-type="cellType"
+      :cell-props="cellProps"
+      :row-button="tableRowButton"
+      :make-row-button="makeRowButton"
+      :load-children="loadChildren"
+      @select-change="handleSelectionChange"
       @sort-change="sortTable"
-    >
-      <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
-      <el-table-column
-        v-for="(item, index) in tableHeaders"
-        :key="index + '-table-column'"
-        :prop="item.field"
-        :label="item.label"
-        v-bind="getColumnProps(item.props || {})"
-      >
-        <!--    表头    -->
-        <template #header>
-          <span>{{ item.label }}</span>
-          <el-tooltip v-if="item.info" effect="dark" placement="top-start">
-            <i class="el-icon-warning-outline" />
-            <template #content><span v-html="item.info" /></template>
-          </el-tooltip>
-        </template>
-        <!--    单元格    -->
-        <template #default="scope">
-          <cell-edit
-            v-if="item.edit"
-            :key="`${index}-${rowKey}`"
-            v-model="scope.row[scope.column.property]"
-            v-bind="{item: item}"
-            @update:modelValue="value => cellChange(scope.index_, item.field, value)"
-          />
-          <component
-            :is="cellType(item)"
-            v-else
-            v-bind="cellProps(item, scope)"
-          />
-        </template>
-      </el-table-column>
-      <!--     操作     -->
-      <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
-        <template #default="scope">
-          <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
-        </template>
-      </el-table-column>
-      <template #empty> 没有数据 </template>
-    </el-table>
+      @cell-change="cellChange"
+      @btn-action="btnAction"
+    />
   </slot>
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <el-row style="display: flex">
@@ -189,6 +124,7 @@ import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams,
 import pipe from '../../utils/pipe'
 import CellEdit from './cellEdit/index'
 import ExportAddButton from '../../utils/export'
+import TableStyle from './tableSytle'
 
 export default {
   name: 'VTable',
@@ -197,7 +133,8 @@ export default {
       VForm,
       VButton,
       CellEdit,
-      ExportAddButton
+      ExportAddButton,
+      TableStyle
     },
     Cells
   ),
@@ -540,8 +477,8 @@ export default {
         if (isArray(item)) {
           item = this.makeRowButton(item)
         } else {
-          item['inject-data'] = row
-          item['meta-data'] = row
+          item['inject-data'] = Object.assign({}, row, this.$route.query, this.$route.params)
+          item['meta-data'] = Object.assign({}, row, this.$route.query, this.$route.params)
         }
         return item
       })
