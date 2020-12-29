@@ -248,12 +248,13 @@ export default {
     },
     parseType(item, value) {
       let reference = item.value
-      const refType = type(reference)
+      let refType = type(reference)
       if (refType === 'object') {
         return reference
       }
       if (item.options) {
         reference = item.options[item.options.length - 1].value
+        refType = type(reference)
       }
       if (refType === 'string' && refType !== 'object') {
         return value + ''

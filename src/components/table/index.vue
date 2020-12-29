@@ -50,7 +50,61 @@
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'beforeList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <!--  列表  -->
   <slot name="table">
+    <el-tabs v-if="tableTabs.length > 0" v-model="activeTab" type="border-card" @tab-click="changeTab">
+      <el-tab-pane v-for="(item, index) in tableTabs" :key="index+'-pane'" :label="item.label" :name="item.value + ''" :lazy="true">
+        <el-table
+          v-loading="loading"
+          :data="tableList"
+          :load="loadChildren"
+          style="width: 100%"
+          v-bind="tableTableProps"
+          @selection-change="handleSelectionChange"
+          @sort-change="sortTable"
+        >
+          <el-table-column v-if="tableBatchButton.length > 0" type="selection" />
+          <el-table-column
+            v-for="(item, index) in tableHeaders"
+            :key="index + '-table-column'"
+            :prop="item.field"
+            :label="item.label"
+            v-bind="getColumnProps(item.props || {})"
+          >
+            <!--    表头    -->
+            <template #header>
+              <span>{{ item.label }}</span>
+              <el-tooltip v-if="item.info" effect="dark" placement="top-start">
+                <i class="el-icon-warning-outline" />
+                <template #content><span v-html="item.info" /></template>
+              </el-tooltip>
+            </template>
+            <!--    单元格    -->
+            <template #default="scope">
+              <cell-edit
+                v-if="item.edit"
+                :key="`${index}-${rowKey}`"
+                v-model="scope.row[scope.column.property]"
+                v-bind="{item: item}"
+                @update:modelValue="value => cellChange(scope.index_, item.field, value)"
+              />
+              <component
+                :is="cellType(item)"
+                v-else
+                v-bind="cellProps(item, scope)"
+              />
+            </template>
+          </el-table-column>
+          <!--     操作     -->
+          <el-table-column v-if="tableRowButton.length > 0" key="row-action" label="操作" fixed="right" :width="actionWidth">
+            <template #default="scope">
+              <v-button :buttons="makeRowButton(tableRowButton, scope.row)" @action="btnAction" />
+            </template>
+          </el-table-column>
+          <template #empty> 没有数据 </template>
+        </el-table>
+      </el-tab-pane>
+    </el-tabs>
     <el-table
+      v-else
       v-loading="loading"
       :data="tableList"
       :load="loadChildren"
@@ -199,6 +253,12 @@ export default {
     exportAble: {
       type: Boolean,
       default: false
+    },
+    tabs: {
+      type: Array,
+      default: _ => {
+        return []
+      }
     }
   },
   emits: ['cell-change'],
@@ -210,6 +270,13 @@ export default {
       rowKey: 'id',
       lazy: true,
       defaultExpandAll: false
+    }
+    let activeTab = ''
+    if (this.$props.tabs.length > 0) {
+      activeTab = this.$props.tabs[0].value
+    }
+    if (this.$route.query.tab) {
+      activeTab = this.$route.query.tab
     }
     return {
       rowKey: 0,
@@ -235,6 +302,7 @@ export default {
       tableTableProps: Object.assign({}, tableDefaultProps, this.$props.tableProps),
       selectionRows: [],
       tableExportAble: this.$props.exportAble,
+      tableTabs: this.$props.tabs,
       page: {
         pageSize: 20,
         sizes: [20, 100, 200],
@@ -244,7 +312,8 @@ export default {
       paginationKey: 0,
       filterForm: Object.assign({}, this.$route.query),
       loading: false,
-      sort: null
+      sort: null,
+      activeTab: activeTab + ''
     }
   },
   computed: {
@@ -314,6 +383,14 @@ export default {
             }
           }
           )
+          let activeTab = ''
+          if (this.tableTabs.length > 0) {
+            activeTab = this.tableTabs[0].value
+          }
+          if (this.$route.query.tab) {
+            activeTab = this.$route.query.tab
+          }
+          this.activeTab = activeTab + ''
         })
     }
   },
@@ -321,6 +398,9 @@ export default {
     setTimeout(() => this.load(), 200)
   },
   methods: {
+    changeTab(tab, e) {
+      this.load()
+    },
     resetFilter() {
       this.filterForm = {}
       this.formKey++
@@ -373,10 +453,15 @@ export default {
         _page: this.page.currentPage,
         _size: this.page.pageSize
       }
-      const params = Object.assign({}, filter, page, this.sort, extraPrams, this.$route.params)
-      // if (this.activeTab) {
-      //   params[this.activeTab.field] = this.activeTab.value
-      // }
+      const params = Object.assign(
+        {},
+        filter,
+        page,
+        this.sort,
+        extraPrams,
+        this.$route.params,
+        this.activeTab ? { tab: this.activeTab } : {}
+      )
       this.$http
         .request({
           type: 'GET',
@@ -580,5 +665,10 @@ export default {
 }
 ::v-deep(.form-section) {
   margin-bottom: 0;
+}
+</style>
+<style>
+.el-tabs--border-card > .el-tabs__content {
+  padding: 0;
 }
 </style>
