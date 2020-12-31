@@ -117,27 +117,21 @@
 </template>
 
 <script>
-import Cells from './cell'
 import VForm from '../form/index'
 import VButton from '../button'
 import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams, ruleCompute, getPageTitle } from '../../utils'
 import pipe from '../../utils/pipe'
-import CellEdit from './cellEdit/index'
 import ExportAddButton from '../../utils/export'
 import TableStyle from './tableSytle'
 
 export default {
   name: 'VTable',
-  components: Object.assign(
-    {
-      VForm,
-      VButton,
-      CellEdit,
-      ExportAddButton,
-      TableStyle
-    },
-    Cells
-  ),
+  components: {
+    VForm,
+    VButton,
+    ExportAddButton,
+    TableStyle
+  },
   props: {
     headers: {
       type: Array,
@@ -594,15 +588,15 @@ export default {
   margin-bottom: 10px;
   margin-top: 10px;
 }
-::v-deep(.el-form-item) {
-   margin-bottom: 0;
-}
-::v-deep(.el-form-item--small.el-form-item) {
-   margin-bottom: 0;
-}
-::v-deep(.form-section) {
-  margin-bottom: 0;
-}
+//::v-deep(.el-form-item) {
+//   margin-bottom: 0;
+//}
+//::v-deep(.el-form-item--small.el-form-item) {
+//   margin-bottom: 0;
+//}
+//::v-deep(.form-section) {
+//  margin-bottom: 0;
+//}
 </style>
 <style>
 .el-tabs--border-card > .el-tabs__content {

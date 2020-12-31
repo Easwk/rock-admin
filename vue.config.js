@@ -1,9 +1,12 @@
 'use strict'
+const webpack = require('webpack')
 
 module.exports = {
   css: { extract: false },
   chainWebpack: config => {
     config.externals({
+      ...config.get('externals'),
+      'vue': 'Vue',
       'lodash': 'lodash',
       'element-plus': 'element-plus',
       'codemirror': 'codemirror',
@@ -18,10 +21,14 @@ module.exports = {
       'core-js': 'core-js',
       'system': 'system',
       'jsonlint': 'jsonlint',
-      'normalize.css': 'normalize.css'
+      'normalize.css': 'normalize.css',
+      'xlsx': 'xlsx'
     })
-    config.alias = {
-      'codemirror$': 'codemirror/lib/codemirror.js'
-    }
+  },
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+      })
+    ]
   }
 }
