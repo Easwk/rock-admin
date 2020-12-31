@@ -17,7 +17,7 @@
   </el-card>
   <!--   批量按钮/其他按钮   -->
   <slot name="action">
-    <el-row :gutter="20">
+    <el-row :gutter="20" style="margin-bottom: 20px">
       <el-col :span="tableBatchButton.length > 0 ? 12 : 18">
         <template v-if="!showFilterCard">
           <slot name="filter">
@@ -91,7 +91,7 @@
   </slot>
   <el-button v-if="listIncreaseConf.state && listIncreaseConf.location === 'afterList'" class="list-incr-button" @click="listIncreaseRecord">添加</el-button>
   <el-row style="display: flex">
-    <el-col :span="12" style="min-height: 20px">
+    <el-col :span="12" style="min-height: 15px">
       <div v-if="tableBatchButton.length > 0 && selectedInfoPosition === 'beforePagination'" class="selected-info">
         <span v-html="selectedInfo" />
       </div>
@@ -285,7 +285,11 @@ export default {
         selectedCount: this.selectionRows.length
       }
       const tpl = isObject(this.tableSelectedNotice) ? this.tableSelectedNotice.text : this.tableSelectedNotice
-      const match = tpl.match(/{([\s\S]*?)}/g).map(item => item.replace('{', '').replace('}', ''))
+      const matched = tpl.match(/{([\s\S]*?)}/g)
+      if (!matched) {
+        return tpl
+      }
+      const match = matched.map(item => item.replace('{', '').replace('}', ''))
       const fields = this.tableHeaders.map(item => item.field)
       for (const i in match) {
         const tokens = match[i].split('|')
@@ -588,15 +592,18 @@ export default {
   margin-bottom: 10px;
   margin-top: 10px;
 }
-//::v-deep(.el-form-item) {
-//   margin-bottom: 0;
-//}
-//::v-deep(.el-form-item--small.el-form-item) {
-//   margin-bottom: 0;
-//}
-//::v-deep(.form-section) {
-//  margin-bottom: 0;
-//}
+::v-deep(.el-form-item) {
+   margin-bottom: 0;
+}
+::v-deep(.el-form-item--small.el-form-item) {
+   margin-bottom: 0;
+}
+::v-deep(.form-section) {
+  margin-bottom: 0;
+}
+::v-deep(.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item) {
+  margin-bottom: 0;
+}
 </style>
 <style>
 .el-tabs--border-card > .el-tabs__content {

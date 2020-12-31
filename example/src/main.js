@@ -1,4 +1,5 @@
 import 'element-plus/lib/theme-chalk/index.css'
+import 'rock-admin/lib/rock-admin.css'
 import { createAdmin } from 'rock-admin'
 
 import mockApis from '../mock'

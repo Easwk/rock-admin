@@ -87,7 +87,7 @@ export default {
     },
     uploadAction() {
       const el = this.uploadEl()
-      if (this.fileList.length >= this.limit) {
+      if (this.fileList && this.fileList.length >= this.limit) {
         el.style.display = 'none'
       } else {
         el.style.display = 'inline-block'

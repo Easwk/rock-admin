@@ -12,6 +12,7 @@ import lodash from 'lodash'
 import { mockXHR } from './mock'
 
 // style
+import 'element-plus/lib/theme-chalk/index.css'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import './styles/index.scss' // global css
 import defaultOptions from './options'

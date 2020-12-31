@@ -2,11 +2,11 @@
 const webpack = require('webpack')
 
 module.exports = {
-  css: { extract: false },
+  css: { extract: true },
   chainWebpack: config => {
     config.externals({
       ...config.get('externals'),
-      'vue': 'Vue',
+      'vue': 'vue',
       'lodash': 'lodash',
       'element-plus': 'element-plus',
       'codemirror': 'codemirror',
