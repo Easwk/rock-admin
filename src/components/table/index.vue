@@ -370,7 +370,7 @@ export default {
     searchAction() {
       const available = this.getAvailableFilter()
       if (Object.keys(available).length === 0) {
-        this.$message({ message: '请填写删选条件', type: 'warning' })
+        this.$message({ message: '请填写筛选条件', type: 'warning' })
         return
       }
       this.load()
