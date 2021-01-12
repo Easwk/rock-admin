@@ -8,10 +8,11 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --ext .js,.vue src",
     "lint:fix": "eslint --fix --ext .js,.vue src",
-    "report": "node build/index.js --report"
+    "report": "node build/index.js --report",
+    "build:test": "vue-cli-service build --mode test"
   },
   "dependencies": {
-    "rock-admin": "0.0.1-rc"
+    "rock-admin": "0.0.2-rc"
   },
   "devDependencies": {
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
