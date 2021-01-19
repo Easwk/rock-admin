@@ -63,7 +63,7 @@ export default {
 </script>
 <style scoped>
   ::v-deep(.el-scrollbar__wrap) {
-    overflow: hidden;
+    overflow: scroll;
   }
   .menu-section {
     height: 30px;
