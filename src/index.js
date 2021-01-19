@@ -6,6 +6,7 @@ import VButton from './components/button/VButton'
 import VButtonGroup from './components/button/VButtonGroup'
 import VJson from './components/form/VJson'
 import VIcon from './components/VIcon'
+import SocketList from './components/normal/SocketList'
 
 export {
   createAdmin,
@@ -14,5 +15,6 @@ export {
   VJson,
   VButton,
   VButtonGroup,
-  VIcon
+  VIcon,
+  SocketList
 }

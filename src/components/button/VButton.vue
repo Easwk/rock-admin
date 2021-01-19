@@ -16,11 +16,7 @@
     <component
       :is="'el-' + container"
       v-model="showContainer"
-      width="80%"
-      append-to-body
-      :before-close="closeContainer"
-      :title="text"
-      :destroy-on-close="true"
+      v-bind="getContainerProps()"
     >
       <slot>
         <component

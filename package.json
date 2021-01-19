@@ -1,6 +1,6 @@
 {
   "name": "rock-admin",
-  "version": "0.0.2-rc",
+  "version": "0.0.3-rc",
   "description": "vue3 + element-plus fast admin scaffold",
   "main": "lib/rock-admin.common.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "codemirror": "^5.58.2",
     "core-js": "^3.7.0",
     "echarts": "^4.9.0",
-    "element-plus": "1.0.1-beta.20",
+    "element-plus": "^1.0.1-beta.27",
     "file": "^0.2.2",
     "file-saver": "^2.0.5",
     "inputmask": "^5.0.5",

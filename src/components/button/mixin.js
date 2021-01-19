@@ -1,4 +1,4 @@
-import { isFunc, strVarReplace } from '../../utils'
+import { isFunc, isString, strVarReplace } from '../../utils'
 import { defineAsyncComponent } from 'vue'
 import MessageBox from 'element-plus/lib/el-message-box'
 
@@ -6,7 +6,8 @@ export default {
   emits: ['click', 'action'],
   components: {
     VForm: defineAsyncComponent(() => import('../form/index')),
-    VTable: defineAsyncComponent(() => import('../table/index'))
+    VTable: defineAsyncComponent(() => import('../table/index')),
+    SocketList: defineAsyncComponent(() => import('../normal/SocketList'))
   },
   props: {
     shape: {
@@ -49,6 +50,14 @@ export default {
       default: () => {
         return true
       }
+    },
+    sub: {
+      type: String,
+      default: ''
+    },
+    subProps: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -121,17 +130,17 @@ export default {
       this.showContainer = false
     },
     getSubComp() {
-      const { type } = this.getBtnProps()
+      const { type, sub } = this.getBtnProps()
       if (type === 'form') {
         return 'VForm'
       }
       if (type === 'table') {
         return 'VTable'
       }
-      return ''
+      return sub
     },
     getSubProps() {
-      const { type, form, table } = this.getBtnProps()
+      const { type, form, table, subProps } = this.getBtnProps()
       if (type === 'form') {
         form.saveApi = strVarReplace(form.saveApi, this.metaData)
         form.infoApi = strVarReplace(form.infoApi, this.metaData)
@@ -142,7 +151,12 @@ export default {
         table.infoApi = strVarReplace(table.infoApi, this.metaData)
         return Object.assign({}, table)
       }
-      return {}
+      Object.keys(subProps).forEach(item => {
+        if (isString(subProps[item])) {
+          subProps[item] = strVarReplace(subProps[item], this.metaData)
+        }
+      })
+      return subProps
     },
     getSubEvent() {
       const { type } = this.getBtnProps()
@@ -156,6 +170,27 @@ export default {
         return {}
       }
       return {}
+    },
+    getContainerProps() {
+      let defaultP = {
+        'append-to-body': true,
+        'destroy-on-close': true,
+        'before-close': this.closeContainer,
+        title: this.text
+      }
+      if (this.container === 'dialog') {
+        defaultP = Object.assign(defaultP, {
+          width: '80%'
+        })
+      }
+
+      if (this.container === 'drawer') {
+        defaultP = Object.assign(defaultP, {
+          size: '80%'
+        })
+      }
+
+      return Object.assign({}, defaultP, this.containerProps)
     }
   }
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-  css: { extract: true },
+  css: { extract: false },
   configureWebpack: {
     externals: [
       {
