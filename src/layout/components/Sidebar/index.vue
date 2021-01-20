@@ -13,13 +13,15 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <!--<div class="menu-section">模块</div>-->
-        <sidebar-item
-          v-for="route in routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-        />
+        <template v-for="(item, index) in routes" :key="index + '-module'">
+          <div v-if="item.routes.length > 0 && item.label" class="menu-section">{{ item.label }}</div>
+          <sidebar-item
+            v-for="route in item.routes"
+            :key="route.path"
+            :item="route"
+            :base-path="route.path"
+          />
+        </template>
       </el-menu>
     </el-scrollbar>
   </div>
@@ -36,7 +38,13 @@ export default {
   computed: {
     ...mapGetters(['sidebar', 'remoteRouter']),
     routes() {
-      return this.$router.options.routes.concat(this.remoteRouter)
+      return [
+        {
+          label: '',
+          routes: this.$router.options.routes
+        },
+        ...this.remoteRouter
+      ]
     },
     activeMenu() {
       const matched = this.$route.matched

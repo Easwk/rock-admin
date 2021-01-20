@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '../../utils/auth'
 import createRoutes from '../../router/createRoutes'
 import _ from 'lodash'
 import { getObjectNodeByKeyTree } from '../../utils'
+import Layout from '../../layout'
 const state = {
   token: getToken(),
   id: 0,
@@ -44,9 +45,11 @@ function filterResource(data, userResource, prefix = '') {
     if (has === undefined) {
       return false
     }
-    if (item.children && item.children.length > 0) {
-      item.children = filterResource(item.children, userResource, key)
-      if (item.children.length === 0) {
+    const next = item.routes || item.children
+    const k = item.routes ? 'routes' : 'children'
+    if (next && next.length > 0) {
+      item[k] = filterResource(next, userResource, key)
+      if (item[k].length === 0) {
         return false
       }
     }
@@ -178,9 +181,20 @@ const actions = {
       getRoutes()
         .then(res => {
           const payload = state.roleIds.indexOf(1) > -1 ? res.payload : filterResource(res.payload, state.resource, '')
+          console.log(payload)
           const data = createRoutes(payload)
-          const routes = [data, { path: '/*', redirect: '/404', hidden: true }]
-          commit('SET_ROUTER', data.children)
+          const routes = [
+            {
+              path: '/',
+              component: Layout,
+              children: []
+            }
+          ]
+          data.forEach(item => {
+            routes[0].children = routes[0].children.concat(item.routes)
+          })
+          routes[0].children.concat({ path: '/*', redirect: '/404', hidden: true })
+          commit('SET_ROUTER', data)
           routes.forEach(item => {
             router.addRoute(item)
           })

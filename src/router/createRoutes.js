@@ -86,11 +86,21 @@ const transRoute = item => {
 }
 
 const createRoutes = routesConfig => {
-  routesConfig = routesConfig.map(item => {
-    return transRoute(item)
+  let remoteRoutes = []
+  const modules = []
+  routesConfig.forEach(item => {
+    const routes = (item.routes || []).map(each => {
+      return transRoute(each)
+    })
+    modules.push({
+      id: item.id,
+      label: item.label,
+      routes: routes
+    })
+    remoteRoutes = remoteRoutes.concat(routes)
   })
-  base.children = [...base.children, ...routesConfig]
-  return base
+  base.children = [...base.children, ...remoteRoutes]
+  return modules
 }
 
 export default createRoutes

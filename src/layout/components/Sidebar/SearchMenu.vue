@@ -50,11 +50,11 @@ export default {
   },
   computed: {
     ...mapGetters(['remoteRouter']),
-    routes() {
-      return this.$router.options.routes.concat(this.remoteRouter)
-    },
     filterRoutes() {
-      const routes = _.cloneDeep(this.remoteRouter)
+      let routes = []
+      this.remoteRouter.forEach(item => {
+        routes = routes.concat(_.cloneDeep(item.routes))
+      })
       return filterHidden(routes)
     }
   },
