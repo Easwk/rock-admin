@@ -1,6 +1,7 @@
 <template>
   <el-form
     ref="formData"
+    :key="key"
     v-loading="loading"
     class="v-form"
     :model="formData"
@@ -63,7 +64,17 @@
 
 <script>
 import { componentMap } from './setting'
-import { camelToSnake, ruleCompute, isArray, showEleByClassName, type, parseBool, isString, isFunc } from '../../utils'
+import {
+  camelToSnake,
+  ruleCompute,
+  isArray,
+  showEleByClassName,
+  type,
+  parseBool,
+  isString,
+  isFunc,
+  uuidv4
+} from '../../utils'
 import { makeFormOptions } from './setting'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
@@ -117,9 +128,11 @@ export default {
   emits: ['submit', 'reset', 'fieldchange', 'update:modelValue', 'mounted'],
   data() {
     return {
+      key: 0,
       loading: false,
       props: this.$lodash.cloneDeep(this.$props),
       formData: Object.assign({}, this.$props.modelValue), // 表单数据
+      cacheFormData: Object.assign({}, this.$props.modelValue),
       formRules: [], // 验证规则
       fieldMap: {}, // field -> item map
       computeRules: [], // 动态计算规则
@@ -243,7 +256,7 @@ export default {
         fieldMap,
         computeRules,
         formItemsSource: formItems,
-        cacheItems: formItems
+        cacheItems: this.$lodash.cloneDeep(formItems)
       }
     },
     parseType(item, value) {
@@ -383,10 +396,11 @@ export default {
           this.formItemsSource[index] = this.$lodash.merge(
             this.formItemsSource[index],
             rule.set[field],
-            { id: (this.formItemsSource[index] || 0) + 1 }
+            { id: uuidv4() }
           )
           if (rule.set[field].value !== undefined) {
             this.formData[field] = rule.set[field].value
+            this.key++
           }
         } else {
           const cacheIndex = this.$lodash.findIndex(this.cacheItems, { field: field })
@@ -394,8 +408,10 @@ export default {
             this.cacheItems[cacheIndex],
             { id: (this.formItemsSource[index] || 0) + 1 }
           )
-          if (rule.set[field].value !== undefined) {
-            this.formData[field] = this.cacheItems[cacheIndex].value
+          const resetVal = this.cacheFormData[field] || this.cacheItems[cacheIndex].value
+          if (rule.set[field].value !== undefined && resetVal) {
+            this.formData[field] = resetVal
+            this.key++
           }
         }
       })

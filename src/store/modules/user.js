@@ -181,7 +181,6 @@ const actions = {
       getRoutes()
         .then(res => {
           const payload = state.roleIds.indexOf(1) > -1 ? res.payload : filterResource(res.payload, state.resource, '')
-          console.log(payload)
           const data = createRoutes(payload)
           const routes = [
             {

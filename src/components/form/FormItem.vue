@@ -11,6 +11,7 @@
     </template>
     <component
       :is="getComponentName(item.type)"
+      :key="item.id || ''"
       ref="ctrl"
       v-model="localValue"
       clearable
