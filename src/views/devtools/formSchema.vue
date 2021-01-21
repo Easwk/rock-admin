@@ -14,7 +14,7 @@
             <span>表单预览</span>
           </el-col>
           <el-col :span="12" class="card-action">
-            <v-button text="管理表单项" type="modal" :btn-props="{type:'text'}" :before-close="beforeFormItemClose">
+            <v-button text="管理表单项" type="modal" :props="{type:'text'}" :before-close="beforeFormItemClose">
               <v-table ref="form-items" v-bind="formItemTable" />
             </v-button>
           </el-col>

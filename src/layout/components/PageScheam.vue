@@ -7,20 +7,33 @@
     :direction="direction"
     size="50%"
     destroy-on-close
+    append-to-body
   >
-    <v-json :key="key" v-model="pageSchema" />
+    <json-view
+      :key="key"
+      :data="pageSchema"
+      v-bind="{
+        theme: '',
+        fontSize: 14,
+        lineHeight: 24,
+        deep: 3,
+        closed: false,
+        iconStyle: 'circle',
+        closed: false
+      }"
+    />
   </el-drawer>
 </template>
 <script>
-import VJson from '../../components/form/VJson'
+import JsonView from '../../components/JsonView/index'
 export default {
   name: 'PageScheme',
-  components: { VJson },
+  components: { JsonView },
   data() {
     return {
       show: false,
       direction: 'rtl',
-      pageSchema: JSON.stringify(this.$route.meta.pageSchema || {}, null, 2)
+      pageSchema: this.$route.meta.pageSchema || {}
     }
   },
   computed: {
@@ -31,7 +44,7 @@ export default {
   watch: {
     '$route.path': {
       handler() {
-        this.pageSchema = JSON.stringify(this.$route.meta.pageSchema || {}, null, 2)
+        this.pageSchema = this.$route.meta.pageSchema || {}
       },
       deep: true
     }
