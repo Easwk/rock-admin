@@ -24,10 +24,19 @@ const supportRules = {
   },
   max: (length) => {
     return { max: parseInt(length), message: `该项长度最多为${length}位`, trigger: 'blur' }
+  },
+  required_if: (field, formData, ref) => {
+    return { validator: function(rule, value, callback) {
+      if (formData[field] !== undefined && String(value).length === 0) {
+        callback('该项为必填项')
+      } else {
+        callback()
+      }
+    }, trigger: 'blur' }
   }
 }
 
-export default function transRule(rules) {
+export default function transRule(rules, formData, ref) {
   if (isArray(rules)) {
     return rules
   }
@@ -41,9 +50,9 @@ export default function transRule(rules) {
       if (item.indexOf(':') > -1) {
         const tokens = item.split(':')
         const name = tokens[0]
-        const args = tokens[1].split(',')
+        const args = tokens[1]
         if (supportRules[name] !== undefined) {
-          tmp.push(supportRules[item](args))
+          tmp.push(supportRules[name](args, formData, ref))
         } else {
           console.warn('not support rule: ' + name)
         }

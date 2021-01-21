@@ -240,7 +240,7 @@ export default {
           formData[item.field] = item.value
         }
         if (item.rules !== undefined) {
-          formRules[item.field] = transRule(item.rules)
+          formRules[item.field] = transRule(item.rules, this.formData, () => this.$refs['formData'])
         }
         fieldMap[item.field] = item
         if (item.computed !== undefined) {
