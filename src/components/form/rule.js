@@ -9,7 +9,7 @@ const supportRules = {
   float: { type: 'float', message: '该项类型必须是浮点数', trigger: 'blur' },
   array: { type: 'array', message: '该项类型必须是数组', trigger: 'blur' },
   enum: (enumData) => {
-    return { type: 'enum', enum: enumData, message: '该项值必须在' + enumData.join(',') + '中', trigger: 'change' }
+    return { type: 'enum', enum: enumData.split(','), message: '该项值必须在' + enumData + '中', trigger: 'change' }
   },
   url: { type: 'url', message: `请输入正确的url`, trigger: 'change' },
   email: { type: 'email', message: `请输入正确的邮箱`, trigger: 'change' },
