@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { componentMap } from './setting'
+import { componentMap } from './util'
 import {
   camelToSnake,
   ruleCompute,
@@ -75,9 +75,10 @@ import {
   isFunc,
   uuidv4
 } from '../../utils'
-import { makeFormOptions } from './setting'
+import { makeFormOptions } from './util'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
+import transRule from './rule'
 
 export default {
   name: 'VForm',
@@ -239,7 +240,7 @@ export default {
           formData[item.field] = item.value
         }
         if (item.rules !== undefined) {
-          formRules[item.field] = item.rules
+          formRules[item.field] = transRule(item.rules)
         }
         fieldMap[item.field] = item
         if (item.computed !== undefined) {

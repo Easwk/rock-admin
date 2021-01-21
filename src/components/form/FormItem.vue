@@ -25,8 +25,7 @@
   </el-form-item>
 </template>
 <script>
-import { getComponentName, getComponentProps, customFormComps } from './setting'
-import _ from 'lodash'
+import { getComponentName, getComponentProps, customFormComps } from './util'
 
 export default {
   name: 'FormItem',
@@ -55,7 +54,7 @@ export default {
         // eslint-disable-next-line no-eval
         methods[name] = eval(item.comp.methods[name])
       })
-      this.$options.components['VTpl' + item.field] = _.merge({}, item.comp, {
+      this.$options.components['VTpl' + item.field] = this.$lodash.merge({}, item.comp, {
         data() {
           return {
             ...item.comp.data

@@ -7,7 +7,7 @@
   />
 </template>
 <script>
-import { customFormComps, getComponentName, getComponentProps } from '../../form/setting'
+import { customFormComps, getComponentName, getComponentProps } from '../../form/util'
 
 export default {
   name: 'CellEdit',
