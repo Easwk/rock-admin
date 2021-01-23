@@ -57,7 +57,7 @@
           :headers="tableHeaders"
           :data-list="tableList"
           :props="tableTableProps"
-          :section="tableBatchButton.length > 0"
+          :selection="tableBatchButton.length > 0"
           :cell-type="cellType"
           :cell-props="cellProps"
           :row-button="tableRowButton"
@@ -77,7 +77,7 @@
       :headers="tableHeaders"
       :data-list="tableList"
       :props="tableTableProps"
-      :section="tableBatchButton.length > 0"
+      :selection="tableBatchButton.length > 0"
       :cell-type="cellType"
       :cell-props="cellProps"
       :row-button="tableRowButton"
@@ -123,6 +123,7 @@ import { firstUpperCase, isArray, strVarReplace, isObject, isBool, setUrlParams,
 import pipe from '../../utils/pipe'
 import ExportAddButton from '../../utils/export'
 import TableStyle from './tableSytle'
+import _ from 'lodash'
 
 export default {
   name: 'VTable',
@@ -206,7 +207,7 @@ export default {
     if (this.$props.tabs.length > 0) {
       activeTab = this.$props.tabs[0].value
     }
-    if (this.$route.query.tab) {
+    if (this.$route && this.$route.query.tab) {
       activeTab = this.$route.query.tab
     }
     return {
@@ -241,7 +242,7 @@ export default {
         total: 0
       },
       paginationKey: 0,
-      filterForm: Object.assign({}, this.$route.query),
+      filterForm: Object.assign({}, this.$route ? this.$route.query : {}),
       loading: false,
       sort: null,
       activeTab: activeTab + ''
@@ -322,7 +323,7 @@ export default {
           if (this.tableTabs.length > 0) {
             activeTab = this.tableTabs[0].value
           }
-          if (this.$route.query.tab) {
+          if (this.$route && this.$route.query.tab) {
             activeTab = this.$route.query.tab
           }
           this.activeTab = activeTab + ''
@@ -394,7 +395,7 @@ export default {
         page,
         this.sort,
         extraPrams,
-        this.$route.params,
+        this.$route ? this.$route.params : {},
         this.activeTab ? { tab: this.activeTab } : {}
       )
       this.$http
@@ -462,7 +463,7 @@ export default {
       })
     },
     makeRowButton(arr, row) {
-      return this.$lodash.cloneDeep(arr).filter(item => {
+      return _.cloneDeep(arr).filter(item => {
         if (item.when) {
           let tmp = item.when
           if (!isArray(item.when[0])) {
@@ -475,8 +476,8 @@ export default {
         if (isArray(item)) {
           item = this.makeRowButton(item)
         } else {
-          item['inject-data'] = Object.assign({}, row, this.$route.query, this.$route.params)
-          item['meta-data'] = Object.assign({}, row, this.$route.query, this.$route.params)
+          item['inject-data'] = Object.assign({}, row, this.$route ? this.$route.query : {}, this.$route ? this.$route.params : {})
+          item['meta-data'] = Object.assign({}, row, this.$route ? this.$route.query : {}, this.$route ? this.$route.params : {})
         }
         return item
       })
@@ -529,8 +530,8 @@ export default {
       return {
         listApi: this.listApi,
         params: this.filterForm,
-        header: this.$lodash.cloneDeep(this.tableHeaders),
-        name: getPageTitle(this.$route.matched, false)
+        header: _.cloneDeep(this.tableHeaders),
+        name: getPageTitle(this.$route ? this.$route.matched : '', false)
       }
     }
   }

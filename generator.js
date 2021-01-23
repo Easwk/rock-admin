@@ -10,7 +10,7 @@ module.exports = (api, options, rootOptions) => {
       'report': 'node build/index.js --report'
     },
     dependencies: {
-      'rock-admin': '^0.0.4-rc',
+      'rock-admin': '^0.0.5-rc',
       'vue': '^3.0.0'
     },
     devDependencies: {

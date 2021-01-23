@@ -9,7 +9,7 @@
     :allow-create="allowCreate"
     :remote="remote"
     :disabled="disabled"
-    :remote-method="kw => $lodash.debounce(search(kw), 20)"
+    :remote-method="kw => _.debounce(search(kw), 20)"
     @change="onchange"
   >
     <el-option

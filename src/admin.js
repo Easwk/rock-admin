@@ -8,8 +8,8 @@ import VIcon from './components/VIcon'
 import request from './utils/request'
 import './router/routerGuards'
 import App from './App.vue'
-import lodash from 'lodash'
 import { mockXHR } from './mock'
+import _ from 'lodash'
 
 // style
 import 'element-plus/lib/theme-chalk/index.css'
@@ -20,7 +20,7 @@ import defaultOptions from './options'
 const GlobalComps = [VIcon]
 
 export default (options = {}) => {
-  options = lodash.merge(defaultOptions, options)
+  options = _.merge(defaultOptions, options)
   const app = createApp(App)
 
   store.dispatch('app/setConfig', {
@@ -35,7 +35,6 @@ export default (options = {}) => {
   options.mock.enable && mockXHR(options.mock.apis, options.mock.baseURI, options.mock.defaultMockApi)
 
   app.config.globalProperties.$http = request
-  app.config.globalProperties.$lodash = lodash
 
   options.routes.forEach(item => {
     router.addRoute(item)

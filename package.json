@@ -1,12 +1,12 @@
 {
   "name": "rock-admin",
-  "version": "0.0.4-rc",
+  "version": "0.0.5-rc",
   "description": "vue3 + element-plus fast admin scaffold",
-  "main": "lib/rock-admin.common.js",
+  "main": "lib/rockadmin.common.js",
   "scripts": {
     "lint": "vue-cli-service lint --fix --ext .js,.vue src template example",
-    "lib": "vue-cli-service build --target lib --name rock-admin --dest lib src/index.js",
-    "lib:report": "vue-cli-service build --report --target lib --name rock-admin --dest lib src/index.js && open lib/rock-admin.umd.min-report.html"
+    "lib": "vue-cli-service build --target lib --name rockadmin --dest lib src/index.js",
+    "lib:report": "vue-cli-service build --report --target lib --name rockadmin --dest lib src/index.js && open lib/rock-admin.umd.min-report.html"
   },
   "dependencies": {
     "axios": "^0.21.0",

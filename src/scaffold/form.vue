@@ -13,6 +13,7 @@
 <script>
 import VForm from '../components/form/index'
 import { isObject, isString, strVarReplace } from '../utils'
+import _ from 'lodash'
 
 export default {
   name: 'FormRender',
@@ -21,7 +22,7 @@ export default {
     const token = this.$route.path.split('/')
     const project = token.slice(0, token.length - 1).join('/')
     let schema = this.$route.meta.pageSchema || { infoApi: project + '/form_schema' }
-    schema = this.$lodash.merge({
+    schema = _.merge({
       saveApi: project + '/save',
       afterSubmit: 'goback',
       afterReset: 'goback'

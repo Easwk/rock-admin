@@ -14,6 +14,7 @@
 </template>
 <script>
 import { isNumber, searchTreeValues } from '../../utils'
+import _ from 'lodash'
 
 export default {
   name: 'VCascaderPanel',
@@ -63,7 +64,7 @@ export default {
   },
   emits: ['update:modelValue'],
   data() {
-    const local = this.$lodash.cloneDeep(isNumber(this.$props.modelValue) ? [this.$props.modelValue] : this.$props.modelValue)
+    const local = _.cloneDeep(isNumber(this.$props.modelValue) ? [this.$props.modelValue] : this.$props.modelValue)
     return {
       localValue: local,
       optionTree: this.$props.options

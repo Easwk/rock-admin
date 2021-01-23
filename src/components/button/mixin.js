@@ -69,7 +69,7 @@ export default {
           if (/http.*/.test(this.realTarget)) {
             window.open(this.realTarget)
           } else {
-            this.$router.push(this.realTarget)
+            this.$router && this.$router.push(this.realTarget)
           }
         },
         form: () => {
@@ -142,13 +142,21 @@ export default {
     getSubProps() {
       const { type, form, table, subProps } = this.getBtnProps()
       if (type === 'form') {
-        form.saveApi = strVarReplace(form.saveApi, this.metaData)
-        form.infoApi = strVarReplace(form.infoApi, this.metaData)
+        if (form.saveApi) {
+          form.saveApi = strVarReplace(form.saveApi, this.metaData)
+        }
+        if (form.infoApi) {
+          form.infoApi = strVarReplace(form.infoApi, this.metaData)
+        }
         return Object.assign({}, form)
       }
       if (type === 'table') {
-        table.listApi = strVarReplace(table.listApi, this.metaData)
-        table.infoApi = strVarReplace(table.infoApi, this.metaData)
+        if (table.listApi) {
+          table.listApi = strVarReplace(table.listApi, this.metaData)
+        }
+        if (table.infoApi) {
+          table.infoApi = strVarReplace(table.infoApi, this.metaData)
+        }
         return Object.assign({}, table)
       }
       Object.keys(subProps).forEach(item => {

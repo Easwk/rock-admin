@@ -12,7 +12,7 @@
     "build:test": "vue-cli-service build --mode test"
   },
   "dependencies": {
-    "rock-admin": "0.0.4-rc"
+    "rock-admin": "0.0.5-rc"
   },
   "devDependencies": {
     "@vue/babel-plugin-jsx": "^1.0.0-rc.3",

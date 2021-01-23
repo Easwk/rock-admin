@@ -79,6 +79,7 @@ import { makeFormOptions } from './util'
 import FormAction from './FormAction'
 import FormItem from './FormItem'
 import transRule from './rule'
+import _ from 'lodash'
 
 export default {
   name: 'VForm',
@@ -131,7 +132,7 @@ export default {
     return {
       key: 0,
       loading: false,
-      props: this.$lodash.cloneDeep(this.$props),
+      props: _.cloneDeep(this.$props),
       formData: Object.assign({}, this.$props.modelValue), // 表单数据
       cacheFormData: Object.assign({}, this.$props.modelValue),
       formRules: [], // 验证规则
@@ -167,10 +168,10 @@ export default {
     props: {
       handler() {
         const { formItems, options } = this.props
-        const initData = this.init(this.$lodash.cloneDeep(formItems || []))
+        const initData = this.init(_.cloneDeep(formItems || []))
         Object.keys(initData).forEach((key) => {
           if (key === 'formData') {
-            this[key] = this.$lodash.merge(this.formData, initData[key])
+            this[key] = _.merge(this.formData, initData[key])
           } else {
             this[key] = initData[key]
           }
@@ -191,7 +192,7 @@ export default {
         if (this.$props.saveApi !== '') {
           delete payload['saveApi']
         }
-        this.props = this.$lodash.merge({}, this.$props, payload)
+        this.props = _.merge({}, this.$props, payload)
         this.loading = false
         this.$emit('mounted', this.$refs.formData)
       })
@@ -213,7 +214,7 @@ export default {
           items.push(Object.assign({}, cell, { items: [item] }))
         } else {
           if (items.length > 0) {
-            const sum = this.$lodash.sum(items[items.length - 1].items.map(each => each.col.span))
+            const sum = _.sum(items[items.length - 1].items.map(each => each.col.span))
             if (sum < 24 && sum + item.col.span <= 24) {
               items[items.length - 1].items.push(item)
             } else {
@@ -231,7 +232,7 @@ export default {
       const formRules = {}
       const fieldMap = {}
       const computeRules = {}
-      const query = this.$route.query
+      const query = this.$route ? this.$route.query : {}
       formItems.forEach((item) => {
         if (query[item.field] !== undefined) {
           item.value = this.parseType(item, query[item.field])
@@ -257,7 +258,7 @@ export default {
         fieldMap,
         computeRules,
         formItemsSource: formItems,
-        cacheItems: this.$lodash.cloneDeep(formItems)
+        cacheItems: _.cloneDeep(formItems)
       }
     },
     parseType(item, value) {
@@ -392,9 +393,9 @@ export default {
       const obj = {}
       obj[field] = value
       Object.keys(rule.set || []).forEach((field) => {
-        const index = this.$lodash.findIndex(this.formItemsSource, { field: field })
+        const index = _.findIndex(this.formItemsSource, { field: field })
         if (ruleCompute(obj, when)) {
-          this.formItemsSource[index] = this.$lodash.merge(
+          this.formItemsSource[index] = _.merge(
             this.formItemsSource[index],
             rule.set[field],
             { id: uuidv4() }
@@ -404,8 +405,8 @@ export default {
             this.key++
           }
         } else {
-          const cacheIndex = this.$lodash.findIndex(this.cacheItems, { field: field })
-          this.formItemsSource[index] = this.$lodash.cloneDeep(
+          const cacheIndex = _.findIndex(this.cacheItems, { field: field })
+          this.formItemsSource[index] = _.cloneDeep(
             this.cacheItems[cacheIndex],
             { id: (this.formItemsSource[index] || 0) + 1 }
           )
@@ -425,7 +426,7 @@ export default {
       if (isString(action)) {
         switch (this.props[type]) {
           case 'goback':
-            this.$router.back(-1)
+            this.$router && this.$router.back(-1)
             break
           case 'reload':
             location.reload()
