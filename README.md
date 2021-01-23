@@ -6,7 +6,7 @@
 
 打造一套完整的低代码后台构建工具集, 包含前端和后端的完整链路, 通过可视化搭建, 即可实现常见的后台功能.
 
-[体验站点](http://daodao97.gitee.io/rock-admin-demo) | ~~详细文档(doing)~~
+[体验站点](http://daodao97.gitee.io/rock-admin-demo) | [详细文档](https://daodao97.gitee.io/rock-admin) 
 
 也可本地启动示例项目
 
