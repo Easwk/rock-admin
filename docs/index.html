@@ -42,6 +42,11 @@
               rockadmin.default
             ]),
             function (hook, vm) {
+              hook.beforeEach(function (html) {
+                return '> 如果觉得不错给我来个Star吧 [🚀Github](http://github.com/daodao97/rock-admin) ' + '\n\n----\n\n' + html
+              })
+            },
+            function (hook, vm) {
                 hook.beforeEach(function (html) {
                     if (/githubusercontent\.com/.test(vm.route.file)) {
                         url = vm.route.file
