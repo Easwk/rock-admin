@@ -51,7 +51,7 @@ export default {
     if (item.type === 'template') {
       item.type = 'v-tpl' + item.field
       const methods = {}
-      Object.keys(item.comp.methods).forEach(name => {
+      Object.keys(item.comp.methods || []).forEach(name => {
         // eslint-disable-next-line no-eval
         methods[name] = eval(item.comp.methods[name])
       })

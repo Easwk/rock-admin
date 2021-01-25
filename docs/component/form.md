@@ -283,7 +283,20 @@ export default {
                         field: "json",
                         label: "json",
                         value: "{\"a\":1}"
-                    }
+                    },
+                    {
+                        type: 'template',
+                        field: 'p3',
+                        label: '自定义组件',
+                        comp: {
+                          inject: ['formData'],
+                          template: '<div>{{ msg }}<br/>当前的表单数据是:<br/><json-view :data="formData" icon-style="circle"/>',
+                          data: {
+                            msg: 'this is custom data'
+                          }
+                        },
+                        info: '在通用表单控件无法满足需求时, 可以编写 `template` 模板组件'
+                      }
                 ]
             }
         }
