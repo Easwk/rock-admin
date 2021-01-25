@@ -1,11 +1,12 @@
+// 全局变量
 var index = 0
+var compOptions = {}
 function uniqueid() {
   index++
   return index
 }
 
-window.GlobalCompsOptions = {}
-
+// 辅助函数
 function type(target) {
   const ret = typeof target
   const template = {
@@ -26,6 +27,16 @@ function type(target) {
   }
 }
 
+function mdCodeToHtml(code, lang = 'html') {
+  const langOrMarkup = window.Prism.languages[lang] || window.Prism.languages.markup
+  const showCode = window.Prism.highlight(
+    code.replace(/\n/, ''),
+    langOrMarkup,
+    lang
+  )
+  return '<pre v-pre data-lang="' + lang + '"><code class="lang-' + lang + '">' + showCode + '</code></pre>'
+}
+
 function addNewStyle(newStyle) {
   var styleElement = document.getElementById('styles_js')
 
@@ -39,63 +50,88 @@ function addNewStyle(newStyle) {
   styleElement.appendChild(document.createTextNode(newStyle))
 }
 
-addNewStyle('.vue-comp-box {\n' +
-  '    margin-bottom: 20px;' +
-  '    border: 1px solid #ebebeb;\n' +
-  '    border-radius: 3px;\n' +
-  '    transition: .2s;\n' +
-  '}\n' +
-  '.vue-comp-view {\n' +
-  '    padding: 20px;\n' +
-  '    height: auto;\n' +
-  '}\n' +
-  '.vue-comp-desc {' +
-  '    padding: 10px;\n' +
-  '    background: #f8f8f8;' +
-  '}' +
-  '\n' +
-  '.vue-com-ctrl {\n' +
-  '    border-top: 1px solid #eaeefb;\n' +
-  '    height: 35px;\n' +
-  '    line-height: 30px;\n' +
-  '    box-sizing: border-box;\n' +
-  '    background-color: #fff;\n' +
-  '    border-bottom-left-radius: 4px;\n' +
-  '    border-bottom-right-radius: 4px;\n' +
-  '    text-align: center;\n' +
-  '    margin-top: -1px;\n' +
-  '    color: #d3dce6;\n' +
-  '    cursor: pointer;\n' +
-  '    position: relative;\n' +
-  '}\n' +
-  '\n' +
-  '.vue-com-ctrl:hover {\n' +
-  '    color: cornflowerblue;\n' +
-  '}\n')
+// 组件样式
+var style = `
+.vue-comp-box {
+    margin-bottom: 20px; 
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    transition: .2s;
+}
+.vue-comp-view {
+    padding: 20px;
+    height: auto;
+}
+.vue-comp-desc {
+    padding: 10px;
+    background: #f8f8f8;
+}
 
-function makeApp(options, comps, template, sourceCode, desc) {
-  const _template = decodeURIComponent(template)
+.vue-com-ctrl {
+    border-top: 1px solid #eaeefb;
+    height: 35px;
+    line-height: 30px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+    margin-top: -1px;
+    color: #d3dce6;
+    cursor: pointer;
+    position: relative;
+}
+
+.vue-com-ctrl:hover {
+    color: cornflowerblue;
+}
+`
+
+addNewStyle(style)
+
+// 源码显示组件
+const codeViewComp = {
+  name: 'CodeView',
+  props: {
+    code: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    showCode() {
+      const code = this.$props.code
+      const lang = 'vue'
+      return mdCodeToHtml(code, lang)
+    }
+  },
+  template: '<div v-html="showCode"/>'
+}
+
+// 创建vue app
+function makeApp(id) {
+  const comps = window.GlobalComps
+  const comp = compOptions[id]
   const tpl = `<div class="vue-comp-box">
     <div class="vue-comp-view">
-      ${_template}
+      ${comp.template}
     </div>
     <transition>
       <div class="vue-comp-code" v-if="showCode">
-        <div class="vue-comp-desc" v-if="desc" v-html="decodeDesc"></div>
+        <div class="vue-comp-desc" v-if="desc" v-html="desc"></div>
         <code-view :code="sourceCode"/>
       </div>
     </transition>
     <div class="vue-com-ctrl" @click="showCode = !showCode">{{ showCode ? "隐藏": "显示" }}源码</div>
   </div>`
 
+  const sourceCode = `${comp.sourceCode.replace(comp.desc, '').replace('<desc></desc>', '').trim()}`
+  const desc = `${window.marked(comp.desc)}`
+
+  const options = comp.script
   options.template = tpl.replace(/\n/g, '')
   options.mixins = [{
-    data() { return { sourceCode: sourceCode, showCode: false, desc: desc } },
-    computed: {
-      decodeDesc() {
-        return decodeURIComponent(this.desc)
-      }
-    }
+    data() { return { sourceCode: sourceCode, showCode: false, desc: desc } }
   }]
   const { createApp } = window.Vue
   const app = createApp(options)
@@ -106,53 +142,26 @@ function makeApp(options, comps, template, sourceCode, desc) {
       app.use(comp)
     }
   })
-  app.component('CodeView', {
-    name: 'CodeView',
-    props: {
-      code: {
-        type: String,
-        default: ''
-      }
-    },
-    computed: {
-      showCode() {
-        const code = decodeURIComponent(this.$props.code)
-        const lang = 'vue'
-        return mdCodeToHtml(code, lang)
-      }
-    },
-    template: '<div v-html="showCode"/>'
-  })
+  app.component('CodeView', codeViewComp)
   return app
 }
 
-function mdCodeToHtml(code, lang = 'html') {
-  const langOrMarkup = window.Prism.languages[lang] || window.Prism.languages.markup
-  const showCode = window.Prism.highlight(
-    code.replace(/\n/, ''),
-    langOrMarkup,
-    lang
-  )
-  return '<pre v-pre data-lang="' + lang + '"><code class="lang-' + lang + '">' + showCode + '</code></pre>'
-}
-
-function makeVue(id, comp, sourceCode) {
-  sourceCode = encodeURIComponent(sourceCode.replace(comp.desc, '').replace('<desc></desc>', '').trim())
-  const desc = encodeURIComponent(window.marked(comp.desc))
+// vue-demo 的转换
+function makeVue(id, comp) {
   const html = `<div id="vue-demo-${id}"></div>`
-  const template = encodeURIComponent(comp.template.trim())
+  compOptions[id] = comp
   const script = `
 setTimeout(() => {
-    makeApp(${comp.script}, window.GlobalComps, '${template}', '${sourceCode}', '${desc}').mount('#vue-demo-${id}');
+    makeApp(${id}).mount('#vue-demo-${id}');
 }, 200)
 `
-  console.log(script)
   const ele = document.createElement('script')
   ele.innerHTML = script
   document.body.appendChild(ele)
   return html
 }
 
+// 解析 vue-demo 结构
 function parserCom(str) {
   const template = str.match(/<template>\n[\s\S]*\n<\/template>/gm) || []
   const desc = str.match(/<desc>\n[\s\S]*\n<\/desc>/gm) || []
@@ -161,37 +170,35 @@ function parserCom(str) {
     return {
       template: '',
       script: {},
-      desc: ''
+      desc: '',
+      sourceCode: ''
     }
   }
 
   script = script[0].replace('<script>', '')
     .replace('</script>', '')
-    .replace('export default', '')
-    // .replace(/"/g, '\\"')
-    // .replace(/'/g, '"')
-    // .trim()
-
-  // const t = Function('return ' + script)()
+    .replace('export default', '').trim()
 
   return {
     template: template[0].replace('<template>', '').replace('</template>', ''),
-    script: script,
-    desc: (desc[0] || '').replace('<desc>', '').replace('</desc>', '')
+    script: Function(`return ${script}`)(),
+    desc: (desc[0] || '').replace('<desc>', '').replace('</desc>', ''),
+    sourceCode: str.replace('```vue-demo', '').replace('```', '')
   }
 }
 
+// 解析 markDown 源文件, 提取 vue-demo 代码块
 function parserMd(content) {
   const m = content.match(/```vue-demo.*?```/msuig) || []
-  console.log(m)
   m.forEach(item => {
     const comp = parserCom(item)
-    const compStr = makeVue(uniqueid(), comp, item.replace('```vue-demo', '').replace('```', ''))
+    const compStr = makeVue(uniqueid(), comp)
     content = content.replace(item, compStr)
   })
   return content
 }
 
+// docsify 插件入口
 window.vueCompDemo = function(comps) {
   window.GlobalComps = comps
   return function(hook, vm) {

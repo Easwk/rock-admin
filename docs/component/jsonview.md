@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             json: {
-                saveApi: "/save",
+                saveApi: '/save',
                 formItems: [
                     {
                         field: "test",

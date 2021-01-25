@@ -39,7 +39,7 @@ export default {
                         field: "test",
                         label: "单行文本",
                         type: "input",
-                        info: "表单控件支持提示信息",
+                        info: "表单控件支持提示信息, 支持html <a href=http://github.com/daodao97>RockAdmin</a>",
                         props: {
                             maxlength: 10,
                             suffixIcon: "el-icon-date",
